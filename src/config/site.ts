@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: 'Next.js Template',
+  name: '3J Print Center',
   separator: '|',
-  emoji: '⚛️',
+  emoji: '🖨️',
 } as const;

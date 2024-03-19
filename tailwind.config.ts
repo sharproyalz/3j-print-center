@@ -69,6 +69,10 @@ export default {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'hero-up': {
+          from: { opacity: 100 },
+          to: { transform: 'translateY(-20px)', opacity: 0 },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -77,6 +81,9 @@ export default {
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
       },
+    },
+    backgroundImage: {
+      heroBg: "url('https://via.placeholder.com/600x200.png')",
     },
   },
   plugins: [animate],

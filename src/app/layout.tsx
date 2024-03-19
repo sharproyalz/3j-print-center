@@ -3,6 +3,7 @@ import '~/styles/globals.css';
 import { type Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
+import { NavigationBar } from '~/components/navigation-bar';
 import { ThemeProvider } from '~/components/theme-provider';
 import { siteConfig } from '~/config/site';
 import { TRPCReactProvider } from '~/trpc/react';
@@ -36,6 +37,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             disableTransitionOnChange
           >
             <div className="relative flex min-h-screen flex-col">
+              <NavigationBar />
+
               <main className="flex-1">{children}</main>
             </div>
           </ThemeProvider>
