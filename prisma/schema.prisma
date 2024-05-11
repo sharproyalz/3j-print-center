@@ -22,19 +22,21 @@ model CarouselImage {
 
 model Service {
     id          String    @id @default(cuid())
-    title       Product[]
-    Image       String
-    ImageId     String
+    title       String
+    slug        String    @unique
     description String
+    image       String
+    imageId     String
+    products    Product[]
 }
 
 model Product {
-    id          String  @id @default(cuid())
-    title       Service @relation(fields: [titleId], references: [id])
-    titleId     String
-    Image       String
-    ImageId     String
-    description String
+    id      String @id @default(cuid())
+    image   String
+    imageId String
+
+    service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+    serviceId String
 }
 
 // Sample Enums
@@ -50,7 +52,7 @@ model Product {
 
 model Contact {
     id     String      @id @default(cuid())
-    type   ContactType @default(EMAIL)
+    type   ContactType
     detail String
 }
 
