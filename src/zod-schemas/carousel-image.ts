@@ -1,9 +1,8 @@
 import { z } from 'zod';
 
-export const carouselImage = {
-  get: z.object({
-    id: z.string().cuid().optional(),
-    image: z.string(),
+export const carouselImageSchemas = {
+  create: z.object({
+    image: z.string().url('Image is required'),
     imageId: z.string(),
     link: z.string().optional(),
   }),

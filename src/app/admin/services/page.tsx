@@ -8,19 +8,19 @@ export default function ServicePage() {
       <main className=" p-8">
         <div className="flex justify-between ">
           <div className="text-4xl font-bold">Service</div>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-8">
           <Link
-            href={`/admin/service/add`}
-            className="flex items-center gap-4 rounded-md border border-secondary p-4 hover:bg-secondary hover:text-white"
+            href={`/admin/services/product/add`}
+            className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
           >
             <div>Add</div>
             <Plus />
           </Link>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-8">
           {Array.from({ length: 1 }).map((arr, arrIdx) => {
             return (
-              <Link href="/admin/service/product" key={arrIdx} className="w-[20rem]">
+              <Link href="/admin/services/product" key={arrIdx} className="w-[20rem]">
                 <div className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4">
                   <div className="flex  items-center justify-center gap-4">
                     <Image src="/3J-icon.png" alt="" width={40} height={40} />

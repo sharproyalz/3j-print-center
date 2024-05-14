@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { BreadcrumbComponent } from '~/app/admin/service/add/_components/breadcrumb';
+import { BreadcrumbComponent } from '~/app/admin/services/add/_components/breadcrumb';
 
 export default function AddServicePage() {
   return (

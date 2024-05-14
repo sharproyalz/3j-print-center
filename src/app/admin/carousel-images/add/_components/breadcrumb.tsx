@@ -12,7 +12,7 @@ export function BreadcrumbComponent() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/admin/carousel-image">Carousel Image</BreadcrumbLink>
+          <BreadcrumbLink href="/admin/carousel-images">Carousel Image</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>

@@ -1,7 +1,7 @@
 import { Plus } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { BreadcrumbComponent } from '~/app/admin/service/product/_components/breadcrumb';
+import { BreadcrumbComponent } from '~/app/admin/services/products/_components/breadcrumb';
 
 export default function ServiceProductPage() {
   return (
@@ -15,7 +15,7 @@ export default function ServiceProductPage() {
 
         <div className="mt-4 flex flex-wrap gap-8">
           <Link
-            href={`/admin/service/product/add`}
+            href={`/admin/services/product/add`}
             className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
           >
             <div>Add</div>

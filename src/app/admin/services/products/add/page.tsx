@@ -1,4 +1,4 @@
-import { BreadcrumbComponent } from '~/app/admin/service/product/add/_components/breadcrumb';
+import { BreadcrumbComponent } from '~/app/admin/services/products/add/_components/breadcrumb';
 
 export default function AddServiceProductPage() {
   return (

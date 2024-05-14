@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
-export const carouselImage = {
-  get: z.object({
-    id: z.string().cuid().optional(),
+export const contactSchemas = {
+  create: z.object({
     type: z.string(),
     detail: z.string(),
   }),

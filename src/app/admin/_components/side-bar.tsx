@@ -11,11 +11,11 @@ export function SideBar() {
       <aside className="hidden p-[2rem] shadow-md md:block md:w-72">
         <ul className="sticky top-[6.5rem]">
           <li className="">
-            <Link className={``} href={`/admin/carousel-image`}>
+            <Link className={``} href={`/admin/carousel-images`}>
               <div
                 className={cn(
                   'w-full rounded-lg p-4 hover:bg-secondary hover:text-white',
-                  pathname === '/admin/carousel-image' ? 'bg-secondary text-white' : ''
+                  pathname === '/admin/carousel-images' ? 'bg-secondary text-white' : ''
                 )}
               >
                 Carousel Image
@@ -24,11 +24,11 @@ export function SideBar() {
           </li>
 
           <li className="">
-            <Link href={`/admin/service`}>
+            <Link href={`/admin/services`}>
               <div
                 className={cn(
                   'w-full rounded-lg p-4 hover:bg-secondary hover:text-white',
-                  pathname === '/admin/service' ? 'bg-secondary text-white' : ''
+                  pathname === '/admin/services' ? 'bg-secondary text-white' : ''
                 )}
               >
                 Service
@@ -37,11 +37,11 @@ export function SideBar() {
           </li>
 
           <li className="">
-            <Link href={`/admin/contact`}>
+            <Link href={`/admin/contacts`}>
               <div
                 className={cn(
                   'w-full rounded-lg p-4 hover:bg-secondary hover:text-white',
-                  pathname === '/admin/contact' ? 'bg-secondary text-white' : ''
+                  pathname === '/admin/contacts' ? 'bg-secondary text-white' : ''
                 )}
               >
                 Contact
