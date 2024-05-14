@@ -14,10 +14,10 @@ datasource db {
 }
 
 model CarouselImage {
-    id      String @id @default(cuid())
+    id      String  @id @default(cuid())
     image   String
     imageId String
-    link    String
+    link    String?
 }
 
 model Service {
