@@ -1,9 +1,11 @@
 import Autoplay from 'embla-carousel-autoplay';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 import { Carousel, CarouselContent, CarouselItem } from '~/components/ui/carousel';
+import { api } from '~/trpc/react';
 
 export function ProductCarousel() {
-  const postImages = ['arise-3j.jpg', 'intro-3j.jpg', 'subli-3j.jpg'];
+  const getCarouselImageQuery = api.carouselImage.getAll.useQuery();
+  const carouselImage = getCarouselImageQuery.data;
 
   return (
     <Carousel
@@ -19,14 +21,15 @@ export function ProductCarousel() {
       className="w-full text-black"
     >
       <CarouselContent>
-        {postImages.map((image, index) => (
-          <CarouselItem key={index}>
-            <div className="flex w-full items-center justify-center p-4">
-              <Image
-                src={`/carousel-photos/${image}`}
-                alt={'Carousel Photo'}
-                width={768}
-                height={768}
+        {carouselImage?.map((image) => (
+          <CarouselItem key={image.id}>
+            <div className="object-fit mx-auto flex h-[32rem] w-[32rem] bg-secondary">
+              <CldImage
+                width="512"
+                height="512"
+                src={image.imageId ?? ''}
+                alt="Banner"
+                className=""
               />
             </div>
           </CarouselItem>

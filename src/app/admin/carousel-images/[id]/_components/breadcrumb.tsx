@@ -16,7 +16,7 @@ export function BreadcrumbComponent() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Add</BreadcrumbPage>
+          <BreadcrumbPage>View</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

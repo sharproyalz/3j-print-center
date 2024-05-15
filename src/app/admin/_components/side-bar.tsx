@@ -18,7 +18,7 @@ export function SideBar() {
                   pathname === '/admin/carousel-images' ? 'bg-secondary text-white' : ''
                 )}
               >
-                Carousel Image
+                Banner
               </div>
             </Link>
           </li>

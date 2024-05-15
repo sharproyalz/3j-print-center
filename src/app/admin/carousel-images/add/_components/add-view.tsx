@@ -18,7 +18,7 @@ export function CarouselImageAddView() {
 
   const addCarouselImage = api.carouselImage.create.useMutation({
     onSuccess: async ({ id }) => {
-      console.log('✔️ Organization has been created.');
+      console.log('✔️ Banner has been added.');
       await router.push(`/admin/carousel-images`);
     },
   });
@@ -38,7 +38,7 @@ export function CarouselImageAddView() {
         <div className="flex flex-col justify-between ">
           <BreadcrumbComponent />
 
-          <div className="mt-4 text-4xl font-bold">Add New Carousel Image</div>
+          <div className="mt-4 text-4xl font-bold">Add New Banner</div>
         </div>
 
         {/* Forms */}
@@ -48,17 +48,17 @@ export function CarouselImageAddView() {
             className="flex flex-col gap-4"
           >
             {carouselImageForm.watch('imageId') ? (
-              <div className="mx-auto">
+              <div className="object-fit mx-auto mt-8 flex h-[32rem] w-[32rem]">
                 <CldImage
-                  width="384"
-                  height="384"
+                  width="512"
+                  height="512"
                   src={carouselImageForm.watch('imageId') ?? ''}
                   alt="Avatar logo"
-                  className="mt-8"
+                  className=""
                 />
               </div>
             ) : (
-              <div className="mt-8 h-[24rem] w-full bg-[#d9d9d9]"></div>
+              <div className="mx-auto mt-8 h-[32rem] w-[32rem] bg-[#d9d9d9]"></div>
             )}
 
             <UploadButton
@@ -75,15 +75,14 @@ export function CarouselImageAddView() {
 
               <input
                 type="text"
-                name="image-link"
                 id="image-link"
                 placeholder="(optional)"
                 className="rounded-sm border border-black p-2 text-lg focus:outline-primary"
+                {...carouselImageForm.register('link')}
               />
             </div>
 
             <button
-              // href={`/admin/carousel-images`}
               type="submit"
               className="flex items-center justify-center gap-4 rounded-md bg-primary p-4 text-white"
             >

@@ -9,4 +9,8 @@ export const serviceSchemas = {
     image: z.string(),
     imageId: z.string(),
   }),
+  
+  get: z.object({
+    id: z.string().cuid(),
+  }),
 };
