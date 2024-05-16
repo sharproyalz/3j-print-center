@@ -18,7 +18,7 @@ export function SideBar() {
                   pathname === '/admin/carousel-images' ? 'bg-secondary text-white' : ''
                 )}
               >
-                Banner
+                Banners
               </div>
             </Link>
           </li>
@@ -31,7 +31,7 @@ export function SideBar() {
                   pathname === '/admin/services' ? 'bg-secondary text-white' : ''
                 )}
               >
-                Service
+                Services
               </div>
             </Link>
           </li>
@@ -44,7 +44,7 @@ export function SideBar() {
                   pathname === '/admin/contacts' ? 'bg-secondary text-white' : ''
                 )}
               >
-                Contact
+                Contacts
               </div>
             </Link>
           </li>

@@ -12,8 +12,8 @@ type Props = {
 };
 
 export function ServicesView({ initialData }: Props) {
-  const getServicesQuery = api.service.getAll.useQuery(undefined, { initialData });
-  const services = getServicesQuery.data;
+  const getServicesView = api.service.getAll.useQuery(undefined, { initialData });
+  const services = getServicesView.data;
 
   return (
     <>
@@ -32,7 +32,7 @@ export function ServicesView({ initialData }: Props) {
           </Link>
           {services?.map((service) => {
             return (
-              <Link href="/admin/services/product" key={service.id} className="w-[20rem]">
+              <Link href={`/admin/services/${service.slug}`} key={service.id} className="w-[20rem]">
                 <div className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4">
                   <div className="flex  items-center justify-center gap-4">
                     <Image src="/3J-icon.png" alt="" width={40} height={40} />

@@ -13,4 +13,16 @@ export const serviceRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.service.findMany();
   }),
+
+  update: publicProcedure.input(schemas.service.update).mutation(({ ctx, input }) => {
+    const { id, ...data } = input;
+    return ctx.db.service.update({
+      where: { id },
+      data,
+    });
+  }),
+
+  delete: publicProcedure.input(schemas.common.delete).mutation(({ ctx, input }) => {
+    return ctx.db.carouselImage.delete({ where: input });
+  }),
 });

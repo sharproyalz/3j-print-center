@@ -1,13 +1,20 @@
-import { BreadcrumbComponent } from '~/app/admin/services/products/add/_components/breadcrumb';
+'use client';
 
-export default function AddServiceProductPage() {
+import { useParams } from 'next/navigation';
+import { BreadcrumbComponent } from '~/app/admin/services/[serviceName]/add/_components/breadcrumb';
+
+export function AddServiceDesignView() {
+  const params = useParams();
+  const serviceName = params.serviceName;
+  console.log(params.serviceName);
+
   return (
     <>
       <main className="p-8">
         <div className="flex flex-col justify-between ">
-          <BreadcrumbComponent />
+          <BreadcrumbComponent serviceName={serviceName as string} />
 
-          <div className="mt-4 text-4xl font-bold">Add New Service</div>
+          <div className="mt-4 text-4xl font-bold capitalize">Add New {serviceName} Design</div>
         </div>
 
         {/* Forms */}
