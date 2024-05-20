@@ -1,5 +1,6 @@
 import { Instagram, Phone, Plus, Twitter } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function ContactPage() {
   return (
@@ -9,13 +10,13 @@ export default function ContactPage() {
           <div className=" flex items-center gap-4 ">
             <div className="text-4xl font-bold">Contact</div>
           </div>
-          <button
-            type="button"
+          <Link
+            href={`/admin/contact/add`}
             className="flex gap-4 rounded-md border border-primary p-4 hover:bg-primary hover:text-white"
           >
             <Plus />
             <div>Add</div>
-          </button>
+          </Link>
         </div>
 
         <div className="mt-4">
