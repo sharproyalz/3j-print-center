@@ -10,8 +10,8 @@ export const productRouter = createTRPCRouter({
     return ctx.db.product.findUnique({ where: input, include: { service: true } });
   }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.product.findMany();
+  getAll: publicProcedure.input(schemas.product.getAll).query(({ ctx, input }) => {
+    return ctx.db.product.findMany({ where: input });
   }),
 
   update: publicProcedure.input(schemas.product.update).mutation(({ ctx, input }) => {

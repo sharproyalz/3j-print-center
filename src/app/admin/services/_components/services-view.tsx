@@ -84,7 +84,11 @@ export function ServicesView({ initialData }: Props) {
                     </Link>
 
                     <div className="relative">
-                      <button type="button" onClick={() => setShowMenu(!showMenu)}>
+                      <button
+                        type="button"
+                        onClick={() => setShowMenu(!showMenu)}
+                        className="hover:text-primary"
+                      >
                         <EllipsisVertical />
                       </button>
                       {showMenu && (

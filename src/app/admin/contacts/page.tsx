@@ -5,14 +5,16 @@ export default function ContactPage() {
   return (
     <>
       <main className=" p-8">
-        <div className="flex justify-between ">
-          <div className="text-4xl font-bold">Contact</div>
+        <div className="flex items-center justify-between">
+          <div className=" flex items-center gap-4 ">
+            <div className="text-4xl font-bold">Contact</div>
+          </div>
           <button
             type="button"
-            className="flex items-center gap-4 rounded-md border border-secondary p-4 hover:bg-secondary hover:text-white"
+            className="flex gap-4 rounded-md border border-primary p-4 hover:bg-primary hover:text-white"
           >
-            <div>Add</div>
             <Plus />
+            <div>Add</div>
           </button>
         </div>
 

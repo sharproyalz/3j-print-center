@@ -5,36 +5,34 @@ import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { toast } from 'sonner';
 import { BreadcrumbComponent } from '~/app/admin/services/[serviceName]/_components/breadcrumb';
-import { BreadcrumbEllipsis } from '~/components/ui/breadcrumb';
+import { CustomDialog } from '~/components/custom-dialog';
 import { api } from '~/trpc/react';
 
 export function ServiceDesignView({ serviceName }: { serviceName: string }) {
-  const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
   const params = useParams();
+  const utils = api.useUtils();
 
   const getServiceQuery = api.service.get.useQuery({ slug: params.serviceName as string });
   const service = getServiceQuery.data;
 
-  const getServiceDesignQuery = api.product.getAll.useQuery();
+  const getServiceDesignQuery = api.product.getAll.useQuery({ serviceId: service?.id as string });
   const serviceDesign = getServiceDesignQuery.data;
 
-  const deleteService = api.service.delete.useMutation({
+  const deleteServiceDesign = api.product.delete.useMutation({
     // This is the callback function after successful backend execution
     onSuccess: async () => {
-      toast.success('✔️ Service has been deleted.');
-      console.log('✔️ Service has been deleted');
+      await utils.product.invalidate();
+      toast.success(`✔️ ${service?.title} design has been deleted`);
+      console.log(`✔️ ${service?.title} design has been deleted`);
     },
     // This is the callback function after failed backend execution. This is mostly used for 'unique' data conflict errors like unique email, etc.
     onError: () => {
-      toast.error('❌ Internal Server Error');
       console.log('❌ Internal Server Error');
     },
   });
-
   return (
     <>
       <main className="p-8">
@@ -42,40 +40,15 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
           <BreadcrumbComponent slug={serviceName} />
 
           <div className="flex items-center justify-between">
-            <div className="mt-4 text-4xl font-bold capitalize">{serviceName}</div>
-
-            <div className="relative">
+            <div className="mt-4 flex items-center gap-4 text-4xl font-bold capitalize">
+              <div>{serviceName}</div>
               <button
                 type="button"
-                onClick={() => setShowMenu(!showMenu)}
-                className="flex h-8 w-8 items-center rounded-full hover:bg-primary-foreground "
+                onClick={() => router.push(`/admin/services/${serviceName}/edit`)}
+                className="flex gap-4 rounded-md hover:text-primary "
               >
-                <BreadcrumbEllipsis />
+                <Pencil />
               </button>
-              {showMenu && (
-                <div className="absolute right-0 top-10 z-10 flex flex-col rounded-md bg-white text-black shadow-xl">
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/admin/services/${serviceName}/edit`)}
-                    className="flex gap-4 rounded-md p-4  hover:bg-primary-foreground "
-                  >
-                    Edit
-                    <div>
-                      <Pencil />
-                    </div>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => deleteService.mutate({ id: service?.id as string })}
-                    className="flex gap-4 rounded-md p-4 text-destructive hover:bg-destructive hover:text-white"
-                  >
-                    Delete
-                    <div>
-                      <Trash2 />
-                    </div>
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -93,12 +66,25 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
             return (
               <div
                 key={image.id}
-                className=" flex h-[300px] w-[300px] flex-col items-center  rounded-sm bg-slate-500 p-4"
+                className="group relative flex h-[300px] w-[300px] flex-col items-center  rounded-sm bg-slate-500 p-4"
               >
                 <div className="flex  items-center justify-center gap-4">
                   <Image src="/3J-icon.png" alt="" width={40} height={40} />
                   <div className="text-xl text-white">Products</div>
                 </div>
+
+                <CustomDialog
+                  handleContinue={() => deleteServiceDesign.mutate({ id: image.id })}
+                  description="This action cannot be undone. This will permanently delete your service from our servers."
+                >
+                  <button
+                    type="button"
+                    className="absolute right-2 top-2 hidden rounded-md p-2 text-white hover:bg-destructive group-hover:block"
+                  >
+                    <Trash2 />
+                  </button>
+                </CustomDialog>
+
                 <div className="object-fit mx-auto mt-8 flex h-[12rem] w-[12rem]">
                   <CldImage
                     width="192"
