@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 
 import { NavigationBar } from '~/components/navigation-bar';
 import { ThemeProvider } from '~/components/theme-provider';
+import { Toaster } from '~/components/ui/sonner';
 import { siteConfig } from '~/config/site';
 import { TRPCReactProvider } from '~/trpc/react';
 
@@ -40,6 +41,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <NavigationBar />
 
               <main className="flex-1">{children}</main>
+
+              <Toaster richColors />
             </div>
           </ThemeProvider>
         </TRPCReactProvider>

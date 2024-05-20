@@ -1,10 +1,12 @@
 'use client';
 
 import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { BreadcrumbComponent } from '~/app/admin/services/[serviceName]/_components/breadcrumb';
 import { BreadcrumbEllipsis } from '~/components/ui/breadcrumb';
 import { api } from '~/trpc/react';
@@ -14,18 +16,21 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
   const router = useRouter();
   const params = useParams();
 
-  const getServiceDesignQuery = api.service.get.useQuery({ slug: params.serviceName as string });
-  const serviceDesign = getServiceDesignQuery.data;
+  const getServiceQuery = api.service.get.useQuery({ slug: params.serviceName as string });
+  const service = getServiceQuery.data;
 
-  console.log(serviceDesign);
+  const getServiceDesignQuery = api.product.getAll.useQuery();
+  const serviceDesign = getServiceDesignQuery.data;
 
   const deleteService = api.service.delete.useMutation({
     // This is the callback function after successful backend execution
     onSuccess: async () => {
+      toast.success('✔️ Service has been deleted.');
       console.log('✔️ Service has been deleted');
     },
     // This is the callback function after failed backend execution. This is mostly used for 'unique' data conflict errors like unique email, etc.
     onError: () => {
+      toast.error('❌ Internal Server Error');
       console.log('❌ Internal Server Error');
     },
   });
@@ -61,7 +66,7 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => deleteService.mutate({ id: serviceDesign?.id as string })}
+                    onClick={() => deleteService.mutate({ id: service?.id as string })}
                     className="flex gap-4 rounded-md p-4 text-destructive hover:bg-destructive hover:text-white"
                   >
                     Delete
@@ -75,7 +80,7 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap justify-evenly gap-8">
+        <div className="mt-4 flex flex-wrap gap-8">
           <Link
             href={`/admin/services/${serviceName}/add`}
             className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
@@ -84,17 +89,25 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
             <Plus />
           </Link>
 
-          {Array.from({ length: 3 }).map((arr, arrIdx) => {
+          {serviceDesign?.map((image) => {
             return (
               <div
-                key={arrIdx}
-                className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4"
+                key={image.id}
+                className=" flex h-[300px] w-[300px] flex-col items-center  rounded-sm bg-slate-500 p-4"
               >
                 <div className="flex  items-center justify-center gap-4">
                   <Image src="/3J-icon.png" alt="" width={40} height={40} />
                   <div className="text-xl text-white">Products</div>
                 </div>
-                <Image src="/mug.jpg" alt="Mug" width={200} height={200} className="rounded-sm" />
+                <div className="object-fit mx-auto mt-8 flex h-[12rem] w-[12rem]">
+                  <CldImage
+                    width="192"
+                    height="192"
+                    src={image.imageId}
+                    alt="Avatar logo"
+                    className=""
+                  />
+                </div>
               </div>
             );
           })}

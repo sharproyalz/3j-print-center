@@ -5,6 +5,7 @@ import { Save } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 import { useParams, useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { BreadcrumbComponent } from '~/app/admin/services/[serviceName]/edit/_components/breadcrumb';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
@@ -36,6 +37,7 @@ export default function EditServicePage() {
 
   const updateService = api.service.update.useMutation({
     onSuccess: async ({ id }) => {
+      toast.success('✔️ Service has been updated.');
       console.log('✔️ Service has been updated.');
       await router.push(`/admin/services`);
     },

@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
 import { useForm, type SubmitHandler } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { BreadcrumbComponent } from '~/app/admin/carousel-images/add/_components/breadcrumb';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
@@ -18,6 +19,7 @@ export function CarouselImageAddView() {
 
   const addCarouselImage = api.carouselImage.create.useMutation({
     onSuccess: async ({ id }) => {
+      toast.success('✔️ Banner has been added.');
       console.log('✔️ Banner has been added.');
       await router.push(`/admin/carousel-images`);
     },

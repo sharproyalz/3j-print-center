@@ -1,9 +1,19 @@
-import { NextWelcome } from '~/app/_components/next-welcome';
+'use client';
 
-export const metadata = {
-  title: 'Welcome',
-};
+import { toast } from 'sonner';
 
 export default function WelcomePage() {
-  return <NextWelcome />;
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        return (
+          toast.success('✔️ Service has been added.'), console.log('✔️ Service has been added.')
+        );
+      }}
+      className="h-20 w-20 bg-primary"
+    >
+      ASDSDA
+    </button>
+  );
 }

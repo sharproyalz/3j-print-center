@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { BreadcrumbComponent } from '~/app/admin/services/add/_components/breadcrumb';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
@@ -18,6 +19,7 @@ export default function AddServiceView() {
 
   const addService = api.service.create.useMutation({
     onSuccess: async ({ id }) => {
+      toast.success('✔️ Service has been added.');
       console.log('✔️ Service has been added.');
       await router.push(`/admin/services`);
     },

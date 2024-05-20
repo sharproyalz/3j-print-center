@@ -23,6 +23,6 @@ export const serviceRouter = createTRPCRouter({
   }),
 
   delete: publicProcedure.input(schemas.common.delete).mutation(({ ctx, input }) => {
-    return ctx.db.carouselImage.delete({ where: input });
+    return ctx.db.service.delete({ where: input });
   }),
 });
