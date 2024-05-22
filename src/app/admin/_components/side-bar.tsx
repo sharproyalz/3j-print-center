@@ -6,6 +6,7 @@ import { cn } from '~/lib/utils';
 
 export function SideBar() {
   const pathname = usePathname();
+
   return (
     <>
       <aside className="hidden p-[2rem] shadow-md md:block md:w-72">

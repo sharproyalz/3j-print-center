@@ -13,7 +13,7 @@ export function ServicesSectionView({ initialData }: Props) {
   const getServicesQuery = api.service.getAll.useQuery(undefined, { initialData });
   const services = getServicesQuery.data;
   return (
-    <section className="mx-auto my-0 max-w-screen-2xl px-16">
+    <section id="services" className="mx-auto -mt-24 mb-0 max-w-screen-2xl px-16 pt-24">
       <div className="">
         <div className="text-center text-2xl font-semibold">
           3J’s services: We’re here to help you stand out
@@ -27,23 +27,39 @@ export function ServicesSectionView({ initialData }: Props) {
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4">
-        {services?.map((service) => (
-          <Link href="#" key={service.id} className="mt-8">
-            <div className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4">
-              <div className="flex  items-center justify-center gap-4">
-                <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                <div className="text-xl text-white">Services</div>
+        {services.length ? (
+          services?.map((service) => (
+            <Link href="#" key={service.id} className="mt-8">
+              <div className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4">
+                <div className="flex  items-center justify-center gap-4">
+                  <Image src="/3J-icon.png" alt="" width={40} height={40} />
+                  <div className="text-xl text-white">Services</div>
+                </div>
+                <Image src="/mug.jpg" alt="Mug" width={200} height={200} className="rounded-sm" />
               </div>
-              <Image src="/mug.jpg" alt="Mug" width={200} height={200} className="rounded-sm" />
-            </div>
-            <div className="mt-4">
-              <div className="text-sm font-bold text-primary hover:text-primary/80">
-                {service.title} designs {`->`}{' '}
+              <div className="mt-4">
+                <div className="text-sm font-bold text-primary hover:text-primary/80">
+                  {service.title} designs {`->`}{' '}
+                </div>
+                <div className="">{service.description}</div>
               </div>
-              <div className="">{service.description}</div>
+            </Link>
+          ))
+        ) : (
+          <div className="col-span-4 mt-8 flex flex-col items-center justify-center text-center font-bold">
+            <div className="">
+              Sorry, there are currently no services available here, but we assure you that we offer
+              a wide variety of services
             </div>
-          </Link>
-        ))}
+            <Image
+              src={'/sad-face.svg'}
+              alt="Sad Face"
+              width={`256`}
+              height={`256`}
+              className="mt-8"
+            />
+          </div>
+        )}
       </div>
     </section>
   );

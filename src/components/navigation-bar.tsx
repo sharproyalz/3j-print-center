@@ -13,8 +13,12 @@ export function NavigationBar() {
         </div>
         <div className="flex items-center gap-4 text-lg">
           <Link href={`/#services`}>Services</Link>
-          <Link href={`/#about`}>About</Link>
-          <Link href={`/#contacts`}>Contact</Link>
+          <Link href={`/#about`} className="scroll-m-10">
+            About
+          </Link>
+          <Link href={`/#contacts`} className="scroll-m-10">
+            Contact
+          </Link>
         </div>
       </div>
     </>
