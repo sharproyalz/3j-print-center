@@ -49,9 +49,9 @@ export function CarouselImageView({ initialData }: Props) {
   const deleteCarouselImage = api.carouselImage.delete.useMutation({
     // This is the callback function after successful backend execution
     onSuccess: async () => {
-      toast.success('✔️ Carousel Image has been deleted');
+      toast.success('✔️ Contact has been deleted');
       router.push(`/admin/carousel-images`);
-      console.log('✔️ Carousel Image has been deleted');
+      console.log('✔️ Contact has been deleted');
     },
     // This is the callback function after failed backend execution. This is mostly used for 'unique' data conflict errors like unique email, etc.
     onError: () => {

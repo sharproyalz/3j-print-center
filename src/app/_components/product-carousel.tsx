@@ -1,10 +1,17 @@
+'use client';
+
+import { CarouselImage } from '@prisma/client';
 import Autoplay from 'embla-carousel-autoplay';
 import { CldImage } from 'next-cloudinary';
 import { Carousel, CarouselContent, CarouselItem } from '~/components/ui/carousel';
 import { api } from '~/trpc/react';
 
-export function ProductCarousel() {
-  const getCarouselImageQuery = api.carouselImage.getAll.useQuery();
+type Props = {
+  initialData: CarouselImage[];
+};
+
+export function ProductCarousel({ initialData }: Props) {
+  const getCarouselImageQuery = api.carouselImage.getAll.useQuery(undefined, { initialData });
   const carouselImage = getCarouselImageQuery.data;
 
   return (

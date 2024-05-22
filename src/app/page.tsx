@@ -1,77 +1,28 @@
-'use client';
-
-import { Phone } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ContactsSectionView } from '~/app/_components/contacts-section';
 import { ProductCarousel } from '~/app/_components/product-carousel';
+import { ServicesSectionView } from '~/app/_components/services-section';
 import Footer from '~/components/footer';
+import { api } from '~/trpc/server';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const carouselImage = await api.carouselImage.getAll.query();
+  const service = await api.service.getAll.query();
+  const contact = await api.contact.getAll.query();
+
   return (
     <>
       <div className="h-[85vh] bg-primary text-white">
         <div className="mx-auto my-0 max-w-screen-xl py-4">
-          <ProductCarousel />
+          <ProductCarousel initialData={carouselImage} />
         </div>
       </div>
 
       <div className="relative z-10  bg-white py-16 shadow-[0px_-10px_60px_20px_rgba(255,255,255,0.5)]">
-        <section className="mx-auto my-0 max-w-screen-2xl px-16">
-          <div className="">
-            <div className="text-center text-2xl font-semibold">
-              3J’s services: We’re here to help you stand out
-            </div>
-            <div className="mt-4 text-center">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias itaque natus minus
-              ducimus sed quia impedit! Sint tempore tempora nulla quaerat! Debitis, dolor. Iste at
-              alias officiis possimus amet voluptate, adipisci a ipsa assumenda doloribus distinctio
-              voluptatum minus illum fuga aperiam minima sint! Consequatur odio ipsa eius mollitia
-              delectus corrupti?
-            </div>
-          </div>
-          <div className="grid grid-cols-4 gap-4">
-            {Array.from({ length: 8 }).map((arr, arrIdx) => (
-              <Link href="#" key={arrIdx} className="mt-8">
-                <div className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4">
-                  <div className="flex  items-center justify-center gap-4">
-                    <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                    <div className="text-xl text-white">Services</div>
-                  </div>
-                  <Image src="/mug.jpg" alt="Mug" width={200} height={200} className="rounded-sm" />
-                </div>
-                <div className="mt-4">
-                  <div className="text-sm font-bold text-primary hover:text-primary/80">
-                    Mug designs {`->`}{' '}
-                  </div>
-                  <div className="">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus, eligendi.
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        {/* Services */}
+        <ServicesSectionView initialData={service} />
 
-        <section className="mx-auto my-0 mt-16 flex max-w-screen-2xl gap-4 px-16">
-          <Image src="/3J-banner.jpg" alt="3J Banner" width={1000} height={1000} />
-          <div className="">
-            <div className="text-xl font-semibold">Contact us</div>
-            <div className="mt-4">
-              <div className="flex items-center gap-4 py-2">
-                <Image src="/gmail.png" alt="Gmail Icon" height={28} width={28} />
-                <div>printcenter.3j@gmail.com</div>
-              </div>
-              <div className="flex items-center gap-4 py-2">
-                <Image src="/fb.png" alt="Facebook Icon" height={28} width={28} />
-                <div>Threej Printcenter</div>
-              </div>
-              <div className="flex items-center gap-4 py-2">
-                <Phone width={28} />
-                <div>0933-942-2580 / 0915-714-3388</div>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Contact Information */}
+        <ContactsSectionView initialData={contact} />
 
         <section className="mx-auto my-0 mt-16 flex max-w-screen-2xl gap-4 px-16">
           <div className="w-[50%]">
