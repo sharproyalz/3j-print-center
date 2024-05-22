@@ -1,4 +1,5 @@
 import { carouselImageRouter } from '~/server/api/routers/carousel-image';
+import { contactRouter } from '~/server/api/routers/contact';
 import { postRouter } from '~/server/api/routers/post';
 import { productRouter } from '~/server/api/routers/product';
 import { serviceRouter } from '~/server/api/routers/service';
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   carouselImage: carouselImageRouter,
   service: serviceRouter,
   product: productRouter,
+  contact: contactRouter,
 });
 
 // export type definition of API
