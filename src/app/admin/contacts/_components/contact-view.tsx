@@ -1,5 +1,6 @@
 'use client';
 
+import { Contact } from '@prisma/client';
 import { Instagram, Pencil, Phone, Plus, Trash2, Twitter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,11 +9,14 @@ import { toast } from 'sonner';
 import { CustomDialog } from '~/components/custom-dialog';
 import { api } from '~/trpc/react';
 
-export default function ContactView() {
+type Props = {
+  initialData: Contact[];
+};
+export default function ContactView({ initialData }: Props) {
   const router = useRouter();
   const utils = api.useUtils();
 
-  const getContactsQuery = api.contact.getAll.useQuery();
+  const getContactsQuery = api.contact.getAll.useQuery(undefined, { initialData });
   const contacts = getContactsQuery.data;
 
   const deleteContact = api.contact.delete.useMutation({
@@ -34,15 +38,19 @@ export default function ContactView() {
       <main className=" p-8">
         <div className="flex items-center justify-between">
           <div className=" flex items-center gap-4 ">
-            <div className="text-4xl font-bold">Contact</div>
+            <div className="text-4xl font-bold">Contacts</div>
           </div>
-          <Link
-            href="/admin/contacts/add"
-            className="flex gap-4 rounded-md border border-primary p-4 hover:bg-primary hover:text-white"
-          >
-            <Plus />
-            <div>Add</div>
-          </Link>
+          {contacts?.length ? (
+            <Link
+              href="/admin/contacts/add"
+              className="flex gap-4 rounded-md border border-primary p-4 hover:bg-primary hover:text-white"
+            >
+              <Plus />
+              <div>Add</div>
+            </Link>
+          ) : (
+            <div></div>
+          )}
         </div>
 
         <div className="mt-4">
@@ -84,7 +92,27 @@ export default function ContactView() {
               </div>
             ))
           ) : (
-            <div>There are currently no contacts. Please add a new one</div>
+            <div>
+              <p>
+                Hey! Hey! Our customer is eager to get in touch with you but there are currently no
+                contacts. Please add a new one now.
+              </p>
+              <p>
+                To add one soon, Click{' '}
+                <Link href={`/admin/contacts/add`} className="text-primary hover:text-primary/80">
+                  here
+                </Link>
+              </p>
+              <div className="mt-16 flex flex-col items-center">
+                <Image
+                  src={'/contact.svg'}
+                  alt="Contact"
+                  width={`360`}
+                  height={`360`}
+                  className=""
+                />
+              </div>
+            </div>
           )}
         </div>
       </main>

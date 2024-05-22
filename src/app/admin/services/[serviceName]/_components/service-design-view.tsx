@@ -53,50 +53,77 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-8">
-          <Link
-            href={`/admin/services/${serviceName}/add`}
-            className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
-          >
-            <div>Add</div>
-            <Plus />
-          </Link>
-
-          {serviceDesign?.map((image) => {
-            return (
-              <div
-                key={image.id}
-                className="group relative flex h-[300px] w-[300px] flex-col items-center  rounded-sm bg-slate-500 p-4"
+        <div className="mt-4">
+          {serviceDesign?.length ? (
+            <div className=" flex flex-wrap gap-8">
+              <Link
+                href={`/admin/services/${serviceName}/add`}
+                className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
               >
-                <div className="flex  items-center justify-center gap-4">
-                  <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                  <div className="text-xl text-white">Products</div>
-                </div>
+                <div>Add</div>
+                <Plus />
+              </Link>
 
-                <CustomDialog
-                  handleContinue={() => deleteServiceDesign.mutate({ id: image.id })}
-                  description="This action cannot be undone. This will permanently delete your service from our servers."
-                >
-                  <button
-                    type="button"
-                    className="absolute right-2 top-2 hidden rounded-md p-2 text-white hover:bg-destructive group-hover:block"
+              {serviceDesign?.map((image) => {
+                return (
+                  <div
+                    key={image.id}
+                    className="group relative flex h-[300px] w-[300px] flex-col items-center  rounded-sm bg-slate-500 p-4"
                   >
-                    <Trash2 />
-                  </button>
-                </CustomDialog>
+                    <div className="flex  items-center justify-center gap-4">
+                      <Image src="/3J-icon.png" alt="" width={40} height={40} />
+                      <div className="text-xl text-white">Products</div>
+                    </div>
 
-                <div className="object-fit mx-auto mt-8 flex h-[12rem] w-[12rem]">
-                  <CldImage
-                    width="192"
-                    height="192"
-                    src={image.imageId}
-                    alt="Avatar logo"
-                    className=""
-                  />
-                </div>
+                    <CustomDialog
+                      handleContinue={() => deleteServiceDesign.mutate({ id: image.id })}
+                      description="This action cannot be undone. This will permanently delete your service from our servers."
+                    >
+                      <button
+                        type="button"
+                        className="absolute right-2 top-2 hidden rounded-md p-2 text-white hover:bg-destructive group-hover:block"
+                      >
+                        <Trash2 />
+                      </button>
+                    </CustomDialog>
+
+                    <div className="object-fit mx-auto mt-8 flex h-[12rem] w-[12rem]">
+                      <CldImage
+                        width="192"
+                        height="192"
+                        src={image.imageId}
+                        alt="Avatar logo"
+                        className=""
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="w-full">
+              <p className="">
+                Hey! there are currently no service design available for{' '}
+                <span className="font-bold">{serviceName}</span>, To add one, Click{' '}
+                <Link
+                  href={`/admin/services/${serviceName}/add`}
+                  className="text-primary hover:text-primary/80"
+                >
+                  here
+                </Link>
+              </p>
+
+              <div className="mt-16 flex flex-col items-center">
+                <Image
+                  src={'/sad-face.svg'}
+                  alt="Sad Face"
+                  width={`360`}
+                  height={`360`}
+                  className=""
+                />
               </div>
-            );
-          })}
+            </div>
+          )}
         </div>
       </main>
     </>

@@ -44,91 +44,118 @@ export function ServicesView({ initialData }: Props) {
           <div className="text-4xl font-bold">Service</div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-8">
-          <Link
-            href={`/admin/services/add`}
-            className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
-          >
-            <div>Add</div>
-            <Plus />
-          </Link>
-          {services?.map((service) => {
-            return (
-              <div key={service.id} className="w-[20rem]">
-                <Link
-                  href={`/admin/services/${service.slug}`}
-                  className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4"
-                >
-                  <div className="flex  items-center justify-center gap-4">
-                    <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                    <div className="text-xl text-white">Services</div>
-                  </div>
-                  <div className="object-fit flex h-[12rem] w-[12rem]">
-                    <CldImage
-                      width="192"
-                      height="192"
-                      src={service.imageId ?? ''}
-                      alt="Carousel Image"
-                      className="rounded-sm"
-                    />
-                  </div>
-                </Link>
+        <div className="mt-4 ">
+          {services?.length ? (
+            <div className="flex flex-wrap gap-8">
+              <Link
+                href={`/admin/services/add`}
+                className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
+              >
+                <div>Add</div>
+                <Plus />
+              </Link>
 
-                <div className="mt-4">
-                  <div className="flex justify-between">
+              {services?.map((service) => {
+                return (
+                  <div key={service.id} className="w-[20rem]">
                     <Link
                       href={`/admin/services/${service.slug}`}
-                      className="text-sm font-bold text-primary hover:text-primary/80"
+                      className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4"
                     >
-                      {service.title} designs {`->`}{' '}
+                      <div className="flex  items-center justify-center gap-4">
+                        <Image src="/3J-icon.png" alt="" width={40} height={40} />
+                        <div className="text-xl text-white">Services</div>
+                      </div>
+                      <div className="object-fit flex h-[12rem] w-[12rem]">
+                        <CldImage
+                          width="192"
+                          height="192"
+                          src={service.imageId ?? ''}
+                          alt="Service Image"
+                          className="rounded-sm"
+                        />
+                      </div>
                     </Link>
 
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={() => setShowMenu(!showMenu)}
-                        className="hover:text-primary"
-                      >
-                        <EllipsisVertical />
-                      </button>
-                      {showMenu && (
-                        <div className="absolute right-0 top-10 z-10 flex flex-col rounded-md bg-white text-black shadow-xl">
+                    <div className="mt-4">
+                      <div className="flex justify-between">
+                        <Link
+                          href={`/admin/services/${service.slug}`}
+                          className="text-sm font-bold text-primary hover:text-primary/80"
+                        >
+                          {service.title} designs {`->`}{' '}
+                        </Link>
+
+                        <div className="relative">
                           <button
                             type="button"
-                            onClick={() => router.push(`/admin/services/${service.slug}/edit`)}
-                            className="flex gap-4 rounded-md p-4  hover:bg-primary-foreground "
+                            onClick={() => setShowMenu(!showMenu)}
+                            className="hover:text-primary"
                           >
-                            Edit
-                            <div>
-                              <Pencil />
-                            </div>
+                            <EllipsisVertical />
                           </button>
+                          {showMenu && (
+                            <div className="absolute right-0 top-10 z-10 flex flex-col rounded-md bg-white text-black shadow-xl">
+                              <button
+                                type="button"
+                                onClick={() => router.push(`/admin/services/${service.slug}/edit`)}
+                                className="flex gap-4 rounded-md p-4  hover:bg-primary-foreground "
+                              >
+                                Edit
+                                <div>
+                                  <Pencil />
+                                </div>
+                              </button>
 
-                          <CustomDialog
-                            handleContinue={() =>
-                              deleteService.mutate({ id: service?.id as string })
-                            }
-                            description="This action cannot be undone. This will permanently delete your service from our servers."
-                          >
-                            <button
-                              type="button"
-                              className="flex gap-4 rounded-md p-4 text-destructive hover:bg-destructive hover:text-white"
-                            >
-                              Delete
-                              <div>
-                                <Trash2 />
-                              </div>
-                            </button>
-                          </CustomDialog>
+                              <CustomDialog
+                                handleContinue={() =>
+                                  deleteService.mutate({ id: service?.id as string })
+                                }
+                                description="This action cannot be undone. This will permanently delete your service from our servers."
+                              >
+                                <button
+                                  type="button"
+                                  className="flex gap-4 rounded-md p-4 text-destructive hover:bg-destructive hover:text-white"
+                                >
+                                  Delete
+                                  <div>
+                                    <Trash2 />
+                                  </div>
+                                </button>
+                              </CustomDialog>
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
+                      <div className="">{service.description}</div>
                     </div>
                   </div>
-                  <div className="">{service.description}</div>
-                </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="">
+              <p className="">
+                Hey! there are currently no services available, Our customers are eagerly awaiting
+                our services. Please add one soon!
+              </p>
+              <p>
+                To add one soon, Click{' '}
+                <Link href={`/admin/services/add`} className="text-primary hover:text-primary/80">
+                  here
+                </Link>
+              </p>
+              <div className="mt-16 flex flex-col items-center">
+                <Image
+                  src={'/sad-face.svg'}
+                  alt="Sad Face"
+                  width={`360`}
+                  height={`360`}
+                  className=""
+                />
               </div>
-            );
-          })}
+            </div>
+          )}
         </div>
       </main>
     </>

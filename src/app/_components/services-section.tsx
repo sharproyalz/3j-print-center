@@ -1,6 +1,7 @@
 'use client';
 
 import { Service } from '@prisma/client';
+import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '~/trpc/react';
@@ -29,27 +30,42 @@ export function ServicesSectionView({ initialData }: Props) {
       <div className="grid grid-cols-4 gap-4">
         {services.length ? (
           services?.map((service) => (
-            <Link href="#" key={service.id} className="mt-8">
+            <div key={service.id} className="mt-8">
               <div className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4">
                 <div className="flex  items-center justify-center gap-4">
                   <Image src="/3J-icon.png" alt="" width={40} height={40} />
                   <div className="text-xl text-white">Services</div>
                 </div>
-                <Image src="/mug.jpg" alt="Mug" width={200} height={200} className="rounded-sm" />
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="object-fit flex h-[12rem] w-[12rem]"
+                >
+                  <CldImage
+                    width="192"
+                    height="192"
+                    src={service.imageId ?? ''}
+                    alt="Service Image"
+                    className="rounded-sm"
+                  />
+                </Link>
               </div>
               <div className="mt-4">
-                <div className="text-sm font-bold text-primary hover:text-primary/80">
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="text-sm font-bold text-primary hover:text-primary/80"
+                >
                   {service.title} designs {`->`}{' '}
-                </div>
+                </Link>
+
                 <div className="">{service.description}</div>
               </div>
-            </Link>
+            </div>
           ))
         ) : (
           <div className="col-span-4 mt-8 flex flex-col items-center justify-center text-center font-bold">
             <div className="">
-              Sorry, there are currently no services available here, but we assure you that we offer
-              a wide variety of services
+              Hey! there are currently no services available, but we assure you that we offer a wide
+              variety of services
             </div>
             <Image
               src={'/sad-face.svg'}
