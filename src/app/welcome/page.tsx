@@ -7,9 +7,7 @@ export default function WelcomePage() {
     <button
       type="button"
       onClick={() => {
-        return (
-          toast.success('✔️ Service has been added.'), console.log('✔️ Service has been added.')
-        );
+        return toast.success('Service has been added.'), console.log('Service has been added.');
       }}
       className="h-20 w-20 bg-primary"
     >

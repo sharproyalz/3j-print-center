@@ -37,8 +37,8 @@ export default function EditServicePage() {
 
   const updateService = api.service.update.useMutation({
     onSuccess: async ({ id }) => {
-      toast.success('✔️ Service has been updated.');
-      console.log('✔️ Service has been updated.');
+      toast.success('Service has been updated.');
+      console.log('Service has been updated.');
       await router.push(`/admin/services`);
     },
   });

@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
 
     async signIn({ user, account }) {
       const existingUser = await db.user.findFirst({
-        where: { email: user.email},
+        where: { email: user.email },
         include: { accounts: true },
       });
 

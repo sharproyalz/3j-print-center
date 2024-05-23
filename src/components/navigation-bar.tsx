@@ -1,6 +1,10 @@
+import { LayoutDashboard } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import GoogleSignInButton from '~/components/google-sign-in';
+import { buttonVariants } from '~/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
+import { cn } from '~/lib/utils';
 import { getServerAuthSession } from '~/server/auth';
 import { SignOut } from './sign-out';
 
@@ -27,7 +31,32 @@ export async function NavigationBar() {
           </Link>
         </div>
 
-        {session?.user ? <SignOut /> : <GoogleSignInButton />}
+        {session?.user ? (
+          <div className="flex items-center gap-4">
+            <TooltipProvider delayDuration={0} disableHoverableContent>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={'/admin'}
+                    className={cn(
+                      buttonVariants({ variant: 'outline', size: 'icon' }),
+                      'text-black'
+                    )}
+                  >
+                    <LayoutDashboard />
+                  </Link>
+                </TooltipTrigger>
+
+                <TooltipContent side="bottom">
+                  <p>Dashboard</p>
+                </TooltipContent>
+              </Tooltip>
+              <SignOut />
+            </TooltipProvider>
+          </div>
+        ) : (
+          <GoogleSignInButton />
+        )}
       </div>
     </>
   );

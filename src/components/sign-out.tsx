@@ -12,7 +12,7 @@ export function SignOut() {
       description="Are you sure you want to sign out?"
       handleContinue={async () => {
         await signOut({ callbackUrl: '/' });
-        toast.success('✔️ Signed out successfully.');
+        toast.success('Signed out successfully.');
       }}
     >
       <Button variant="outline" className="text-black">

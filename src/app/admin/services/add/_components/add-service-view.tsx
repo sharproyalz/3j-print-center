@@ -19,8 +19,8 @@ export default function AddServiceView() {
 
   const addService = api.service.create.useMutation({
     onSuccess: async ({ id }) => {
-      toast.success('✔️ Service has been added.');
-      console.log('✔️ Service has been added.');
+      toast.success('Service has been added.');
+      console.log('Service has been added.');
       await router.push(`/admin/services`);
     },
   });

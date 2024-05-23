@@ -19,8 +19,8 @@ export function CarouselImageAddView() {
 
   const addCarouselImage = api.carouselImage.create.useMutation({
     onSuccess: async ({ id }) => {
-      toast.success('✔️ Banner has been added.');
-      console.log('✔️ Banner has been added.');
+      toast.success('Banner has been added.');
+      console.log('Banner has been added.');
       await router.push(`/admin/carousel-images`);
     },
   });

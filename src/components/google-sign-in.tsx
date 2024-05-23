@@ -13,11 +13,11 @@ export default function GoogleSignInButton() {
   async function handleClick() {
     try {
       setIsLoading(() => true);
-      await signIn('google');
+      await signIn('google', { callbackUrl: '/admin' });
       setIsLoading(() => false);
     } catch (err) {
       setIsLoading(() => false);
-      toast.error('❌ Sign in failed.');
+      toast.error('Sign in failed.');
     }
   }
   return (

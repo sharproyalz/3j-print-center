@@ -40,8 +40,8 @@ export function CarouselImageView({ initialData }: Props) {
 
   const updateCarouselImage = api.carouselImage.update.useMutation({
     onSuccess: async ({ id }) => {
-      toast.success('✔️ Banner has been updated.');
-      console.log('✔️ Banner has been updated.');
+      toast.success('Banner has been updated.');
+      console.log('Banner has been updated.');
       await router.push(`/admin/carousel-images`);
     },
   });
@@ -49,14 +49,14 @@ export function CarouselImageView({ initialData }: Props) {
   const deleteCarouselImage = api.carouselImage.delete.useMutation({
     // This is the callback function after successful backend execution
     onSuccess: async () => {
-      toast.success('✔️ Contact has been deleted');
+      toast.success('Contact has been deleted');
       router.push(`/admin/carousel-images`);
-      console.log('✔️ Contact has been deleted');
+      console.log('Contact has been deleted');
     },
     // This is the callback function after failed backend execution. This is mostly used for 'unique' data conflict errors like unique email, etc.
     onError: () => {
-      toast.error('❌ Internal Server Error');
-      console.log('❌ Internal Server Error');
+      toast.error('Internal Server Error');
+      console.log('Internal Server Error');
     },
   });
 

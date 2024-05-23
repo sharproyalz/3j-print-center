@@ -25,8 +25,8 @@ export function AddServiceDesignView() {
 
   const addServiceDesign = api.product.create.useMutation({
     onSuccess: async ({ id }) => {
-      toast.success(`✔️ ${serviceName} Design has been added.`);
-      console.log(`✔️ ${serviceName} Design has been added.`);
+      toast.success(`${serviceName} Design has been added.`);
+      console.log(`${serviceName} Design has been added.`);
       await router.push(`/admin/services/${serviceName}`);
     },
   });

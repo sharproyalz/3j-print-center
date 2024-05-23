@@ -35,8 +35,8 @@ export function EditContactView({ initialData }: Props) {
 
   const updateContact = api.contact.update.useMutation({
     onSuccess: async ({ id }) => {
-      toast.success('✔️ Contact has been updated.');
-      console.log('✔️ Contact has been updated.');
+      toast.success('Contact has been updated.');
+      console.log('Contact has been updated.');
       await router.push(`/admin/contacts`);
     },
   });

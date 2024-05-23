@@ -34,7 +34,7 @@ export function ServicesSectionView({ initialData }: Props) {
               <div className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4">
                 <div className="flex  items-center justify-center gap-4">
                   <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                  <div className="text-xl text-white">Services</div>
+                  <div className="text-xl text-white">{service.title}</div>
                 </div>
                 <Link
                   href={`/services/${service.slug}`}
@@ -54,7 +54,7 @@ export function ServicesSectionView({ initialData }: Props) {
                   href={`/services/${service.slug}`}
                   className="text-sm font-bold text-primary hover:text-primary/80"
                 >
-                  {service.title} designs {`->`}{' '}
+                  Show all designs {`->`}
                 </Link>
 
                 <div className="">{service.description}</div>

@@ -22,15 +22,15 @@ export default function ContactView({ initialData }: Props) {
   const deleteContact = api.contact.delete.useMutation({
     // This is the callback function after successful backend execution
     onSuccess: async () => {
-      toast.success('✔️ Contact has been deleted');
+      toast.success('Contact has been deleted');
       utils.contact.getAll.invalidate();
       router.push(`/admin/contacts`);
-      console.log('✔️ Contact has been deleted');
+      console.log('Contact has been deleted');
     },
     // This is the callback function after failed backend execution. This is mostly used for 'unique' data conflict errors like unique email, etc.
     onError: () => {
-      toast.error('❌ Internal Server Error');
-      console.log('❌ Internal Server Error');
+      toast.error('Internal Server Error');
+      console.log('Internal Server Error');
     },
   });
   return (
@@ -79,7 +79,7 @@ export default function ContactView({ initialData }: Props) {
                   <Pencil size={16} />
                 </Link>
                 <CustomDialog
-                  description="This action cannot be undone. This will permanently delete your service from our servers."
+                  description="This action cannot be undone. This will permanently delete your contact from our servers."
                   handleContinue={() => deleteContact.mutate({ id: contact.id })}
                 >
                   <button

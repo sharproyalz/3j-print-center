@@ -26,12 +26,12 @@ export function ServiceProduct({ service }: Props) {
     // This is the callback function after successful backend execution
     onSuccess: async () => {
       await utils.service.invalidate();
-      toast.success('✔️ Service has been deleted');
-      console.log('✔️ Service has been deleted');
+      toast.success('Service has been deleted');
+      console.log('Service has been deleted');
     },
     // This is the callback function after failed backend execution. This is mostly used for 'unique' data conflict errors like unique email, etc.
     onError: () => {
-      console.log('❌ Internal Server Error');
+      console.log('Internal Server Error');
     },
   });
 
@@ -43,7 +43,7 @@ export function ServiceProduct({ service }: Props) {
       >
         <div className="flex  items-center justify-center gap-4">
           <Image src="/3J-icon.png" alt="" width={40} height={40} />
-          <div className="text-xl text-white">Services</div>
+          <div className="text-xl text-white">{service.title}</div>
         </div>
         <div className="object-fit flex h-[12rem] w-[12rem]">
           <CldImage
@@ -62,7 +62,7 @@ export function ServiceProduct({ service }: Props) {
             href={`/admin/services/${service.slug}`}
             className="text-sm font-bold text-primary hover:text-primary/80"
           >
-            {service.title} designs {`->`}{' '}
+            Show all designs {`->`}
           </Link>
 
           <div className="relative">

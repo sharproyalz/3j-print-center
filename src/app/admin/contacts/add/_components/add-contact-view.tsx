@@ -20,8 +20,8 @@ export function AddContactView() {
 
   const addContact = api.contact.create.useMutation({
     onSuccess: async ({ id }) => {
-      toast.success(`✔️ Contact has been added.`);
-      console.log(`✔️ Contact has been added.`);
+      toast.success(`Contact has been added.`);
+      console.log(`Contact has been added.`);
       await router.push(`/admin/contacts`);
     },
   });
@@ -55,7 +55,7 @@ export function AddContactView() {
                   {...addContactForm.register('type')}
                 >
                   {Object.values(ContactType).map((contact, contactIdx) => (
-                    <option key={contactIdx} value={contact.toUpperCase()}>
+                    <option key={contactIdx} value={contact.toUpperCase().replace(' ', '_')}>
                       {contact}
                     </option>
                   ))}

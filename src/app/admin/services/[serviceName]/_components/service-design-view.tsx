@@ -25,12 +25,12 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
     // This is the callback function after successful backend execution
     onSuccess: async () => {
       await utils.product.invalidate();
-      toast.success(`✔️ ${service?.title} design has been deleted`);
-      console.log(`✔️ ${service?.title} design has been deleted`);
+      toast.success(`${service?.title} design has been deleted`);
+      console.log(`${service?.title} design has been deleted`);
     },
     // This is the callback function after failed backend execution. This is mostly used for 'unique' data conflict errors like unique email, etc.
     onError: () => {
-      console.log('❌ Internal Server Error');
+      console.log('Internal Server Error');
     },
   });
   return (
@@ -77,7 +77,7 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
 
                     <CustomDialog
                       handleContinue={() => deleteServiceDesign.mutate({ id: image.id })}
-                      description="This action cannot be undone. This will permanently delete your service from our servers."
+                      description="This action cannot be undone. This will permanently delete your service design from our servers."
                     >
                       <button
                         type="button"
