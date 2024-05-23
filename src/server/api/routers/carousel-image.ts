@@ -1,4 +1,4 @@
-import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '~/server/api/trpc';
 import { schemas } from '~/zod-schemas';
 
 export const carouselImageRouter = createTRPCRouter({
@@ -10,11 +10,11 @@ export const carouselImageRouter = createTRPCRouter({
     return ctx.db.carouselImage.findMany();
   }),
 
-  create: publicProcedure.input(schemas.carouselImage.create).mutation(({ ctx, input }) => {
+  create: protectedProcedure.input(schemas.carouselImage.create).mutation(({ ctx, input }) => {
     return ctx.db.carouselImage.create({ data: input });
   }),
 
-  update: publicProcedure.input(schemas.carouselImage.update).mutation(({ ctx, input }) => {
+  update: protectedProcedure.input(schemas.carouselImage.update).mutation(({ ctx, input }) => {
     const { id, ...data } = input;
     return ctx.db.carouselImage.update({
       where: { id },
@@ -22,7 +22,7 @@ export const carouselImageRouter = createTRPCRouter({
     });
   }),
 
-  delete: publicProcedure.input(schemas.common.delete).mutation(({ ctx, input }) => {
+  delete: protectedProcedure.input(schemas.common.delete).mutation(({ ctx, input }) => {
     return ctx.db.carouselImage.delete({ where: input });
   }),
 });

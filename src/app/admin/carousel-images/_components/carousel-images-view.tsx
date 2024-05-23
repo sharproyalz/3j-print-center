@@ -22,9 +22,9 @@ export function CarouselImagesView({ initialData }: Props) {
           <div className="text-4xl font-bold">Banners</div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-8">
+        <div className="mt-4 ">
           {carouselImages.length ? (
-            <div>
+            <div className="flex flex-wrap gap-8">
               <Link
                 href={`/admin/carousel-images/add`}
                 className=" flex h-[24rem] w-[24rem] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"

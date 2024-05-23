@@ -1,4 +1,5 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { UserRole } from '@prisma/client';
 import { getServerSession, type DefaultSession, type NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -14,14 +15,14 @@ declare module 'next-auth' {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      role: UserRole;
     } & DefaultSession['user'];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    role: UserRole;
+  }
 }
 
 /**
@@ -36,9 +37,26 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
+        role: user.role,
       },
     }),
+
+    async signIn({ user, account }) {
+      const existingUser = await db.user.findFirst({
+        where: { email: user.email},
+        include: { accounts: true },
+      });
+
+      if (!existingUser) return false;
+
+      if (account?.type === 'oauth' && !existingUser.accounts.length) {
+        await db.account.create({ data: { ...account, userId: existingUser.id } });
+      }
+
+      return true;
+    },
   },
+
   adapter: PrismaAdapter(db),
   providers: [
     GoogleProvider({

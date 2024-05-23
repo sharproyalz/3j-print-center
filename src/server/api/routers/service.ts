@@ -1,8 +1,8 @@
-import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '~/server/api/trpc';
 import { schemas } from '~/zod-schemas';
 
 export const serviceRouter = createTRPCRouter({
-  create: publicProcedure.input(schemas.service.create).mutation(({ ctx, input }) => {
+  create: protectedProcedure.input(schemas.service.create).mutation(({ ctx, input }) => {
     return ctx.db.service.create({ data: input });
   }),
 
@@ -14,7 +14,7 @@ export const serviceRouter = createTRPCRouter({
     return ctx.db.service.findMany();
   }),
 
-  update: publicProcedure.input(schemas.service.update).mutation(({ ctx, input }) => {
+  update: protectedProcedure.input(schemas.service.update).mutation(({ ctx, input }) => {
     const { id, ...data } = input;
     return ctx.db.service.update({
       where: { id },
@@ -22,7 +22,7 @@ export const serviceRouter = createTRPCRouter({
     });
   }),
 
-  delete: publicProcedure.input(schemas.common.delete).mutation(({ ctx, input }) => {
+  delete: protectedProcedure.input(schemas.common.delete).mutation(({ ctx, input }) => {
     return ctx.db.service.delete({ where: input });
   }),
 });
