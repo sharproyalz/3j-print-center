@@ -1,6 +1,6 @@
 import '~/styles/globals.css';
 
-import { type Viewport } from 'next';
+import { type Metadata, type Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
 import { NavigationBar } from '~/components/navigation-bar';
@@ -14,9 +14,41 @@ const inter = Inter({
   variable: '--font-sans',
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: { default: siteConfig.name, template: `%s ${siteConfig.separator} ${siteConfig.name}` },
-  icons: [{ rel: 'icon', url: '/favicon.ico' }],
+  icons: [{ rel: 'icon', url: '/3J-icon.png' }],
+  description:
+    'Three J Print Center provide variety of personalized printing in mugs, tumblers, lanyards, keychains, and many others. We also have different kinds of process in t-shirt printing from silkscreen process to digital process.',
+  keywords: [
+    'three j print center',
+    'three j print',
+    'three j center',
+    'three j',
+    '3j',
+    'tree j',
+    'three',
+    'printing services',
+    'custom printing',
+    'print shop',
+    'silkscreen',
+    'full sublimation',
+    'digital printing',
+    'print solutions',
+    'printing company',
+    'graphic design',
+    'business printing',
+    'promotional printing',
+    'printing materials',
+    'print marketing',
+    'printing products',
+    'professional printing',
+    'printing expertise',
+    'high-quality printing',
+    'affordable printing',
+    'print on demand',
+    'printing technology',
+    'printing innovation',
+  ],
 };
 
 export const viewport: Viewport = {
