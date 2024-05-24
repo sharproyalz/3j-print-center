@@ -22,13 +22,18 @@ export default function GoogleSignInButton() {
   }
   return (
     <>
-      <Button variant="outline" onClick={handleClick} disabled={isLoading} className="text-black">
+      <Button
+        variant="outline"
+        onClick={handleClick}
+        disabled={isLoading}
+        className="w-10 p-0 text-black md:w-auto md:px-4 md:py-2"
+      >
         {isLoading ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <Loader2 className="h-4 w-4 animate-spin md:mr-2" />
         ) : (
-          <GoogleIcon className="mr-2 h-4 w-4" />
+          <GoogleIcon className="h-4 w-4 md:mr-2" />
         )}
-        Sign in
+        <span className="hidden md:block">Sign in</span>
       </Button>
     </>
   );

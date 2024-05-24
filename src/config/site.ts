@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: '3J Print Center',
+  name: 'Three J Print Center',
   separator: '|',
   emoji: '🖨️',
 } as const;

@@ -50,7 +50,7 @@ export function ServiceDesignsView({ serviceInitialData, productInitialData }: P
                   >
                     <div className="flex  items-center justify-center gap-4">
                       <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                      <div className="text-xl text-white">Products</div>
+                      <div className="text-xl text-white">Product</div>
                     </div>
 
                     <div className="object-fit mx-auto mt-8 flex h-[12rem] w-[12rem]">

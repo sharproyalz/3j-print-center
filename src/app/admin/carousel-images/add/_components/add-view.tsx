@@ -50,7 +50,8 @@ export function CarouselImageAddView() {
             className="flex flex-col gap-4"
           >
             {carouselImageForm.watch('imageId') ? (
-              <div className="object-fit mx-auto mt-8 flex h-[32rem] w-[32rem]">
+              <div className="object-fit mx-auto mt-8 flex md:h-[32rem] md:w-[32rem]">
+                {' '}
                 <CldImage
                   width="512"
                   height="512"
@@ -60,7 +61,7 @@ export function CarouselImageAddView() {
                 />
               </div>
             ) : (
-              <div className="mx-auto mt-8 h-[32rem] w-[32rem] bg-[#d9d9d9]"></div>
+              <div className="mx-auto mt-8 h-[16rem] w-[16rem] bg-[#d9d9d9] md:h-[32rem] md:w-[32rem]"></div>
             )}
 
             <UploadButton

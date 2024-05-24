@@ -15,8 +15,8 @@ export function SignOut() {
         toast.success('Signed out successfully.');
       }}
     >
-      <Button variant="outline" className="text-black">
-        <LogOut className="mr-2" /> Logout
+      <Button variant="outline" className="w-10 p-0 text-black md:w-auto md:px-4 md:py-2">
+        <LogOut className="md:mr-2" /> <span className="hidden md:block">Logout</span>
       </Button>
     </CustomDialog>
   );

@@ -14,8 +14,11 @@ export function ContactsSectionView({ initialData }: Props) {
   const contacts = getContactsQuery.data;
 
   return (
-    <section id="contacts" className="mx-auto my-0 -mt-8 flex max-w-screen-2xl gap-4 px-16 pt-24">
-      <Image src="/3J-banner.jpg" alt="3J Banner" width={1000} height={1000} />
+    <section
+      id="contacts"
+      className="mx-auto my-0 -mt-8 flex max-w-screen-2xl flex-col gap-4 px-8 pt-24 md:flex-row md:px-16"
+    >
+      <Image src="/3J-banner.jpg" alt="Three J Banner" width={1000} height={1000} />
       <div className="">
         <div className="text-xl font-semibold">Contact us</div>
         <div className="mt-4">

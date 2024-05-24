@@ -88,7 +88,7 @@ export function CarouselImageView({ initialData }: Props) {
             className="flex flex-col gap-4"
           >
             {updateCarouselImageForm.watch('imageId') ? (
-              <div className="object-fit mx-auto mt-8 flex h-[32rem] w-[32rem]">
+              <div className="object-fit mx-auto mt-8 flex h-[16rem] w-[16rem] md:h-[32rem] md:w-[32rem]">
                 <CldImage
                   width="512"
                   height="512"
@@ -98,7 +98,7 @@ export function CarouselImageView({ initialData }: Props) {
                 />
               </div>
             ) : (
-              <div className="mx-auto mt-8 h-[32rem] w-[32rem] bg-[#d9d9d9]"></div>
+              <div className="mx-auto mt-8 h-[16rem] w-[16rem] bg-[#d9d9d9] md:h-[32rem] md:w-[32rem]"></div>
             )}
 
             <UploadButton
@@ -110,7 +110,7 @@ export function CarouselImageView({ initialData }: Props) {
               Upload
             </UploadButton>
 
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <label htmlFor="image-link">Link to</label>
 
               <input
@@ -120,7 +120,7 @@ export function CarouselImageView({ initialData }: Props) {
                 className="rounded-sm border border-black p-2 text-lg focus:outline-primary"
                 {...updateCarouselImageForm.register('link')}
               />
-            </div>
+            </div> */}
 
             <div className="flex justify-between">
               <button

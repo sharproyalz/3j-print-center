@@ -15,19 +15,22 @@ export function ServicesSectionView({ initialData }: Props) {
   const getServicesQuery = api.service.getAll.useQuery(undefined, { initialData });
   const services = getServicesQuery.data;
   return (
-    <section id="services" className="mx-auto -mt-24 mb-0 max-w-screen-2xl px-16 pt-24">
+    <section
+      id="services"
+      className="mx-auto -mt-24 mb-0 max-w-screen-2xl px-8 pt-16 md:px-16 md:pt-24 "
+    >
       <div className="">
-        <div className="text-center text-2xl font-semibold">
-          3J’s services: We’re here to help you stand out
+        <div className="text-center text-2xl font-bold md:font-semibold">
+          Three J’s services: We’re here to help you stand out
         </div>
         <div className="mt-4 text-center">
-          Welcome to 3J Printing Shop, where quality meets creativity. Our dedicated team is
+          Welcome to Three J Printing Shop, where quality meets creativity. Our dedicated team is
           committed to bringing your vision to life with precision and flair. From business cards to
           banners, let us help you make a lasting impression. Explore our range of services and let
-          your uniqueness shine with 3J.
+          your uniqueness shine with Three J.
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         {services.length ? (
           services?.map((service) => (
             <div key={service.id} className="mt-8">

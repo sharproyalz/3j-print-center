@@ -17,7 +17,7 @@ export function CarouselImagesView({ initialData }: Props) {
 
   return (
     <>
-      <main className=" p-8">
+      <main className="p-8">
         <div className="flex justify-between ">
           <div className="text-4xl font-bold">Banners</div>
         </div>
@@ -27,7 +27,7 @@ export function CarouselImagesView({ initialData }: Props) {
             <div className="flex flex-wrap gap-8">
               <Link
                 href={`/admin/carousel-images/add`}
-                className=" flex h-[24rem] w-[24rem] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
+                className="flex h-[16rem] w-[16rem] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white md:h-[24rem] md:w-[24rem]"
               >
                 <div>Add</div>
                 <Plus />
@@ -36,7 +36,7 @@ export function CarouselImagesView({ initialData }: Props) {
                 <Link
                   href={`/admin/carousel-images/${image.id}`}
                   key={image.id}
-                  className="object-fit flex h-[24rem] w-[24rem]"
+                  className="object-fit flex h-[16rem] w-[16rem] md:h-[24rem] md:w-[24rem]"
                 >
                   <CldImage
                     width="384"
