@@ -72,7 +72,7 @@ export function CarouselImageAddView() {
               Upload
             </UploadButton>
 
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <label htmlFor="image-link">Link to</label>
 
               <input
@@ -82,7 +82,7 @@ export function CarouselImageAddView() {
                 className="rounded-sm border border-black p-2 text-lg focus:outline-primary"
                 {...carouselImageForm.register('link')}
               />
-            </div>
+            </div> */}
 
             <button
               type="submit"

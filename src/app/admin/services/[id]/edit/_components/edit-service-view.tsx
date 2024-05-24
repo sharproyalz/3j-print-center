@@ -1,25 +1,29 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Service } from '@prisma/client';
 import { Save } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 import { useParams, useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { BreadcrumbComponent } from '~/app/admin/services/[serviceName]/edit/_components/breadcrumb';
+import { BreadcrumbComponent } from '~/app/admin/services/[id]/edit/_components/breadcrumb';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
 import { api } from '~/trpc/react';
 import { schemas } from '~/zod-schemas';
 
+type Props = {
+  initialData: Service | null;
+};
 type Inputs = z.infer<typeof schemas.service.update>;
 
-export default function EditServicePage() {
+export default function EditServiceView({ initialData }: Props) {
   const params = useParams();
-  const serviceName = params.serviceName;
+  const id = params.id;
 
-  const getServiceView = api.service.get.useQuery({ slug: serviceName as string });
-  const service = getServiceView.data;
+  const getServiceQuery = api.service.get.useQuery({ id: id as string }, { initialData });
+  const service = getServiceQuery.data;
 
   const router = useRouter();
   const updateServiceForm = useForm<Inputs>({
@@ -28,7 +32,6 @@ export default function EditServicePage() {
       id: service?.id as string,
       title: service?.title,
       description: service?.description,
-      slug: service?.slug,
 
       image: service?.image,
       imageId: service?.imageId,
@@ -49,15 +52,15 @@ export default function EditServicePage() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
-    updateService.mutate({ ...values, slug: service?.title.toLowerCase() });
-    console.log({ ...values, slug: service?.title.toLowerCase() });
+    updateService.mutate(values);
+    console.log(values);
   };
 
   return (
     <>
       <main className="p-8">
         <div className="flex flex-col justify-between ">
-          <BreadcrumbComponent serviceName={serviceName as string} />
+          <BreadcrumbComponent title={service?.title as string} id={service?.id as string} />
 
           <div className="mt-4 text-4xl font-bold">Edit a Service</div>
         </div>

@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { BreadcrumbComponent } from '~/app/admin/services/[serviceName]/add/_components/breadcrumb';
+import { BreadcrumbComponent } from '~/app/admin/services/[id]/add/_components/breadcrumb';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
 import { api } from '~/trpc/react';
 import { schemas } from '~/zod-schemas';
@@ -15,19 +15,18 @@ type Inputs = z.infer<typeof schemas.product.create>;
 
 export function AddServiceDesignView() {
   const params = useParams();
-  const serviceName = params.serviceName;
 
   const router = useRouter();
   const addServiceDesignForm = useForm<Inputs>();
 
-  const getServiceQuery = api.service.get.useQuery({ slug: serviceName as string });
+  const getServiceQuery = api.service.get.useQuery({ id: params.id as string });
   const service = getServiceQuery.data;
 
   const addServiceDesign = api.product.create.useMutation({
     onSuccess: async ({ id }) => {
-      toast.success(`${serviceName} Design has been added.`);
-      console.log(`${serviceName} Design has been added.`);
-      await router.push(`/admin/services/${serviceName}`);
+      toast.success(`${service?.title} Design has been added.`);
+      console.log(`${service?.title} Design has been added.`);
+      await router.push(`/admin/services/${service?.id}`);
     },
   });
 
@@ -44,9 +43,9 @@ export function AddServiceDesignView() {
     <>
       <main className="p-8">
         <div className="flex flex-col justify-between ">
-          <BreadcrumbComponent serviceName={serviceName as string} />
+          <BreadcrumbComponent title={service?.title as string} id={service?.id as string} />
 
-          <div className="mt-4 text-4xl font-bold capitalize">Add New {serviceName} Design</div>
+          <div className="mt-4 text-4xl font-bold capitalize">Add New {service?.title} Design</div>
         </div>
 
         {/* Forms */}

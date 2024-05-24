@@ -23,7 +23,7 @@ export function ServicesView({ initialData }: Props) {
     <>
       <main className=" p-8">
         <div className="flex justify-between ">
-          <div className="text-4xl font-bold">Service</div>
+          <div className="text-4xl font-bold">Services</div>
         </div>
 
         <div className="mt-4 ">

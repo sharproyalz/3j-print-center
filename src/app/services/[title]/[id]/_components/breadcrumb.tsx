@@ -7,16 +7,16 @@ import {
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 
-export function BreadcrumbComponent({ slug }: { slug: string }) {
+export function BreadcrumbComponent({ title }: { title: string }) {
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/admin/services">Service</BreadcrumbLink>
+          <BreadcrumbLink href="/#services">Services</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage className="capitalize">{slug}</BreadcrumbPage>
+          <BreadcrumbPage className="capitalize">{title}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

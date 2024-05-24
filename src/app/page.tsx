@@ -29,26 +29,28 @@ export default async function HomePage() {
             <div className="w-[50%]">
               <div className="text-4xl font-semibold">3J Since 2014</div>
               <div className="mt-8 w-[75%]">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro molestias
-                accusantium repudiandae, exercitationem aspernatur asperiores maxime nihil eaque,
-                fugit illo excepturi pariatur eveniet sed harum officia aliquid iure. Repudiandae,
-                sapiente repellendus expedita tempora praesentium eos enim alias minus voluptatem
-                explicabo placeat, deserunt neque autem nemo atque, laborum repellat corrupti omnis!
+                Established in 2014, with a wide range of digital printing services from desktop
+                document printing to large format printing like Tarpaulins and Stickers. We also
+                provide variety of personalized printing in mugs, tumblers, lanyards, keychains, and
+                many others. We also have different kinds of process in t-shirt printing from
+                silkscreen process to digital process.
               </div>
             </div>
             <div className="flex w-[50%] flex-col gap-4">
               <div>
-                <div className="text-xl font-medium">Quality</div>
+                <div className="text-xl font-medium">Mission</div>
                 <div className="mt-4 w-[75%]">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam corporis aut
-                  itaque veritatis odio illo accusantium doloremque numquam nesciunt molestiae.
+                  Our mission is to be the leading one-stop-printing shop for high quality,
+                  competitively priced printing services by being the catalyst for the best and
+                  latest innovative technology in the printing industry.
                 </div>
               </div>
               <div>
                 <div className="text-xl font-medium">Services</div>
                 <div className="mt-4 w-[75%]">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam corporis aut
-                  itaque veritatis odio illo accusantium doloremque numquam nesciunt molestiae.
+                  Three J Print center provides services to nearby schools and offices here in Imus
+                  but we are not limiting our horizons, for our printing services accommodate
+                  clients all over the country.
                 </div>
               </div>
             </div>

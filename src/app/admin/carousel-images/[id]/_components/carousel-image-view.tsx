@@ -34,7 +34,7 @@ export function CarouselImageView({ initialData }: Props) {
       id: carouselImage?.id as string,
       image: carouselImage?.image,
       imageId: carouselImage?.imageId,
-      link: carouselImage?.link,
+      // link: carouselImage?.link,
     },
   });
 

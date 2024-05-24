@@ -31,8 +31,8 @@ export default function AddServiceView() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
-    addService.mutate({ ...values, slug: values.title.toLowerCase() });
-    console.log({ ...values, slug: values.title.toLowerCase() });
+    addService.mutate(values);
+    console.log(values);
   };
 
   return (
@@ -52,7 +52,7 @@ export default function AddServiceView() {
           <div className="mt-8 flex gap-8">
             <div className="flex flex-col gap-8">
               {addServiceForm.watch('imageId') ? (
-                <div className="object-fit mx-auto mt-8 flex h-[20rem] w-[20rem]">
+                <div className="object-fit mx-auto flex h-[20rem] w-[20rem]">
                   <CldImage
                     width="320"
                     height="320"
@@ -62,7 +62,7 @@ export default function AddServiceView() {
                   />
                 </div>
               ) : (
-                <div className="mx-auto mt-8 h-[20rem] w-[20rem] bg-[#d9d9d9]"></div>
+                <div className="mx-auto h-[20rem] w-[20rem] bg-[#d9d9d9]"></div>
               )}
               <UploadButton
                 className="w-full rounded-lg border border-secondary p-4 hover:bg-secondary hover:text-white"
@@ -93,6 +93,7 @@ export default function AddServiceView() {
 
                 <textarea
                   id="description"
+                  rows={4}
                   className="rounded-sm border border-black p-2 text-lg focus:outline-primary"
                   {...addServiceForm.register('description')}
                 ></textarea>

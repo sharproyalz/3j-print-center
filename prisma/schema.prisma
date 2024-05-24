@@ -23,7 +23,6 @@ model CarouselImage {
 model Service {
     id          String    @id @default(cuid())
     title       String
-    slug        String    @unique
     description String
     image       String
     imageId     String

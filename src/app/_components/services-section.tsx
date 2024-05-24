@@ -5,6 +5,7 @@ import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '~/trpc/react';
+import { titleToSlug } from '~/utils/title-to-slug';
 
 type Props = {
   initialData: Service[];
@@ -20,11 +21,10 @@ export function ServicesSectionView({ initialData }: Props) {
           3J’s services: We’re here to help you stand out
         </div>
         <div className="mt-4 text-center">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias itaque natus minus ducimus
-          sed quia impedit! Sint tempore tempora nulla quaerat! Debitis, dolor. Iste at alias
-          officiis possimus amet voluptate, adipisci a ipsa assumenda doloribus distinctio
-          voluptatum minus illum fuga aperiam minima sint! Consequatur odio ipsa eius mollitia
-          delectus corrupti?
+          Welcome to 3J Printing Shop, where quality meets creativity. Our dedicated team is
+          committed to bringing your vision to life with precision and flair. From business cards to
+          banners, let us help you make a lasting impression. Explore our range of services and let
+          your uniqueness shine with 3J.
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4">
@@ -37,7 +37,7 @@ export function ServicesSectionView({ initialData }: Props) {
                   <div className="text-xl text-white">{service.title}</div>
                 </div>
                 <Link
-                  href={`/services/${service.slug}`}
+                  href={`/services/${titleToSlug(service.title)}/${service.id}`}
                   className="object-fit flex h-[12rem] w-[12rem]"
                 >
                   <CldImage
@@ -51,7 +51,7 @@ export function ServicesSectionView({ initialData }: Props) {
               </div>
               <div className="mt-4">
                 <Link
-                  href={`/services/${service.slug}`}
+                  href={`/services/${titleToSlug(service.title)}/${service.id}`}
                   className="text-sm font-bold text-primary hover:text-primary/80"
                 >
                   Show all designs {`->`}

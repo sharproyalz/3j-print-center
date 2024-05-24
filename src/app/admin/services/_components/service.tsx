@@ -36,10 +36,10 @@ export function ServiceProduct({ service }: Props) {
   });
 
   return (
-    <div key={service.id} className="w-[20rem]">
+    <div key={service.id} className="">
       <Link
-        href={`/admin/services/${service.slug}`}
-        className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4"
+        href={`/admin/services/${service.id}`}
+        className="flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4"
       >
         <div className="flex  items-center justify-center gap-4">
           <Image src="/3J-icon.png" alt="" width={40} height={40} />
@@ -59,7 +59,7 @@ export function ServiceProduct({ service }: Props) {
       <div className="mt-4">
         <div className="flex justify-between">
           <Link
-            href={`/admin/services/${service.slug}`}
+            href={`/admin/services/${service.id}`}
             className="text-sm font-bold text-primary hover:text-primary/80"
           >
             Show all designs {`->`}
@@ -77,7 +77,7 @@ export function ServiceProduct({ service }: Props) {
               <div className="absolute right-0 top-10 z-10 flex flex-col rounded-md bg-white text-black shadow-xl">
                 <button
                   type="button"
-                  onClick={() => router.push(`/admin/services/${service.slug}/edit`)}
+                  onClick={() => router.push(`/admin/services/${service.id}/edit`)}
                   className="flex gap-4 rounded-md p-4  hover:bg-primary-foreground "
                 >
                   Edit
@@ -104,7 +104,7 @@ export function ServiceProduct({ service }: Props) {
             )}
           </div>
         </div>
-        <div className="">{service.description}</div>
+        <div className="w-[16rem]">{service.description}</div>
       </div>
     </div>
   );

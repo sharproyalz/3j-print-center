@@ -1,24 +1,36 @@
 'use client';
 
+import { Product, Service } from '@prisma/client';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { BreadcrumbComponent } from '~/app/admin/services/[serviceName]/_components/breadcrumb';
+import { BreadcrumbComponent } from '~/app/admin/services/[id]/_components/breadcrumb';
 import { CustomDialog } from '~/components/custom-dialog';
 import { api } from '~/trpc/react';
 
-export function ServiceDesignView({ serviceName }: { serviceName: string }) {
-  const router = useRouter();
-  const params = useParams();
-  const utils = api.useUtils();
+type Props = {
+  serviceInitialData: Service | null;
+  productInitialData: Product[];
+};
 
-  const getServiceQuery = api.service.get.useQuery({ slug: params.serviceName as string });
+export function ServiceDesignView({ serviceInitialData, productInitialData }: Props) {
+  const router = useRouter();
+  const utils = api.useUtils();
+  const params = useParams();
+
+  const getServiceQuery = api.service.get.useQuery(
+    { id: params.id as string },
+    { initialData: serviceInitialData }
+  );
   const service = getServiceQuery.data;
 
-  const getServiceDesignQuery = api.product.getAll.useQuery({ serviceId: service?.id as string });
+  const getServiceDesignQuery = api.product.getAll.useQuery(
+    { serviceId: service?.id as string },
+    { initialData: productInitialData }
+  );
   const serviceDesign = getServiceDesignQuery.data;
 
   const deleteServiceDesign = api.product.delete.useMutation({
@@ -37,14 +49,14 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
     <>
       <main className="p-8">
         <div className="flex flex-col justify-between ">
-          <BreadcrumbComponent slug={serviceName} />
+          <BreadcrumbComponent title={service?.title as string} />
 
           <div className="flex items-center justify-between">
             <div className="mt-4 flex items-center gap-4 text-4xl font-bold capitalize">
-              <div>{serviceName}</div>
+              <div>{service?.title}</div>
               <button
                 type="button"
-                onClick={() => router.push(`/admin/services/${serviceName}/edit`)}
+                onClick={() => router.push(`/admin/services/${service?.title}/edit`)}
                 className="flex gap-4 rounded-md hover:text-primary "
               >
                 <Pencil />
@@ -57,7 +69,7 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
           {serviceDesign?.length ? (
             <div className=" flex flex-wrap gap-8">
               <Link
-                href={`/admin/services/${serviceName}/add`}
+                href={`/admin/services/${service?.id}/add`}
                 className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
               >
                 <div>Add</div>
@@ -104,9 +116,9 @@ export function ServiceDesignView({ serviceName }: { serviceName: string }) {
             <div className="w-full">
               <p className="">
                 Hey! there are currently no service design available for{' '}
-                <span className="font-bold">{serviceName}</span>, To add one, Click{' '}
+                <span className="font-bold">{service?.title}</span>, To add one, Click{' '}
                 <Link
-                  href={`/admin/services/${serviceName}/add`}
+                  href={`/admin/services/${service?.id}/add`}
                   className="text-primary hover:text-primary/80"
                 >
                   here

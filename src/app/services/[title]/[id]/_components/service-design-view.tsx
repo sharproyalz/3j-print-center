@@ -1,29 +1,41 @@
 'use client';
 
+import { Product, Service } from '@prisma/client';
 import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { BreadcrumbComponent } from '~/app/services/[title]/[id]/_components/breadcrumb';
 import { api } from '~/trpc/react';
 
-export function ServiceDesignsView() {
-  const router = useRouter();
-  const params = useParams();
-  const serviceName = params.serviceName;
+type Props = {
+  serviceInitialData: Service | null;
+  productInitialData: Product[];
+};
 
-  const getServiceQuery = api.service.get.useQuery({ slug: serviceName as string });
+export function ServiceDesignsView({ serviceInitialData, productInitialData }: Props) {
+  const params = useParams();
+
+  const getServiceQuery = api.service.get.useQuery(
+    { id: params.id as string },
+    { initialData: serviceInitialData }
+  );
   const service = getServiceQuery.data;
 
-  const getServiceDesignQuery = api.product.getAll.useQuery({ serviceId: service?.id as string });
+  const getServiceDesignQuery = api.product.getAll.useQuery(
+    { serviceId: service?.id as string },
+    { initialData: productInitialData }
+  );
   const serviceDesign = getServiceDesignQuery.data;
 
   return (
     <>
       <main className="p-8">
         <div className="mx-auto my-0 max-w-screen-lg">
+          <BreadcrumbComponent title={service?.title as string} />
           <div className="flex flex-col justify-between ">
             <div className="flex items-center justify-between">
               <div className="mt-4 flex items-center gap-4 text-4xl font-bold capitalize">
-                <div>{serviceName}</div>
+                <div>{service?.title}</div>
               </div>
             </div>
           </div>
@@ -57,9 +69,9 @@ export function ServiceDesignsView() {
               <div className="w-full">
                 <p className="">
                   Sorry, there are currently no design available for{' '}
-                  <span className="font-bold">{serviceName}</span>, Please come back soon, as we are
-                  in the process of creating beautiful and awesome designs for{' '}
-                  <span className="font-bold">{serviceName}</span>
+                  <span className="font-bold">{service?.title}</span>, Please come back soon, as we
+                  are in the process of creating beautiful and awesome designs for{' '}
+                  <span className="font-bold">{service?.title}</span>
                 </p>
 
                 <div className="mt-16 flex flex-col items-center">

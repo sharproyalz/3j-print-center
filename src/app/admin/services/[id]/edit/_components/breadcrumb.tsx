@@ -7,7 +7,7 @@ import {
   BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 
-export function BreadcrumbComponent({ serviceName }: { serviceName: string }) {
+export function BreadcrumbComponent({ title, id }: { title: string; id: string }) {
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -16,8 +16,8 @@ export function BreadcrumbComponent({ serviceName }: { serviceName: string }) {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href={`/admin/services/${serviceName}`} className="capitalize">
-            {serviceName}
+          <BreadcrumbLink href={`/admin/services/${id}`} className="capitalize">
+            {title}
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
