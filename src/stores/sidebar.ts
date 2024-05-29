@@ -1,4 +1,11 @@
-import { CircleUserRound, Images, Printer, User, type LucideIcon } from 'lucide-react';
+import {
+  CircleUserRound,
+  Images,
+  LayoutDashboard,
+  Printer,
+  User,
+  type LucideIcon,
+} from 'lucide-react';
 import { create } from 'zustand';
 
 type SidebarLink = { Icon: LucideIcon; name: string; href: string };
@@ -12,6 +19,7 @@ type SidebarState = {
 
 export const useSidebarStore = create<SidebarState>((set) => ({
   adminSidebarLinks: [
+    { Icon: LayoutDashboard, name: 'Dashboard', href: '/admin' },
     { Icon: Images, name: 'Banners', href: '/admin/carousel-images' },
     { Icon: Printer, name: 'Services', href: `/admin/services` },
     { Icon: CircleUserRound, name: 'Contacts', href: `/admin/contacts` },

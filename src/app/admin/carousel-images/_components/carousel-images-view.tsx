@@ -22,12 +22,12 @@ export function CarouselImagesView({ initialData }: Props) {
           <div className="text-4xl font-bold">Banners</div>
         </div>
 
-        <div className="mt-4 ">
+        <div className="mt-4">
           {carouselImages.length ? (
-            <div className="flex flex-wrap gap-8">
+            <div className="flex flex-wrap justify-center gap-8">
               <Link
                 href={`/admin/carousel-images/add`}
-                className="flex h-[16rem] w-[16rem] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white md:h-[24rem] md:w-[24rem]"
+                className="h-[120px] w-full max-w-[360px] md:h-[400px] md:max-w-[1200px] mx-auto mt-8 flex  object-fill items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
               >
                 <div>Add</div>
                 <Plus />
@@ -36,11 +36,12 @@ export function CarouselImagesView({ initialData }: Props) {
                 <Link
                   href={`/admin/carousel-images/${image.id}`}
                   key={image.id}
-                  className="object-fit flex h-[16rem] w-[16rem] md:h-[24rem] md:w-[24rem]"
+                  className="h-[120px] w-full max-w-[360px] md:h-[400px] md:max-w-[1200px] mx-auto mt-8 flex object-fill hover:opacity-90"
+                  
                 >
                   <CldImage
-                    width="384"
-                    height="384"
+                    width="1200"
+                    height="400"
                     src={image.imageId ?? ''}
                     alt="Carousel Image"
                     className=""

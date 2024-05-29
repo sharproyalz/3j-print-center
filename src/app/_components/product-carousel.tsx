@@ -31,10 +31,10 @@ export function ProductCarousel({ initialData }: Props) {
       <CarouselContent>
         {carouselImage?.map((image) => (
           <CarouselItem key={image.id}>
-            <div className="object-fit mx-auto flex h-[16rem] w-[16rem] bg-secondary md:h-[32rem] md:w-[32rem]">
+            <div className="mx-auto flex h-[120px] w-[360px] object-fill md:h-[400px] md:w-[1200px]">
               <CldImage
-                width="512"
-                height="512"
+                width="1200"
+                height="400"
                 src={image.imageId ?? ''}
                 alt="Banner"
                 className=""

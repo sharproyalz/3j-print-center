@@ -56,7 +56,7 @@ export default function ContactView({ initialData }: Props) {
         <div className="mt-4">
           {contacts?.length ? (
             contacts?.map((contact) => (
-              <div key={contact.id} className="group flex items-center gap-4 py-2">
+              <div key={contact.id} className="flex items-center gap-4 py-2">
                 {contact.type === 'EMAIL' ? (
                   <Image src="/gmail.png" alt="Gmail Icon" height={28} width={28} />
                 ) : contact.type === 'FACEBOOK' ? (
@@ -74,7 +74,7 @@ export default function ContactView({ initialData }: Props) {
                 <div>{contact.detail}</div>
                 <Link
                   href={`/admin/contacts/${contact.id}/edit`}
-                  className="hidden hover:text-primary group-hover:block"
+                  className="hover:text-primary "
                 >
                   <Pencil size={16} />
                 </Link>
@@ -84,7 +84,7 @@ export default function ContactView({ initialData }: Props) {
                 >
                   <button
                     type="button"
-                    className="hidden text-destructive hover:text-primary group-hover:block"
+                    className="text-destructive hover:text-primary active:scale-95"
                   >
                     <Trash2 size={16} />
                   </button>

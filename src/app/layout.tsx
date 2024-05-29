@@ -3,6 +3,7 @@ import '~/styles/globals.css';
 import { type Metadata, type Viewport } from 'next';
 import { Inter } from 'next/font/google';
 
+import Footer from '~/components/footer';
 import { NavigationBar } from '~/components/navigation-bar';
 import { ThemeProvider } from '~/components/theme-provider';
 import { Toaster } from '~/components/ui/sonner';
@@ -73,6 +74,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <NavigationBar />
 
               <main className="flex-1">{children}</main>
+
+              <Footer />
 
               <Toaster richColors />
             </div>

@@ -121,7 +121,7 @@ export default function EditServiceView({ initialData }: Props) {
 
               <button
                 type="submit"
-                className="flex items-center justify-center gap-4 rounded-md bg-primary p-4 text-white"
+                className="flex items-center justify-center gap-4 rounded-md bg-primary p-4 text-white active:scale-95"
               >
                 <div>Save</div>
                 <Save />

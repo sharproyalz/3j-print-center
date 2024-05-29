@@ -37,22 +37,26 @@ export function ServiceProduct({ service }: Props) {
 
   return (
     <div key={service.id} className="">
-      <Link
-        href={`/admin/services/${service.id}`}
-        className="flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4"
-      >
-        <div className="flex  items-center justify-center gap-4">
-          <Image src="/3J-icon.png" alt="" width={40} height={40} />
-          <div className="text-xl text-white">{service.title}</div>
+      <Link href={`/admin/services/${service.id}`} className="mt-8 w-[300px]">
+        <div className="mb-2 flex items-center justify-center gap-4">
+          <Image src="/3J-icon.png" alt="3J Icon" width={40} height={40} />
+          <div
+            className={`${service.title.length > 30 ? 'text-sm' : service.title.length > 25 ? 'text-md' : 'text-xl'} font-semibold`}
+          >
+            {service.title}
+          </div>
         </div>
-        <div className="object-fit flex h-[12rem] w-[12rem]">
+
+        <div className="flex h-[300px] w-full flex-col items-center gap-4 rounded-sm bg-slate-500">
+          <div className='flex h-full w-full object-fill'>
           <CldImage
-            width="192"
-            height="192"
+            width="300"
+            height="300"
             src={service.imageId ?? ''}
             alt="Service Image"
             className="rounded-sm"
           />
+          </div>
         </div>
       </Link>
 
@@ -69,7 +73,7 @@ export function ServiceProduct({ service }: Props) {
             <button
               type="button"
               onClick={() => setShowMenu(!showMenu)}
-              className="hover:text-primary"
+              className="hover:text-primary active:scale-95"
             >
               <EllipsisVertical />
             </button>
@@ -78,7 +82,7 @@ export function ServiceProduct({ service }: Props) {
                 <button
                   type="button"
                   onClick={() => router.push(`/admin/services/${service.id}/edit`)}
-                  className="flex gap-4 rounded-md p-4  hover:bg-primary-foreground "
+                  className="flex gap-4 rounded-md p-4  hover:bg-primary-foreground active:scale-95"
                 >
                   Edit
                   <div>
@@ -92,7 +96,7 @@ export function ServiceProduct({ service }: Props) {
                 >
                   <button
                     type="button"
-                    className="flex gap-4 rounded-md p-4 text-destructive hover:bg-destructive hover:text-white"
+                    className="flex gap-4 rounded-md p-4 text-destructive hover:bg-destructive hover:text-white active:scale-95"
                   >
                     Delete
                     <div>

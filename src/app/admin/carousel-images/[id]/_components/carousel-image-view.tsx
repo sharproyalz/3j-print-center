@@ -9,6 +9,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { BreadcrumbComponent } from '~/app/admin/carousel-images/[id]/_components/breadcrumb';
+import { CustomDialog } from '~/components/custom-dialog';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
 import { api } from '~/trpc/react';
 import { schemas } from '~/zod-schemas';
@@ -88,10 +89,10 @@ export function CarouselImageView({ initialData }: Props) {
             className="flex flex-col gap-4"
           >
             {updateCarouselImageForm.watch('imageId') ? (
-              <div className="object-fit mx-auto mt-8 flex h-[16rem] w-[16rem] md:h-[32rem] md:w-[32rem]">
+              <div className="h-[120px] w-full max-w-[360px] md:h-[400px] md:max-w-[1200px] mx-auto mt-8 flex object-fill">
                 <CldImage
-                  width="512"
-                  height="512"
+                  width="1200"
+                  height="400"
                   src={updateCarouselImageForm.watch('imageId') ?? ''}
                   alt="Avatar logo"
                   className=""
@@ -123,18 +124,22 @@ export function CarouselImageView({ initialData }: Props) {
             </div> */}
 
             <div className="flex justify-between">
-              <button
-                type="button"
-                onClick={() => deleteCarouselImage.mutate({ id: params.id as string })}
-                className="flex items-center justify-center gap-4 rounded-md bg-destructive p-4 text-white"
+              <CustomDialog
+                description="This action cannot be undone. This will permanently delete your banner from our servers."
+                handleContinue={() => deleteCarouselImage.mutate({ id: params.id as string })}
               >
-                <div>Delete</div>
-                <Trash2 />
-              </button>
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-4 rounded-md bg-destructive p-4 text-white active:scale-95"
+                >
+                  <div>Delete</div>
+                  <Trash2 />
+                </button>
+              </CustomDialog>
 
               <button
                 type="submit"
-                className="flex items-center justify-center gap-4 rounded-md bg-primary p-4 text-white"
+                className="flex items-center justify-center gap-4 rounded-md bg-primary p-4 text-white active:scale-95"
               >
                 <div>Save</div>
                 <Save />

@@ -5,6 +5,7 @@ import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { BreadcrumbComponent } from '~/app/services/[title]/[id]/_components/breadcrumb';
+import { PreviewImage } from '~/components/preview-image';
 import { api } from '~/trpc/react';
 
 type Props = {
@@ -40,28 +41,27 @@ export function ServiceDesignsView({ serviceInitialData, productInitialData }: P
             </div>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-8">
+          <div className="my-4 flex flex-wrap justify-center gap-12 md:justify-start">
             {serviceDesign?.length ? (
               serviceDesign?.map((image) => {
                 return (
-                  <div
-                    key={image.id}
-                    className="group relative flex h-[300px] w-[300px] flex-col items-center  rounded-sm bg-slate-500 p-4"
-                  >
-                    <div className="flex  items-center justify-center gap-4">
+                  <div key={image.id} className="mt-4 w-[300px]">
+                    <div className="mb-2 flex items-center justify-center gap-4">
                       <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                      <div className="text-xl text-white">Product</div>
+                      <div className="text-xl font-semibold">{service?.title}</div>
                     </div>
 
-                    <div className="object-fit mx-auto mt-8 flex h-[12rem] w-[12rem]">
-                      <CldImage
-                        width="192"
-                        height="192"
-                        src={image.imageId}
-                        alt="Avatar logo"
-                        className=""
-                      />
-                    </div>
+                    <PreviewImage imageId={image.imageId} service={service}>
+                      <button type="button" className="flex h-full  w-full object-fill">
+                        <CldImage
+                          width="300"
+                          height="300"
+                          src={image.imageId}
+                          alt="Avatar logo"
+                          className=""
+                        />
+                      </button>
+                    </PreviewImage>
                   </div>
                 );
               })

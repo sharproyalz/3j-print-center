@@ -76,7 +76,7 @@ export function AddContactView() {
               <div className="flex w-full gap-8">
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-4 rounded-md bg-primary p-4 text-white"
+                  className="flex w-full items-center justify-center gap-4 rounded-md bg-primary p-4 text-white active:scale-95"
                 >
                   <div>Add</div>
                   <Plus />

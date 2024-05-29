@@ -9,7 +9,7 @@ export default function WelcomePage() {
       onClick={() => {
         return toast.success('Service has been added.'), console.log('Service has been added.');
       }}
-      className="h-20 w-20 bg-primary"
+      className="h-20 w-20 bg-primary active:scale-95"
     >
       ASDSDA
     </button>

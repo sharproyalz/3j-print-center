@@ -61,7 +61,10 @@ export default function AdminPage() {
         </div>
 
         <div className="mt-12 ">
-          <Link href={`/`} className="w-full rounded-lg bg-primary p-4 text-white">
+          <Link
+            href={`/`}
+            className="w-full rounded-lg bg-primary p-4 text-white hover:bg-primary/80"
+          >
             Go back to main page
           </Link>
         </div>

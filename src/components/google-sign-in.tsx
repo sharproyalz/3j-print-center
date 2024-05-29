@@ -26,7 +26,7 @@ export default function GoogleSignInButton() {
         variant="outline"
         onClick={handleClick}
         disabled={isLoading}
-        className="w-10 p-0 text-black md:w-auto md:px-4 md:py-2"
+        className="w-10 p-0 text-black active:scale-95 md:w-auto md:px-4 md:py-2"
       >
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin md:mr-2" />

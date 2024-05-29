@@ -30,22 +30,27 @@ export function ServicesSectionView({ initialData }: Props) {
           your uniqueness shine with Three J.
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+      <div className="mx-auto grid grid-cols-1 place-items-center gap-4 md:grid-cols-2 md:place-items-start lg:grid-cols-4">
         {services.length ? (
           services?.map((service) => (
-            <div key={service.id} className="mt-8">
-              <div className=" flex h-[300px] w-[300px] flex-col items-center gap-4 rounded-sm bg-slate-500 p-4">
-                <div className="flex  items-center justify-center gap-4">
-                  <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                  <div className="text-xl text-white">{service.title}</div>
+            <div key={service.id} className="col-span-1 mt-8 w-full max-w-[300px]">
+              <div className="mb-2 flex items-center justify-center gap-4">
+                <Image src="/3J-icon.png" alt="3J Icon" width={40} height={40} />
+                <div
+                  className={`${service.title.length > 30 ? 'text-sm' : service.title.length > 25 ? 'text-md' : 'text-xl'} font-semibold`}
+                >
+                  {service.title}
                 </div>
+              </div>
+
+              <div className="flex h-[300px] w-full flex-col items-center gap-4 rounded-sm bg-slate-500">
                 <Link
                   href={`/services/${titleToSlug(service.title)}/${service.id}`}
-                  className="object-fit flex h-[12rem] w-[12rem]"
+                  className="flex h-full w-full object-fill"
                 >
                   <CldImage
-                    width="192"
-                    height="192"
+                    width="300"
+                    height="300"
                     src={service.imageId ?? ''}
                     alt="Service Image"
                     className="rounded-sm"

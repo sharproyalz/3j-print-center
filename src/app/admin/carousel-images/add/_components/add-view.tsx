@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus } from 'lucide-react';
+import { AlertTriangleIcon, Plus } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
 import { useForm, type SubmitHandler } from 'react-hook-form';
@@ -50,18 +50,18 @@ export function CarouselImageAddView() {
             className="flex flex-col gap-4"
           >
             {carouselImageForm.watch('imageId') ? (
-              <div className="object-fit mx-auto mt-8 flex md:h-[32rem] md:w-[32rem]">
+              <div className="mx-auto mt-8 flex h-[120px] w-full max-w-[360px] object-fill md:h-[400px] md:max-w-[1200px]">
                 {' '}
                 <CldImage
-                  width="512"
-                  height="512"
+                  width="1200"
+                  height="400"
                   src={carouselImageForm.watch('imageId') ?? ''}
-                  alt="Avatar logo"
+                  alt="Banner"
                   className=""
                 />
               </div>
             ) : (
-              <div className="mx-auto mt-8 h-[16rem] w-[16rem] bg-[#d9d9d9] md:h-[32rem] md:w-[32rem]"></div>
+              <div className="mx-auto mt-8 h-[120px] w-full max-w-[360px] bg-[#d9d9d9] md:h-[400px] md:max-w-[1200px]"></div>
             )}
 
             <UploadButton
@@ -73,6 +73,10 @@ export function CarouselImageAddView() {
               Upload
             </UploadButton>
 
+            <div className="flex gap-4">
+              <AlertTriangleIcon color="#facc15" />
+              Please upload with 1200 x 400 pixels only.
+            </div>
             {/* <div className="flex flex-col">
               <label htmlFor="image-link">Link to</label>
 
@@ -87,7 +91,7 @@ export function CarouselImageAddView() {
 
             <button
               type="submit"
-              className="flex items-center justify-center gap-4 rounded-md bg-primary p-4 text-white"
+              className="flex items-center justify-center gap-4 rounded-md bg-primary p-4 text-white active:scale-95"
             >
               <div>Add</div>
               <Plus />

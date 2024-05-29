@@ -71,9 +71,9 @@ export function EditContactView({ initialData }: Props) {
                   {...updateContactForm.register('type')}
                 >
                   {Object.values(ContactType).map((contact, contactIdx) => (
-                    <option key={contactIdx} value={contact.toUpperCase()}>
-                      {contact}
-                    </option>
+                    <option key={contactIdx} value={contact.toUpperCase().replace(' ', '_')}>
+                    {contact}
+                  </option>
                   ))}
                 </select>
               </div>
@@ -92,7 +92,7 @@ export function EditContactView({ initialData }: Props) {
               <div className="flex w-full gap-8">
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-4 rounded-md bg-primary p-4 text-white"
+                  className="flex w-full items-center justify-center gap-4 rounded-md bg-primary p-4 text-white active:scale-95"
                 >
                   <div>Save</div>
                   <Save />

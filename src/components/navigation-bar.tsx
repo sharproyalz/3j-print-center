@@ -16,7 +16,10 @@ export async function NavigationBar() {
     <>
       <div className="sticky top-0 z-40 flex h-[4.5rem] justify-between border-none bg-primary px-8  py-4 text-white">
         <div className="flex items-center gap-4">
-          <MobileSidebar className="md:hidden" isVisitor={session?.user ? undefined : true} />
+          <MobileSidebar
+            className="active:scale-95 md:hidden"
+            isVisitor={session?.user ? undefined : true}
+          />
           <div className="flex items-center gap-8">
             <Link href={`/`} className="flex items-center justify-center gap-4">
               <Image src="/3J-icon.png" alt="Three J Logo" width={50} height={50} />{' '}
@@ -36,7 +39,7 @@ export async function NavigationBar() {
         </div>
 
         {session?.user ? (
-          <div className="items-center gap-4">
+          <div className="flex items-center gap-4">
             <TooltipProvider delayDuration={0} disableHoverableContent>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -44,7 +47,7 @@ export async function NavigationBar() {
                     href={'/admin'}
                     className={cn(
                       buttonVariants({ variant: 'outline', size: 'icon' }),
-                      'hidden text-black md:inline-flex'
+                      'hidden text-black active:scale-95 md:inline-flex'
                     )}
                   >
                     <LayoutDashboard />

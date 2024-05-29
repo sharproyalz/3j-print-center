@@ -1,11 +1,6 @@
-import { ChevronsDown } from 'lucide-react';
-import Link from 'next/link';
 import { ContactsSectionView } from '~/app/_components/contacts-section';
 import { ProductCarousel } from '~/app/_components/product-carousel';
 import { ServicesSectionView } from '~/app/_components/services-section';
-import Footer from '~/components/footer';
-import { buttonVariants } from '~/components/ui/button';
-import { cn } from '~/lib/utils';
 import { api } from '~/trpc/server';
 
 export default async function HomePage() {
@@ -16,11 +11,11 @@ export default async function HomePage() {
   return (
     <>
       <main className="">
-        <div className="h-[85vh] bg-primary text-white">
-          <div className="flex h-full max-w-screen-xl flex-col items-center justify-between py-4">
+        <div className="h-[calc(100vh-24rem)] bg-primary text-white md:h-[calc(100vh-4.5rem)] lg:h-[calc(100vh-8rem)]">
+          <div className="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between py-4">
             <ProductCarousel initialData={carouselImage} />
 
-            <Link
+            {/* <Link
               href="/#services"
               className={cn(
                 buttonVariants({ variant: 'outline-primary', size: 'icon' }),
@@ -28,7 +23,7 @@ export default async function HomePage() {
               )}
             >
               <ChevronsDown />
-            </Link>
+            </Link> */}
           </div>
         </div>
 
@@ -73,8 +68,6 @@ export default async function HomePage() {
             </div>
           </section>
         </div>
-
-        <Footer />
       </main>
     </>
   );

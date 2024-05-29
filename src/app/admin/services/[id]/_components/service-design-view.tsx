@@ -9,6 +9,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { BreadcrumbComponent } from '~/app/admin/services/[id]/_components/breadcrumb';
 import { CustomDialog } from '~/components/custom-dialog';
+import { PreviewImage } from '~/components/preview-image';
 import { api } from '~/trpc/react';
 
 type Props = {
@@ -57,7 +58,7 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
               <button
                 type="button"
                 onClick={() => router.push(`/admin/services/${service?.title}/edit`)}
-                className="flex gap-4 rounded-md hover:text-primary "
+                className="flex gap-4 rounded-md hover:text-primary active:scale-95"
               >
                 <Pencil />
               </button>
@@ -67,7 +68,7 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
 
         <div className="mt-4">
           {serviceDesign?.length ? (
-            <div className=" flex flex-wrap gap-8">
+            <div className="flex flex-wrap justify-center gap-8 md:justify-start">
               <Link
                 href={`/admin/services/${service?.id}/add`}
                 className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
@@ -78,13 +79,14 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
 
               {serviceDesign?.map((image) => {
                 return (
-                  <div
-                    key={image.id}
-                    className="group relative flex h-[300px] w-[300px] flex-col items-center  rounded-sm bg-slate-500 p-4"
-                  >
-                    <div className="flex  items-center justify-center gap-4">
-                      <Image src="/3J-icon.png" alt="" width={40} height={40} />
-                      <div className="text-xl text-white">Products</div>
+                  <div key={image.id} className="mt-4 w-[300px] ">
+                    <div className="mb-2 flex items-center justify-center gap-4">
+                      <Image src="/3J-icon.png" alt="3J Icon" width={40} height={40} />
+                      <div
+                        className={`${(service?.title.length || 0) > 30 ? 'text-sm' : (service?.title.length || 0) > 25 ? 'text-md' : 'text-xl'} font-semibold`}
+                      >
+                        Product
+                      </div>
                     </div>
 
                     <CustomDialog
@@ -93,21 +95,23 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
                     >
                       <button
                         type="button"
-                        className="absolute right-2 top-2 hidden rounded-md p-2 text-white hover:bg-destructive group-hover:block"
+                        className="absolute right-2 top-2 rounded-md p-2 text-white hover:bg-destructive active:scale-95"
                       >
                         <Trash2 />
                       </button>
                     </CustomDialog>
 
-                    <div className="object-fit mx-auto mt-8 flex h-[12rem] w-[12rem]">
-                      <CldImage
-                        width="192"
-                        height="192"
-                        src={image.imageId}
-                        alt="Avatar logo"
-                        className=""
-                      />
-                    </div>
+                    <PreviewImage imageId={image.imageId} service={service}>
+                      <button type="button" className="flex h-full  w-full object-fill">
+                        <CldImage
+                          width="300"
+                          height="300"
+                          src={image.imageId}
+                          alt="Avatar logo"
+                          className=""
+                        />
+                      </button>
+                    </PreviewImage>
                   </div>
                 );
               })}
