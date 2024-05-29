@@ -57,7 +57,7 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
               <div>{service?.title}</div>
               <button
                 type="button"
-                onClick={() => router.push(`/admin/services/${service?.title}/edit`)}
+                onClick={() => router.push(`/admin/services/${service?.id}/edit`)}
                 className="flex gap-4 rounded-md hover:text-primary active:scale-95"
               >
                 <Pencil />
@@ -71,7 +71,7 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
             <div className="flex flex-wrap justify-center gap-8 md:justify-start">
               <Link
                 href={`/admin/services/${service?.id}/add`}
-                className=" flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
+                className=" mt-[46.83px] flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
               >
                 <div>Add</div>
                 <Plus />
@@ -79,27 +79,29 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
 
               {serviceDesign?.map((image) => {
                 return (
-                  <div key={image.id} className="mt-4 w-[300px] ">
-                    <div className="mb-2 flex items-center justify-center gap-4">
-                      <Image src="/3J-icon.png" alt="3J Icon" width={40} height={40} />
-                      <div
-                        className={`${(service?.title.length || 0) > 30 ? 'text-sm' : (service?.title.length || 0) > 25 ? 'text-md' : 'text-xl'} font-semibold`}
-                      >
-                        Product
+                  <div key={image.id} className=" w-[300px]">
+                    <div className="mb-2 flex items-center justify-between">
+                      <div className="flex items-center justify-center gap-4">
+                        <Image src="/3J-icon.png" alt="3J Icon" width={40} height={40} />
+                        <div
+                          className={`${(service?.title.length || 0) > 30 ? 'text-sm' : (service?.title.length || 0) > 25 ? 'text-md' : 'text-xl'} font-semibold`}
+                        >
+                          Product
+                        </div>
                       </div>
-                    </div>
 
-                    <CustomDialog
-                      handleContinue={() => deleteServiceDesign.mutate({ id: image.id })}
-                      description="This action cannot be undone. This will permanently delete your service design from our servers."
-                    >
-                      <button
-                        type="button"
-                        className="absolute right-2 top-2 rounded-md p-2 text-white hover:bg-destructive active:scale-95"
+                      <CustomDialog
+                        handleContinue={() => deleteServiceDesign.mutate({ id: image.id })}
+                        description="This action cannot be undone. This will permanently delete your service design from our servers."
                       >
-                        <Trash2 />
-                      </button>
-                    </CustomDialog>
+                        <button
+                          type="button"
+                          className="rounded-md p-2 hover:bg-destructive hover:text-white active:scale-95"
+                        >
+                          <Trash2 />
+                        </button>
+                      </CustomDialog>
+                    </div>
 
                     <PreviewImage imageId={image.imageId} service={service}>
                       <button type="button" className="flex h-full  w-full object-fill">

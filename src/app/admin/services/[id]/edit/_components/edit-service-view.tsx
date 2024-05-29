@@ -115,7 +115,9 @@ export default function EditServiceView({ initialData }: Props) {
                 <textarea
                   id="description"
                   className="rounded-sm border border-black p-2 text-lg focus:outline-primary"
+                  rows={4}
                   {...updateServiceForm.register('description')}
+
                 ></textarea>
               </div>
 

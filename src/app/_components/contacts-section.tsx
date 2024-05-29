@@ -16,7 +16,7 @@ export function ContactsSectionView({ initialData }: Props) {
   return (
     <section
       id="contacts"
-      className="mx-auto my-0 -mt-8 flex max-w-screen-2xl flex-col gap-4 px-8 pt-24 md:flex-row md:px-16"
+      className="mx-auto my-0 -mt-8 flex max-w-screen-2xl flex-col gap-4 px-8 pt-24 lg:flex-row lg:px-16"
     >
       <Image src="/3J-banner.jpg" alt="Three J Banner" width={1000} height={1000} />
       <div className="">
