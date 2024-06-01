@@ -11,8 +11,8 @@ export default async function HomePage() {
   return (
     <>
       <main className="">
-        <div className="h-[calc(100vh-24rem)] bg-primary text-white md:h-[calc(100vh-4.5rem)] lg:h-[calc(100vh-8rem)]">
-          <div className="mx-auto flex h-full max-w-screen-xl flex-col items-center justify-between py-4">
+        <div className="bg-primary text-white md:px-12 md:py-12">
+          <div className="mx-auto flex max-w-screen-xl flex-col items-center justify-between py-4">
             <ProductCarousel initialData={carouselImage} />
 
             {/* <Link

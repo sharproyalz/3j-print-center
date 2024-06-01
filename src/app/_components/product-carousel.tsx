@@ -31,7 +31,7 @@ export function ProductCarousel({ initialData }: Props) {
       <CarouselContent>
         {carouselImage?.map((image) => (
           <CarouselItem key={image.id}>
-            <div className="mx-auto flex h-[120px] w-[360px] object-fill md:h-[400px] md:w-[1200px]">
+            <div className="mx-auto flex h-full w-full object-fill md:h-[400px]">
               <CldImage
                 width="1200"
                 height="400"
