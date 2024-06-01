@@ -16,10 +16,12 @@ export function ContactsSectionView({ initialData }: Props) {
   return (
     <section
       id="contacts"
-      className="mx-auto my-0 -mt-8 flex max-w-screen-2xl flex-col gap-4 px-8 pt-24 lg:flex-row lg:px-16"
+      className="mx-auto my-0 -mt-8 flex max-w-screen-2xl flex-col gap-4 px-8 pt-24 lg:flex-row lg:justify-between lg:px-16"
     >
-      <Image src="/3J-banner.jpg" alt="Three J Banner" width={1000} height={1000} />
-      <div className="">
+      <div className="flex h-[100%] w-full object-fill lg:w-[75%]">
+        <Image src="/3J-banner.jpg" alt="Three J Banner" width={1000} height={384} />
+      </div>
+      <div className="flex flex-col lg:w-[25%]">
         <div className="text-xl font-semibold">Contact us</div>
         <div className="mt-4">
           {contacts?.length ? (
