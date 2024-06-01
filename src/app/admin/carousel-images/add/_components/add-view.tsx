@@ -1,5 +1,6 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertTriangleIcon, Plus } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
@@ -9,13 +10,15 @@ import { z } from 'zod';
 import { BreadcrumbComponent } from '~/app/admin/carousel-images/add/_components/breadcrumb';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
 import { api } from '~/trpc/react';
-import { type schemas } from '~/zod-schemas';
+import { schemas } from '~/zod-schemas';
 
 type Inputs = z.infer<typeof schemas.carouselImage.create>;
 
 export function CarouselImageAddView() {
   const router = useRouter();
-  const carouselImageForm = useForm<Inputs>();
+  const addCarouselImageForm = useForm<Inputs>({
+    resolver: zodResolver(schemas.carouselImage.create),
+  });
 
   const addCarouselImage = api.carouselImage.create.useMutation({
     onSuccess: async ({ id }) => {
@@ -26,8 +29,8 @@ export function CarouselImageAddView() {
   });
 
   const onSuccessUpload: OnSuccessUpload = (result) => {
-    carouselImageForm.setValue('image', result.info?.secure_url ?? '');
-    carouselImageForm.setValue('imageId', result.info?.public_id ?? '');
+    addCarouselImageForm.setValue('image', result.info?.secure_url ?? '');
+    addCarouselImageForm.setValue('imageId', result.info?.public_id ?? '');
   };
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
@@ -46,23 +49,29 @@ export function CarouselImageAddView() {
         {/* Forms */}
         <div className="flex flex-col pb-12">
           <form
-            onSubmit={carouselImageForm.handleSubmit(onSubmit, (err) => console.log(err))}
+            onSubmit={addCarouselImageForm.handleSubmit(onSubmit, (err) => console.log(err))}
             className="flex flex-col gap-4"
           >
-            {carouselImageForm.watch('imageId') ? (
-              <div className="mx-auto mt-8 flex h-[120px] w-full max-w-[360px] object-fill md:h-[400px] md:max-w-[1200px]">
-                {' '}
-                <CldImage
-                  width="1200"
-                  height="400"
-                  src={carouselImageForm.watch('imageId') ?? ''}
-                  alt="Banner"
-                  className=""
-                />
-              </div>
-            ) : (
-              <div className="mx-auto mt-8 h-[120px] w-full max-w-[360px] bg-[#d9d9d9] md:h-[400px] md:max-w-[1200px]"></div>
-            )}
+            <div>
+              {addCarouselImageForm.watch('imageId') ? (
+                <div className="mx-auto mt-8 flex h-[120px] w-full max-w-[360px] object-fill md:h-[400px] md:max-w-[1200px]">
+                  {' '}
+                  <CldImage
+                    width="1200"
+                    height="400"
+                    src={addCarouselImageForm.watch('imageId') ?? ''}
+                    alt="Banner"
+                    className=""
+                  />
+                </div>
+              ) : (
+                <div className="mx-auto mt-8 h-[120px] w-full max-w-[360px] bg-[#d9d9d9] md:h-[400px] md:max-w-[1200px]"></div>
+              )}
+
+              <p className="h-4 text-sm font-medium text-destructive">
+                {addCarouselImageForm.formState.errors.image?.message}
+              </p>
+            </div>
 
             <UploadButton
               className="w-full rounded-lg border border-secondary p-4 hover:bg-secondary hover:text-white"

@@ -2,10 +2,11 @@ import { ContactsSectionView } from '~/app/_components/contacts-section';
 import { ProductCarousel } from '~/app/_components/product-carousel';
 import { ServicesSectionView } from '~/app/_components/services-section';
 import { api } from '~/trpc/server';
+import { OrderBy } from '~/zod-schemas/service';
 
 export default async function HomePage() {
   const carouselImage = await api.carouselImage.getAll.query();
-  const service = await api.service.getAll.query();
+  const service = await api.service.getAll.query({ orderBy: OrderBy.ASC });
   const contact = await api.contact.getAll.query();
 
   return (

@@ -46,7 +46,6 @@ export function DeveloperCard({ name, image, initials, title, socialLinks }: Pro
           ))}
         </CardFooter>
       </div>
-      <svg />
     </Card>
   );
 }

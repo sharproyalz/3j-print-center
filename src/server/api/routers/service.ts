@@ -10,8 +10,8 @@ export const serviceRouter = createTRPCRouter({
     return ctx.db.service.findUnique({ where: input });
   }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.service.findMany();
+  getAll: publicProcedure.input(schemas.service.getAll).query(({ ctx, input }) => {
+    return ctx.db.service.findMany({ orderBy: { createdAt: input?.orderBy ?? 'asc' } });
   }),
 
   update: protectedProcedure.input(schemas.service.update).mutation(({ ctx, input }) => {

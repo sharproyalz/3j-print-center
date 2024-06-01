@@ -1,6 +1,6 @@
 'use client';
 
-import { Contact } from '@prisma/client';
+import { Contact, ContactType } from '@prisma/client';
 import { Instagram, Pencil, Phone, Plus, Trash2, Twitter } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { CustomDialog } from '~/components/custom-dialog';
 import { api } from '~/trpc/react';
+import { sortContacts } from '~/utils/sort-contacts';
 
 type Props = {
   initialData: Contact[];
@@ -18,6 +19,7 @@ export default function ContactView({ initialData }: Props) {
 
   const getContactsQuery = api.contact.getAll.useQuery(undefined, { initialData });
   const contacts = getContactsQuery.data;
+  const sortedContacts = sortContacts(contacts);
 
   const deleteContact = api.contact.delete.useMutation({
     // This is the callback function after successful backend execution
@@ -54,7 +56,7 @@ export default function ContactView({ initialData }: Props) {
         </div>
 
         <div className="mt-4">
-          {contacts?.length ? (
+          {/* {contacts?.length ? (
             contacts?.map((contact) => (
               <div key={contact.id} className="flex items-center gap-4 py-2">
                 {contact.type === 'EMAIL' ? (
@@ -91,6 +93,66 @@ export default function ContactView({ initialData }: Props) {
                 </CustomDialog>
               </div>
             ))
+          ) : (
+            <div>
+              <p>
+                Hey! Hey! Our customer is eager to get in touch with you but there are currently no
+                contacts. Please add a new one now.
+              </p>
+              <p>
+                To add one soon, Click{' '}
+                <Link href={`/admin/contacts/add`} className="text-primary hover:text-primary/80">
+                  here
+                </Link>
+              </p>
+              <div className="mt-16 flex flex-col items-center">
+                <Image
+                  src={'/contact.svg'}
+                  alt="Contact"
+                  width={`360`}
+                  height={`360`}
+                  className=""
+                />
+              </div>
+            </div>
+          )} */}
+
+          {contacts?.length ? (
+            (Object.keys(sortedContacts) as ContactType[]).map((contactType) => {
+              return sortContacts(contacts)[contactType].map((contact) => (
+                <div key={contact.id} className="flex items-center gap-4 py-2">
+                  {contact.type === 'EMAIL' ? (
+                    <Image src="/gmail.png" alt="Gmail Icon" height={28} width={28} />
+                  ) : contact.type === 'FACEBOOK' ? (
+                    <Image src="/fb.png" alt="Facebook Icon" height={28} width={28} />
+                  ) : contact.type === 'CONTACT_NUMBER' ? (
+                    <Phone width={28} />
+                  ) : contact.type === 'INSTAGRAM' ? (
+                    <Instagram width={28} />
+                  ) : contact.type === 'X' ? (
+                    <Twitter width={28} />
+                  ) : (
+                    <div>There currently no contact. Please create a new one</div>
+                  )}
+
+                  <div>{contact.detail}</div>
+                  <Link href={`/admin/contacts/${contact.id}/edit`} className="hover:text-primary ">
+                    <Pencil size={16} />
+                  </Link>
+                  <CustomDialog
+                    description="This action cannot be undone. This will permanently delete your contact from our servers."
+                    handleContinue={() => deleteContact.mutate({ id: contact.id })}
+                  >
+                    <button
+                      type="button"
+                      className="text-destructive hover:text-primary active:scale-95"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </CustomDialog>
+                </div>
+              ));
+            })
           ) : (
             <div>
               <p>

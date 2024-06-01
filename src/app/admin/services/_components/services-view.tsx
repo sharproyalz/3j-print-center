@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { ServiceProduct } from '~/app/admin/services/_components/service';
 import { api } from '~/trpc/react';
+import { OrderBy } from '~/zod-schemas/service';
 
 type Props = {
   initialData: Service[];
@@ -16,7 +17,7 @@ export function ServicesView({ initialData }: Props) {
   const router = useRouter();
   const params = useParams();
 
-  const getServicesView = api.service.getAll.useQuery(undefined, { initialData });
+  const getServicesView = api.service.getAll.useQuery({ orderBy: OrderBy.DESC }, { initialData });
   const services = getServicesView.data;
 
   return (
@@ -28,10 +29,10 @@ export function ServicesView({ initialData }: Props) {
 
         <div className="mt-4 ">
           {services?.length ? (
-            <div className="flex flex-wrap justify-center md:justify-start gap-8">
+            <div className="flex flex-wrap justify-center gap-8 md:justify-start">
               <Link
                 href={`/admin/services/add`}
-                className="flex h-[300px] w-[300px] mt-[38.83px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
+                className="mt-[38.83px] flex h-[300px] w-[300px] items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
               >
                 <div>Add</div>
                 <Plus />

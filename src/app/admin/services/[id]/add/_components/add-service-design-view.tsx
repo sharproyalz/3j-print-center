@@ -1,5 +1,6 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus } from 'lucide-react';
 import { CldImage } from 'next-cloudinary';
 import { useParams, useRouter } from 'next/navigation';
@@ -17,7 +18,7 @@ export function AddServiceDesignView() {
   const params = useParams();
 
   const router = useRouter();
-  const addServiceDesignForm = useForm<Inputs>();
+  const addServiceDesignForm = useForm<Inputs>({ resolver: zodResolver(schemas.product.create) });
 
   const getServiceQuery = api.service.get.useQuery({ id: params.id as string });
   const service = getServiceQuery.data;
@@ -55,19 +56,25 @@ export function AddServiceDesignView() {
               className="flex w-full flex-col items-center gap-8"
               onSubmit={addServiceDesignForm.handleSubmit(onSubmit, (err) => console.log(err))}
             >
-              {addServiceDesignForm.watch('imageId') ? (
-                <div className="object-fit mx-auto mt-8 flex h-[20rem] w-[20rem]">
-                  <CldImage
-                    width="320"
-                    height="320"
-                    src={addServiceDesignForm.watch('imageId') ?? ''}
-                    alt="Avatar logo"
-                    className=""
-                  />
-                </div>
-              ) : (
-                <div className=" h-[20rem] w-[20rem] bg-[#d9d9d9]"></div>
-              )}
+              <div>
+                {addServiceDesignForm.watch('imageId') ? (
+                  <div className="object-fit mx-auto mt-8 flex h-[20rem] w-[20rem]">
+                    <CldImage
+                      width="320"
+                      height="320"
+                      src={addServiceDesignForm.watch('imageId') ?? ''}
+                      alt="Avatar logo"
+                      className=""
+                    />
+                  </div>
+                ) : (
+                  <div className=" h-[20rem] w-[20rem] bg-[#d9d9d9]"></div>
+                )}
+
+                <p className="h-4 text-sm font-medium text-destructive">
+                  {addServiceDesignForm.formState.errors.image?.message}
+                </p>
+              </div>
 
               <UploadButton
                 className="w-full rounded-lg border border-secondary p-4 hover:bg-secondary hover:text-white"

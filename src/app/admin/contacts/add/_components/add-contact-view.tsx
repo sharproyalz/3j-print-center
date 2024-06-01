@@ -1,5 +1,6 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -16,7 +17,7 @@ export function AddContactView() {
   const params = useParams();
 
   const router = useRouter();
-  const addContactForm = useForm<Inputs>();
+  const addContactForm = useForm<Inputs>({ resolver: zodResolver(schemas.contact.create) });
 
   const addContact = api.contact.create.useMutation({
     onSuccess: async ({ id }) => {
@@ -72,7 +73,12 @@ export function AddContactView() {
                   className="rounded-sm border border-black p-2 text-lg focus:outline-primary"
                   {...addContactForm.register('detail')}
                 />
+
+                <p className="h-4 text-sm font-medium text-destructive">
+                  {addContactForm.formState.errors.detail?.message}
+                </p>
               </div>
+
               <div className="flex w-full gap-8">
                 <button
                   type="submit"

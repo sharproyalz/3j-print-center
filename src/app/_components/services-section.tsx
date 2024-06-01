@@ -6,13 +6,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '~/trpc/react';
 import { titleToSlug } from '~/utils/title-to-slug';
+import { OrderBy } from '../../zod-schemas/service';
 
 type Props = {
   initialData: Service[];
 };
 
 export function ServicesSectionView({ initialData }: Props) {
-  const getServicesQuery = api.service.getAll.useQuery(undefined, { initialData });
+  const getServicesQuery = api.service.getAll.useQuery({ orderBy: OrderBy.ASC }, { initialData });
   const services = getServicesQuery.data;
 
   return (
