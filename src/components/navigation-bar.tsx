@@ -1,4 +1,4 @@
-import { LayoutDashboard } from 'lucide-react';
+import { CircleUserRound, LayoutDashboard, Printer, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import GoogleSignInButton from '~/components/google-sign-in';
@@ -28,13 +28,17 @@ export async function NavigationBar() {
           </div>
         </div>
 
-        <div className="hidden items-center gap-4 text-lg md:flex">
-          <Link href={`/#services`}>Services</Link>
-          <Link href={`/#about`} className="scroll-m-10">
-            About
+        <div className="hidden items-center gap-14 text-lg md:flex">
+          <Link href={`/#services`} className="flex items-center gap-2 hover:text-white/80">
+            <Printer /> <div>Services</div>
           </Link>
-          <Link href={`/#contacts`} className="scroll-m-10">
-            Contact
+          <Link href={`/#about`} className="flex items-center gap-2 hover:text-white/80">
+            <User />
+            <div>About</div>
+          </Link>
+          <Link href={`/#contacts`} className="flex items-center gap-2 hover:text-white/80">
+            <CircleUserRound />
+            <div>Contact</div>
           </Link>
         </div>
 

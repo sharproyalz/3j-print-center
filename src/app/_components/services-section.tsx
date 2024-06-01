@@ -14,6 +14,7 @@ type Props = {
 export function ServicesSectionView({ initialData }: Props) {
   const getServicesQuery = api.service.getAll.useQuery(undefined, { initialData });
   const services = getServicesQuery.data;
+
   return (
     <section
       id="services"
@@ -53,7 +54,7 @@ export function ServicesSectionView({ initialData }: Props) {
                     height="300"
                     src={service.imageId ?? ''}
                     alt="Service Image"
-                    className="rounded-sm"
+                    className="rounded-sm border border-gray-400"
                   />
                 </Link>
               </div>
