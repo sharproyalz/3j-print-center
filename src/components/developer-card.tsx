@@ -22,7 +22,7 @@ type Props = {
 export function DeveloperCard({ name, image, initials, title, socialLinks }: Props) {
   return (
     <Card className="flex items-center gap-4 p-4">
-      <Avatar className="h-24 w-24">
+      <Avatar className="h-24 w-24 border-2">
         <AvatarImage src={image} />
         <AvatarFallback>{initials}</AvatarFallback>
       </Avatar>
@@ -32,12 +32,16 @@ export function DeveloperCard({ name, image, initials, title, socialLinks }: Pro
           <CardTitle>{name}</CardTitle>
           <CardDescription>{title}</CardDescription>
         </CardHeader>
-        <CardFooter>
+        <CardFooter className="flex gap-2">
           {socialLinks?.map(({ Icon, link, className }, linkIdx) => (
             <Link
               key={linkIdx}
               href={link}
-              className={cn(buttonVariants({ size: 'icon' }), 'rounded-full', className)}
+              className={cn(
+                buttonVariants({ size: 'icon' }),
+                'rounded-full',
+                className ? className : 'bg-black text-white hover:bg-black/80 active:scale-95'
+              )}
               target="_blank"
               rel="noopener noreferrer"
             >
