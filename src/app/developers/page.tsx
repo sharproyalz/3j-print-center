@@ -5,7 +5,7 @@ export default function DevelopersPage() {
   return (
     <>
       <div className="my-8 ">
-        <div className="text-center text-4xl font-semibold my-4">The Developers</div>
+        <div className="my-4 text-center text-4xl font-semibold">The Developers</div>
         <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-4 py-4 md:flex-row">
           <DeveloperCard
             name="Vonn Pactol"
@@ -26,10 +26,15 @@ export default function DevelopersPage() {
 
           <DeveloperCard
             name="Justine Licuanan"
-            image=""
+            image="JL-avatar.jpg"
             initials="JL"
             title="Web Developer"
-            socialLinks={[]}
+            socialLinks={[
+              {
+                Icon: Github,
+                link: 'https://www.github.com/JustineLicuanan',
+              },
+            ]}
           />
 
           <DeveloperCard
