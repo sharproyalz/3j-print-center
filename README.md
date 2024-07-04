@@ -1,16 +1,3 @@
-# Next.js Template
+# Three J Print Center
 
-This is a project that is built with Next.js React.
-
-## What's next?
-
-I try to keep this project as simple as possible, and add additional things later when they become
-necessary.
-
-If you are not familiar with the different technologies used in this project, please refer to the
-respective docs.
-
-- [Next.js](https://nextjs.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+A business website for Three J Print Center showcasing the products and services they offer. Developed using Next.js, TypeScript, TailwindCSS, and Node.js.
