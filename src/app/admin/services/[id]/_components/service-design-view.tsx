@@ -104,7 +104,7 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
                     </div>
 
                     <PreviewImage imageId={image.imageId} service={service}>
-                      <button type="button" className="flex h-full  w-full object-fill">
+                      <button type="button" className="flex h-[300px] w-[300px] object-fill">
                         <CldImage
                           width="300"
                           height="300"
