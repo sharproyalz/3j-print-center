@@ -1,4 +1,4 @@
-import { Facebook, Github, Globe, Instagram, Linkedin, UserRound, X } from 'lucide-react';
+import { Facebook, Github, Globe, Instagram, Linkedin, X } from 'lucide-react';
 import { DeveloperCard } from '~/components/developer-card';
 
 export default function DevelopersPage() {
@@ -13,7 +13,7 @@ export default function DevelopersPage() {
             initials="VP"
             title="Web Developer"
             socialLinks={[
-              { Icon: UserRound, link: 'https://sharp-pp.vercel.app/' },
+              { Icon: Globe, link: 'https://sharp-pp.vercel.app/' },
               {
                 Icon: Github,
                 link: 'https://www.github.com/sharproyalz',
