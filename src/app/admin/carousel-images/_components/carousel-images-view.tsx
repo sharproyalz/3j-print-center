@@ -27,7 +27,7 @@ export function CarouselImagesView({ initialData }: Props) {
             <div className="flex flex-wrap justify-center gap-8">
               <Link
                 href={`/admin/carousel-images/add`}
-                className="h-[120px] w-full max-w-[360px] md:h-[400px] md:max-w-[1200px] mx-auto mt-8 flex  object-fill items-center justify-center gap-4 rounded-sm border border-slate-500 p-4 hover:bg-slate-500 hover:text-white"
+                className="mx-auto mt-8 flex h-[120px] w-full max-w-[360px] items-center justify-center  gap-4 rounded-sm border border-slate-500 object-fill p-4 hover:bg-slate-500 hover:text-white md:h-[400px] md:max-w-[1200px]"
               >
                 <div>Add</div>
                 <Plus />
@@ -36,8 +36,7 @@ export function CarouselImagesView({ initialData }: Props) {
                 <Link
                   href={`/admin/carousel-images/${image.id}`}
                   key={image.id}
-                  className="h-[120px] w-full max-w-[360px] md:h-[400px] md:max-w-[1200px] mx-auto mt-8 flex object-fill hover:opacity-90"
-                  
+                  className="mx-auto mt-8 flex h-[120px] w-full max-w-[360px] object-fill hover:opacity-90 md:h-[400px] md:max-w-[1200px]"
                 >
                   <CldImage
                     width="1200"

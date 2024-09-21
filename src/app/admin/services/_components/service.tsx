@@ -48,14 +48,14 @@ export function ServiceProduct({ service }: Props) {
         </div>
 
         <div className="flex h-[300px] w-full flex-col items-center gap-4 rounded-sm bg-slate-500">
-          <div className='flex h-full w-full object-fill'>
-          <CldImage
-            width="300"
-            height="300"
-            src={service.imageId ?? ''}
-            alt="Service Image"
-            className="rounded-sm"
-          />
+          <div className="flex h-full w-full object-fill">
+            <CldImage
+              width="300"
+              height="300"
+              src={service.imageId ?? ''}
+              alt="Service Image"
+              className="rounded-sm"
+            />
           </div>
         </div>
       </Link>

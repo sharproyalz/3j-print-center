@@ -18,9 +18,12 @@ export function AddServiceDesignView() {
   const params = useParams();
 
   const router = useRouter();
-  const addServiceDesignForm = useForm<Inputs>({ resolver: zodResolver(schemas.product.create),defaultValues:{
-    serviceId: params.id as string,
-  } });
+  const addServiceDesignForm = useForm<Inputs>({
+    resolver: zodResolver(schemas.product.create),
+    defaultValues: {
+      serviceId: params.id as string,
+    },
+  });
 
   const getServiceQuery = api.service.get.useQuery({ id: params.id as string });
   const service = getServiceQuery.data;
@@ -39,10 +42,10 @@ export function AddServiceDesignView() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = (values) => {
-    addServiceDesign.mutate({ ...values, serviceId: params?.id as string});
+    addServiceDesign.mutate({ ...values, serviceId: params?.id as string });
     console.log({ ...values, serviceId: params?.id as string });
   };
-  
+
   return (
     <>
       <main className="p-8">

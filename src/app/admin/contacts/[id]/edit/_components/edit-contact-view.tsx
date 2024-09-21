@@ -72,8 +72,8 @@ export function EditContactView({ initialData }: Props) {
                 >
                   {Object.values(ContactType).map((contact, contactIdx) => (
                     <option key={contactIdx} value={contact.toUpperCase().replace(' ', '_')}>
-                    {contact}
-                  </option>
+                      {contact}
+                    </option>
                   ))}
                 </select>
               </div>

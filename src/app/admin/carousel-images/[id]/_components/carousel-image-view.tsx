@@ -89,7 +89,7 @@ export function CarouselImageView({ initialData }: Props) {
             className="flex flex-col gap-4"
           >
             {updateCarouselImageForm.watch('imageId') ? (
-              <div className="h-[120px] w-full max-w-[360px] md:h-[400px] md:max-w-[1200px] mx-auto mt-8 flex object-fill">
+              <div className="mx-auto mt-8 flex h-[120px] w-full max-w-[360px] object-fill md:h-[400px] md:max-w-[1200px]">
                 <CldImage
                   width="1200"
                   height="400"
