@@ -1,4 +1,4 @@
-import { Facebook, Github, Instagram, Linkedin, UserRound, X } from 'lucide-react';
+import { Facebook, Github, Globe, Instagram, Linkedin, UserRound, X } from 'lucide-react';
 import { DeveloperCard } from '~/components/developer-card';
 
 export default function DevelopersPage() {
@@ -26,10 +26,22 @@ export default function DevelopersPage() {
 
           <DeveloperCard
             name="Justine Licuanan"
-            image="JL-avatar.jpg"
+            image="licuanan-avatar.png"
             initials="JL"
-            title="Web Developer"
+            title="Web Developer | IT & SEO Specialist"
             socialLinks={[
+              {
+                Icon: Globe,
+                link: 'https://licuanan.vercel.app',
+              },
+              {
+                Icon: Linkedin,
+                link: 'https://www.linkedin.com/in/JustineLicuanan',
+              },
+              {
+                Icon: X,
+                link: 'https://x.com/RealJustine35',
+              },
               {
                 Icon: Github,
                 link: 'https://www.github.com/JustineLicuanan',

@@ -32,7 +32,7 @@ export function DeveloperCard({ name, image, initials, title, socialLinks }: Pro
           <CardTitle>{name}</CardTitle>
           <CardDescription>{title}</CardDescription>
         </CardHeader>
-        <CardFooter className="flex gap-2">
+        <CardFooter className="flex flex-wrap items-center gap-2">
           {socialLinks?.map(({ Icon, link, className }, linkIdx) => (
             <Link
               key={linkIdx}
