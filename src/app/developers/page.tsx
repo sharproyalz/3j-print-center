@@ -40,7 +40,7 @@ export default function DevelopersPage() {
               },
               {
                 Icon: Twitter,
-                link: 'https://x.com/RealJustine35',
+                link: 'https://x.com/JustineWaves',
               },
               {
                 Icon: Github,
