@@ -26,7 +26,7 @@ export default function DevelopersPage() {
 
           <DeveloperCard
             name="Justine Licuanan"
-            image="licuanan-avatar.png"
+            image="/licuanan-avatar.jpg"
             initials="JL"
             title="Web Developer | IT & SEO Specialist"
             socialLinks={[
