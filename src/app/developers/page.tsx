@@ -36,7 +36,7 @@ export default function DevelopersPage() {
               },
               {
                 Icon: Linkedin,
-                link: 'https://www.linkedin.com/in/JustineLicuanan',
+                link: 'https://www.linkedin.com/in/Licuanan',
               },
               {
                 Icon: Twitter,
