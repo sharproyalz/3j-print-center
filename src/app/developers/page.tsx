@@ -6,7 +6,7 @@ export default function DevelopersPage() {
     <>
       <div className="my-8 ">
         <div className="my-4 text-center text-4xl font-semibold">The Developers</div>
-        <div className="mx-auto flex max-w-screen-xl flex-col gap-4 px-4 py-4 md:flex-row">
+        <div className="container grid grid-cols-1 gap-4 py-4 md:grid-cols-2 xl:grid-cols-3">
           <DeveloperCard
             name="Vonn Pactol"
             image="/VP-avatar.png"
@@ -53,7 +53,7 @@ export default function DevelopersPage() {
             name="Angelo Evangelista"
             image="/evangelista-avatar.png"
             initials="AE"
-            title="Web Developer | Email Marketing Specialist"
+            title="Web Developer | Email Manager"
             socialLinks={[
               {
                 Icon: Globe,
@@ -71,9 +71,9 @@ export default function DevelopersPage() {
           />
 
           <DeveloperCard
-            name="Bryan Vergara"
+            name="John Bryan Vergara"
             image=""
-            initials="BV"
+            initials="JV"
             title="Web Developer"
             socialLinks={[{ Icon: Facebook, link: 'https://www.facebook.com/vergarajohnbryan' }]}
           />
