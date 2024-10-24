@@ -50,6 +50,14 @@ export default function DevelopersPage() {
           />
 
           <DeveloperCard
+            name="Bryan Vergara"
+            image=""
+            initials="BV"
+            title="Web Developer"
+            socialLinks={[{ Icon: Facebook, link: 'https://www.facebook.com/vergarajohnbryan' }]}
+          />
+
+          <DeveloperCard
             name="Angelo Evangelista"
             image="/evangelista-avatar.png"
             initials="AE"
@@ -68,14 +76,6 @@ export default function DevelopersPage() {
                 link: 'https://github.com/G-Gelo',
               },
             ]}
-          />
-
-          <DeveloperCard
-            name="John Bryan Vergara"
-            image=""
-            initials="JV"
-            title="Web Developer"
-            socialLinks={[{ Icon: Facebook, link: 'https://www.facebook.com/vergarajohnbryan' }]}
           />
         </div>
       </div>
