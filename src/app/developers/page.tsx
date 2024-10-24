@@ -50,9 +50,30 @@ export default function DevelopersPage() {
           />
 
           <DeveloperCard
-            name="John Bryan Vergara"
+            name="Angelo Evangelista"
+            image="/evangelista-avatar.png"
+            initials="AE"
+            title="Web Developer | Email Marketing Specialist"
+            socialLinks={[
+              {
+                Icon: Globe,
+                link: 'https://portfolio-degelo.vercel.app',
+              },
+              {
+                Icon: Linkedin,
+                link: 'https://www.linkedin.com/in/A-Gabriel',
+              },
+              {
+                Icon: Github,
+                link: 'https://github.com/G-Gelo',
+              },
+            ]}
+          />
+
+          <DeveloperCard
+            name="Bryan Vergara"
             image=""
-            initials="JV"
+            initials="BV"
             title="Web Developer"
             socialLinks={[{ Icon: Facebook, link: 'https://www.facebook.com/vergarajohnbryan' }]}
           />
