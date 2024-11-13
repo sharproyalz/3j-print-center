@@ -1,12 +1,12 @@
 import type { MetadataRoute } from 'next';
 
 import { siteConfig } from '~/config/site';
-import { api } from '~/trpc/server';
+import { db } from '~/server/db';
 import { titleToSlug } from '~/utils/title-to-slug';
 import { OrderBy } from '~/zod-schemas/service';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const services = await api.service.getAll.query({ orderBy: OrderBy.ASC });
+  const services = await db.service.findMany({ orderBy: { createdAt: OrderBy.ASC } });
 
   return [
     {
