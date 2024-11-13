@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: 'Three J Print Center',
+  origin: 'https://www.3jprintcenter.com',
   separator: '|',
   emoji: '🖨️',
   logo: '/three-j-print-center-logo.png',

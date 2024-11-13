@@ -1,3 +1,3 @@
 export function titleToSlug(title: string) {
-  return title.replace(/ /g, '-').toLowerCase();
+  return title.replace(/ /g, '-').replace(/&/g, 'and').toLowerCase();
 }
