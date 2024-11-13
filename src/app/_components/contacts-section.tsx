@@ -3,6 +3,10 @@
 import { Contact, ContactType } from '@prisma/client';
 import { Instagram, Phone, Twitter } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { siteConfig } from '~/config/site';
+import { cn } from '~/lib/utils';
 import { api } from '~/trpc/react';
 import { sortContacts } from '~/utils/sort-contacts';
 
@@ -21,15 +25,30 @@ export function ContactsSectionView({ initialData }: Props) {
       className="mx-auto my-0 -mt-8 flex max-w-screen-2xl flex-col gap-4 px-8 pt-24 lg:flex-row lg:justify-between lg:px-16"
     >
       <div className="flex h-[100%] w-full object-fill lg:w-[75%]">
-        <Image src="/3J-banner.jpg" alt="Three J Banner" width={1000} height={384} />
+        <Image
+          src="/three-j-banner.jpg"
+          alt={`${siteConfig.name} Banner`}
+          width={1000}
+          height={384}
+        />
       </div>
-      <div className="flex flex-col lg:w-[25%]">
-        <div className="text-xl font-semibold">Contact us</div>
-        <div className="mt-4">
+
+      <div className="flex flex-col gap-2 lg:w-[25%]">
+        <h2 className="text-xl font-semibold">Contact us</h2>
+
+        <div className="mt-4 flex flex-col gap-4">
           {contacts?.length ? (
             (Object.keys(sortedContacts) as ContactType[]).map((contactType) => {
               return sortContacts(contacts)[contactType].map((contact) => (
-                <div key={contact.id} className="group flex items-center gap-4 py-2">
+                <Link
+                  key={contact.id}
+                  href={contact.type === 'EMAIL' ? `mailto:${contact.detail}` : '/#contacts'}
+                  className={cn(
+                    'group flex items-center gap-4',
+                    contact.type !== 'EMAIL' && 'pointer-events-none'
+                  )}
+                  aria-disabled={contact.type !== 'EMAIL'}
+                >
                   {contact.type === 'EMAIL' ? (
                     <Image src="/gmail.png" alt="Gmail Icon" height={28} width={28} />
                   ) : contact.type === 'FACEBOOK' ? (
@@ -44,8 +63,8 @@ export function ContactsSectionView({ initialData }: Props) {
                     <div>There currently no contact. Please create a new one</div>
                   )}
 
-                  <div>{contact.detail}</div>
-                </div>
+                  <p>{contact.detail}</p>
+                </Link>
               ));
             })
           ) : (

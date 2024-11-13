@@ -1,16 +1,22 @@
 import Link from 'next/link';
 
+import { siteConfig } from '~/config/site';
+
 export default function Footer() {
   return (
-    <>
-      <div className="flex items-center justify-center gap-2 bg-black p-4 text-xs text-white">
-        <div className="">
-          © 2024 | Developed by{' '}
-          <Link href={`/developers`} className="underline hover:text-white/80">
-            Three J CvSU Interns
+    <footer className="bg-[#0f172a] text-muted-foreground">
+      <section className="container flex flex-col justify-center py-8 text-center text-sm md:text-right">
+        <p>
+          &copy; 2014-{new Date().getFullYear()} {siteConfig.name}
+        </p>
+
+        <p>
+          Developed by{' '}
+          <Link href="/developers" className="text-[#f8fafc] transition-colors hover:text-primary">
+            Three J Kabsuhenyos
           </Link>
-        </div>
-      </div>
-    </>
+        </p>
+      </section>
+    </footer>
   );
 }

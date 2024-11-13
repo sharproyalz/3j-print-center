@@ -7,9 +7,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+
 import { BreadcrumbComponent } from '~/app/admin/services/[id]/_components/breadcrumb';
 import { CustomDialog } from '~/components/custom-dialog';
 import { PreviewImage } from '~/components/preview-image';
+import { siteConfig } from '~/config/site';
 import { api } from '~/trpc/react';
 
 type Props = {
@@ -82,7 +84,12 @@ export function ServiceDesignView({ serviceInitialData, productInitialData }: Pr
                   <div key={image.id} className=" w-[300px]">
                     <div className="mb-2 flex items-center justify-between">
                       <div className="flex items-center justify-center gap-4">
-                        <Image src="/3J-icon.png" alt="3J Icon" width={40} height={40} />
+                        <Image
+                          src={siteConfig.icon}
+                          alt={`${siteConfig.name} Icon`}
+                          width={40}
+                          height={40}
+                        />
                         <div
                           className={`${(service?.title.length || 0) > 30 ? 'text-sm' : (service?.title.length || 0) > 25 ? 'text-md' : 'text-xl'} font-semibold`}
                         >

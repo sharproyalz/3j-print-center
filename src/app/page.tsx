@@ -13,7 +13,7 @@ export default async function HomePage() {
     <>
       <main className="">
         <div className="bg-primary text-white md:px-12 md:py-12">
-          <div className="mx-auto flex max-w-screen-xl flex-col items-center justify-between py-4">
+          <section className="mx-auto flex max-w-screen-xl flex-col items-center justify-between py-4">
             <ProductCarousel initialData={carouselImage} />
 
             {/* <Link
@@ -25,7 +25,7 @@ export default async function HomePage() {
             >
               <ChevronsDown />
             </Link> */}
-          </div>
+          </section>
         </div>
 
         <div className="relative z-10 bg-white py-16 shadow-[0px_-10px_60px_20px_rgba(255,255,255,0.5)]">
@@ -40,31 +40,45 @@ export default async function HomePage() {
             className="mx-auto my-0 mt-16 flex max-w-screen-2xl flex-col gap-4 px-8 md:flex-row md:px-16"
           >
             <div className="md:w-[50%]">
-              <div className="text-4xl font-semibold">Three J Since 2014</div>
-              <div className="mt-4 md:mt-8 md:w-[75%]">
-                Established in 2014, with a wide range of digital printing services from desktop
-                document printing to large format printing like Tarpaulins and Stickers. We also
-                provide variety of personalized printing in mugs, tumblers, lanyards, keychains, and
-                many others. We also have different kinds of process in t-shirt printing from
-                silkscreen process to digital process.
-              </div>
+              <h2 className="text-center text-3xl font-semibold md:text-left">
+                About Three J Print Center: Your Trusted Printing Shop in Bucandala, Imus since 2014
+              </h2>
+
+              <p className="mt-4 text-center md:mt-8 md:w-[90%] md:text-left">
+                Founded in 2014, Three J Print Center has grown to become a go-to printing shop in
+                Bucandala, Imus, known for offering comprehensive digital printing services. Our
+                offerings span from everyday document printing to large format projects, such as
+                eye-catching tarpaulins, vibrant stickers, and custom design work. We also provide a
+                range of personalized printing options—from mugs and tumblers to lanyards and
+                keychains. Our t-shirt printing services include both traditional silkscreen and
+                digital methods, ensuring versatility for any project.
+              </p>
             </div>
+
             <div className="flex flex-col gap-4 md:w-[50%]">
               <div>
-                <div className="text-xl font-medium">Mission</div>
-                <div className="mt-4 md:w-[75%]">
-                  Our mission is to be the leading one-stop-printing shop for high quality,
-                  competitively priced printing services by being the catalyst for the best and
-                  latest innovative technology in the printing industry.
-                </div>
+                <h3 className="text-center text-xl font-medium md:text-left">Our Mission</h3>
+
+                <p className="mt-4 text-center md:w-[90%] md:text-left">
+                  Our mission at Three J Print Center is to become the leading one-stop printing
+                  shop, offering top-notch, affordable printing services using the latest
+                  technology. We aim to set the standard for high-quality, innovative printing in
+                  Bucandala, Imus, and beyond.
+                </p>
               </div>
+
               <div>
-                <div className="text-xl font-medium">Services</div>
-                <div className="mt-4 md:w-[75%]">
-                  Three J Print center provides services to nearby schools and offices here in Imus
-                  but we are not limiting our horizons, for our printing services accommodate
-                  clients all over the country.
-                </div>
+                <h3 className="text-center text-xl font-medium md:text-left">
+                  Printing Services Near You
+                </h3>
+
+                <p className="mt-4 text-center md:w-[90%] md:text-left">
+                  Three J Print Center proudly serves Bucandala, Imus, and surrounding areas,
+                  supporting local schools, businesses, and offices with printing solutions that
+                  exceed expectations. While we are a trusted name locally, we're equipped to serve
+                  clients from across the Philippines, offering everything from graphic design to
+                  specialized printing, all at competitive rates.
+                </p>
               </div>
             </div>
           </section>

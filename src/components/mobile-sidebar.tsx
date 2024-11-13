@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 import { Button, buttonVariants } from '~/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '~/components/ui/sheet';
+import { siteConfig } from '~/config/site';
 import { cn } from '~/lib/utils';
 import { useSidebarStore } from '~/stores/sidebar';
 
@@ -30,7 +31,7 @@ export function MobileSidebar({ className, isVisitor }: Props) {
       <SheetContent side="left">
         <SheetHeader>
           <SheetTitle className="flex flex-col items-center justify-center gap-2 text-center">
-            <Image src="/3J-icon.png" alt="Three J Logo" height={32} width={32} />
+            <Image src={siteConfig.icon} alt={`${siteConfig.name} Icon`} height={32} width={32} />
 
             <h2>Three J Print Center</h2>
           </SheetTitle>
@@ -38,7 +39,7 @@ export function MobileSidebar({ className, isVisitor }: Props) {
           {/* <SheetDescription className="text-center">{meta.DESCRIPTION}</SheetDescription> */}
         </SheetHeader>
 
-        <div className="flex flex-col justify-center gap-1 py-4">
+        <nav className="flex flex-col justify-center gap-1 py-4">
           {(isVisitor ? userSidebarLinks : adminSidebarLinks).map(({ Icon, name, href }) => (
             <Link
               key={name}
@@ -54,7 +55,7 @@ export function MobileSidebar({ className, isVisitor }: Props) {
               <Icon className="h-5 w-5" /> {name}
             </Link>
           ))}
-        </div>
+        </nav>
       </SheetContent>
     </Sheet>
   );

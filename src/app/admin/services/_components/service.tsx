@@ -8,8 +8,10 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+
 import { CustomDialog } from '~/components/custom-dialog';
 import { EllipsisVertical } from '~/components/svg/ellipsis-vertical';
+import { siteConfig } from '~/config/site';
 import { api } from '~/trpc/react';
 
 type Props = {
@@ -39,7 +41,7 @@ export function ServiceProduct({ service }: Props) {
     <div key={service.id} className="">
       <Link href={`/admin/services/${service.id}`} className="mt-8 w-[300px]">
         <div className="mb-2 flex items-center justify-center gap-4">
-          <Image src="/3J-icon.png" alt="3J Icon" width={40} height={40} />
+          <Image src={siteConfig.icon} alt={`${siteConfig.name} Icon`} width={40} height={40} />
           <div
             className={`${service.title.length > 30 ? 'text-sm' : service.title.length > 25 ? 'text-md' : 'text-xl'} font-semibold`}
           >

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,9 +14,13 @@ export function BreadcrumbComponent({ title }: { title: string }) {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/#services">Services</BreadcrumbLink>
+          <BreadcrumbLink asChild>
+            <Link href="/#services">Services</Link>
+          </BreadcrumbLink>
         </BreadcrumbItem>
+
         <BreadcrumbSeparator />
+
         <BreadcrumbItem>
           <BreadcrumbPage className="capitalize">{title}</BreadcrumbPage>
         </BreadcrumbItem>
