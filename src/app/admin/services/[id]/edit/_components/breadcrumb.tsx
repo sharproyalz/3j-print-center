@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,15 +14,21 @@ export function BreadcrumbComponent({ title, id }: { title: string; id: string }
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/admin/services">Service</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink href={`/admin/services/${id}`} className="capitalize">
-            {title}
+          <BreadcrumbLink asChild>
+            <Link href="/admin/services">Service</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
+
         <BreadcrumbSeparator />
+
+        <BreadcrumbItem>
+          <BreadcrumbLink className="capitalize" asChild>
+            <Link href={`/admin/services/${id}`}>{title}</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbSeparator />
+
         <BreadcrumbItem>
           <BreadcrumbPage>Edit</BreadcrumbPage>
         </BreadcrumbItem>

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,9 +14,13 @@ export function BreadcrumbComponent() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/admin/contacts">Contacts</BreadcrumbLink>
+          <BreadcrumbLink asChild>
+            <Link href="/admin/contacts">Contacts</Link>
+          </BreadcrumbLink>
         </BreadcrumbItem>
+
         <BreadcrumbSeparator />
+
         <BreadcrumbItem>
           <BreadcrumbPage>Edit</BreadcrumbPage>
         </BreadcrumbItem>

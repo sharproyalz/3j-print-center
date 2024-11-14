@@ -52,7 +52,7 @@ export function ServicesSectionView({ initialData }: Props) {
 
               <div className="flex h-[300px] w-full flex-col items-center gap-4 rounded-sm bg-slate-500">
                 <Link
-                  href={`/services/${titleToSlug(service.title)}/${service.id}`}
+                  href={`/services/${service.id}/${titleToSlug(service.title)}`}
                   className="flex h-full w-full object-fill"
                 >
                   <CldImage
@@ -67,7 +67,7 @@ export function ServicesSectionView({ initialData }: Props) {
 
               <div className="mt-4">
                 <Link
-                  href={`/services/${titleToSlug(service.title)}/${service.id}`}
+                  href={`/services/${service.id}/${titleToSlug(service.title)}`}
                   className="text-sm font-bold text-primary hover:text-primary/80"
                 >
                   Show all designs {`->`}

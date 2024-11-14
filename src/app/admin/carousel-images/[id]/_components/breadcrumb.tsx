@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,9 +14,13 @@ export function BreadcrumbComponent() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/admin/carousel-images">Banner</BreadcrumbLink>
+          <BreadcrumbLink asChild>
+            <Link href="/admin/carousel-images">Banner</Link>
+          </BreadcrumbLink>
         </BreadcrumbItem>
+
         <BreadcrumbSeparator />
+
         <BreadcrumbItem>
           <BreadcrumbPage>View</BreadcrumbPage>
         </BreadcrumbItem>

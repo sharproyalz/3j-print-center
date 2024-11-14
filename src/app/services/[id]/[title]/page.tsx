@@ -1,6 +1,6 @@
 import { type Metadata } from 'next';
 
-import { ServiceDesignsView } from '~/app/services/[title]/[id]/_components/service-design-view';
+import { ServiceDesignsView } from '~/app/services/[id]/[title]/_components/service-design-view';
 import { api } from '~/trpc/server';
 
 type Props = { params: Promise<{ id: string }> };

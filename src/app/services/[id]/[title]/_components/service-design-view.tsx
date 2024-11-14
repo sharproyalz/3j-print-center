@@ -5,7 +5,7 @@ import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
-import { BreadcrumbComponent } from '~/app/services/[title]/[id]/_components/breadcrumb';
+import { BreadcrumbComponent } from '~/app/services/[id]/[title]/_components/breadcrumb';
 import { PreviewImage } from '~/components/preview-image';
 import { siteConfig } from '~/config/site';
 import { api } from '~/trpc/react';
