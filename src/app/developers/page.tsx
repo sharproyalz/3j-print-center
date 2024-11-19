@@ -1,4 +1,4 @@
-import { Facebook, Github, Globe, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Github, Globe, Instagram, Linkedin, Twitter } from 'lucide-react';
 import { type Metadata } from 'next';
 
 import { DeveloperCard } from '~/components/developer-card';
@@ -38,7 +38,7 @@ export default function DevelopersPage() {
             { Icon: Twitter, link: 'https://x.com/PactolVonn' },
             {
               Icon: Github,
-              link: 'https://www.github.com/sharproyalz',
+              link: 'https://github.com/sharproyalz',
             },
           ]}
         />
@@ -63,22 +63,29 @@ export default function DevelopersPage() {
             },
             {
               Icon: Github,
-              link: 'https://www.github.com/JustineLicuanan',
+              link: 'https://github.com/JustineLicuanan',
             },
           ]}
         />
 
         <DeveloperCard
           name="Bryan Vergara"
-          image=""
+          image="/vergara-avatar.jpg"
           initials="BV"
-          title="Web Developer"
+          title="UI/UX Designer | Web Developer"
           socialLinks={[
+            {
+              Icon: Globe,
+              link: 'https://johnbryanvergara.vercel.app',
+            },
             {
               Icon: Linkedin,
               link: 'https://www.linkedin.com/in/vergarajohnbryan/',
             },
-            { Icon: Facebook, link: 'https://www.facebook.com/vergarajohnbryan' },
+            {
+              Icon: Github,
+              link: 'https://github.com/JB-VERGARA',
+            },
           ]}
         />
       </section>
