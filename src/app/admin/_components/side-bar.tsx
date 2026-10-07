@@ -2,10 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import { cn } from '~/lib/utils';
+import { api } from '~/trpc/react';
 
 export function SideBar() {
   const pathname = usePathname();
+  const newQuotesQuery = api.quoteRequest.getNewCount.useQuery(undefined, {
+    refetchInterval: 30_000,
+  });
+  const newQuotesCount = newQuotesQuery.data ?? 0;
 
   return (
     <>
@@ -46,6 +52,42 @@ export function SideBar() {
                 )}
               >
                 Contacts
+              </div>
+            </Link>
+          </li>
+
+          <li className="">
+            <Link href={`/admin/quotes`}>
+              <div
+                className={cn(
+                  'flex w-full items-center justify-between gap-3 rounded-lg p-4 hover:bg-secondary hover:text-white',
+                  pathname === '/admin/quotes' ? 'bg-secondary text-white' : ''
+                )}
+              >
+                <span>Quotes</span>
+                {newQuotesCount > 0 ? (
+                  <span
+                    className={cn(
+                      'text-xs tabular-nums',
+                      pathname === '/admin/quotes' ? 'text-white/80' : 'text-muted-foreground'
+                    )}
+                  >
+                    {newQuotesCount}
+                  </span>
+                ) : null}
+              </div>
+            </Link>
+          </li>
+
+          <li className="">
+            <Link href={`/admin/pricing`}>
+              <div
+                className={cn(
+                  'w-full rounded-lg p-4 hover:bg-secondary hover:text-white',
+                  pathname === '/admin/pricing' ? 'bg-secondary text-white' : ''
+                )}
+              >
+                Pricing
               </div>
             </Link>
           </li>

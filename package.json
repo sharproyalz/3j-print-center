@@ -6,6 +6,7 @@
   "scripts": {
     "build": "next build",
     "db:push": "prisma db push",
+    "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "dev": "next dev",
     "postinstall": "prisma generate",
@@ -14,6 +15,9 @@
     "start": "next start",
     "cmt": "git add -A && git commit -m",
     "push": "git push origin"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.0",
@@ -30,6 +34,7 @@
     "@trpc/next": "^10.43.6",
     "@trpc/react-query": "^10.43.6",
     "@trpc/server": "^10.43.6",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "embla-carousel-autoplay": "^8.0.0",

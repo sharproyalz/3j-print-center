@@ -1,7 +1,6 @@
-import { CircleUserRound, LayoutDashboard, Printer, User } from 'lucide-react';
+import { CircleUserRound, FileText, LayoutDashboard, Printer, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import GoogleSignInButton from '~/components/google-sign-in';
 import { MobileSidebar } from '~/components/mobile-sidebar';
 import { buttonVariants } from '~/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
@@ -32,6 +31,10 @@ export async function NavigationBar() {
       <nav className="hidden items-center gap-14 text-lg md:flex">
         <Link href={`/#services`} className="flex items-center gap-2 hover:text-white/80">
           <Printer /> <span>Services</span>
+        </Link>
+        <Link href="/service-guide" className="flex items-center gap-2 hover:text-white/80">
+          <FileText />
+          <span>Price guide</span>
         </Link>
         <Link href={`/#about`} className="flex items-center gap-2 hover:text-white/80">
           <User />
@@ -68,7 +71,15 @@ export async function NavigationBar() {
           </TooltipProvider>
         </div>
       ) : (
-        <GoogleSignInButton />
+        <Link
+          href="/login"
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            'text-black active:scale-95'
+          )}
+        >
+          Sign in
+        </Link>
       )}
     </header>
   );

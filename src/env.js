@@ -7,13 +7,16 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    DATABASE_URL: z
-      .string()
-      .url()
-      .refine(
-        (str) => !str.includes('YOUR_MYSQL_URL_HERE'),
-        'You forgot to change the default URL'
-      ),
+    DATABASE_URL:
+      process.env.NODE_ENV === 'production'
+        ? z
+            .string()
+            .url()
+            .refine(
+              (str) => !str.includes('YOUR_MYSQL_URL_HERE'),
+              'You forgot to change the default URL'
+            )
+        : z.string().optional(),
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     NEXTAUTH_SECRET: process.env.NODE_ENV === 'production' ? z.string() : z.string().optional(),
     NEXTAUTH_URL: z.preprocess(
@@ -22,8 +25,10 @@ export const env = createEnv({
       // VERCEL_URL doesn't include `https` so it cant be validated as a URL
       process.env.VERCEL ? z.string() : z.string().url()
     ),
-    GOOGLE_CLIENT_ID: z.string(),
-    GOOGLE_CLIENT_SECRET: z.string(),
+    GOOGLE_CLIENT_ID:
+      process.env.NODE_ENV === 'production' ? z.string() : z.string().optional(),
+    GOOGLE_CLIENT_SECRET:
+      process.env.NODE_ENV === 'production' ? z.string() : z.string().optional(),
   },
 
   /**

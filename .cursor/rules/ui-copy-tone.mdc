@@ -1,0 +1,11 @@
+---
+description: Prefer understated UI copy; avoid overly obvious status labels
+alwaysApply: true
+---
+
+# UI copy tone
+
+- Prefer quiet, confident UI. Do not add overly obvious status words, badges, or labels that shout state the layout already makes clear.
+- Avoid copy like "LOCKED IN", "CONFIRMED", "SUCCESS!", or similar on-the-nose labels unless the user explicitly asks for them.
+- If a status label, eyebrow, chip, or badge feels useful but might be too obvious, ask the user first before adding it.
+- Let structure, hierarchy, and selected-state styling communicate status when that is enough.

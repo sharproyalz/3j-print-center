@@ -1,7 +1,9 @@
 import {
   CircleUserRound,
+  FileText,
   Images,
   LayoutDashboard,
+  CircleDollarSign,
   Printer,
   User,
   type LucideIcon,
@@ -23,10 +25,13 @@ export const useSidebarStore = create<SidebarState>((set) => ({
     { Icon: Images, name: 'Banners', href: '/admin/carousel-images' },
     { Icon: Printer, name: 'Services', href: `/admin/services` },
     { Icon: CircleUserRound, name: 'Contacts', href: `/admin/contacts` },
+    { Icon: FileText, name: 'Quotes', href: `/admin/quotes` },
+    { Icon: CircleDollarSign, name: 'Pricing', href: '/admin/pricing' },
   ],
 
   userSidebarLinks: [
     { Icon: Printer, name: 'Services', href: '/#services' },
+    { Icon: FileText, name: 'Price guide', href: '/service-guide' },
     { Icon: User, name: 'About', href: `/#about` },
     {
       Icon: CircleUserRound,

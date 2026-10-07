@@ -63,6 +63,56 @@ model Contact {
     updatedAt DateTime    @updatedAt
 }
 
+model QuoteRequest {
+    id                    String      @id @default(cuid())
+    customerName          String
+    mobileNumber          String
+    facebookMessengerName String?
+    emailAddress          String?
+    consentGiven          Boolean
+    selectedService       String
+    estimatedPrice        String
+    estimateSummary       String
+    notes                 String
+    adminNotes            String?
+    targetCompletionDate  String
+    payload               Json
+    status                QuoteStatus @default(NEW)
+    createdAt             DateTime    @default(now())
+    updatedAt             DateTime    @updatedAt
+}
+
+/// Editable quote rates for Service Guide calculators.
+model PriceRate {
+    id         String           @id @default(cuid())
+    service    PricingService
+    optionKey  String
+    variantKey String
+    rate       Float
+    sortOrder  Int              @default(0)
+    createdAt  DateTime         @default(now())
+    updatedAt  DateTime         @updatedAt
+
+    @@unique([service, optionKey, variantKey])
+    @@index([service])
+}
+
+/// Editable fees, minimums, thresholds, and volume-rule copy used by quote calculators.
+model PriceSetting {
+    id        String   @id @default(cuid())
+    key       String   @unique
+    group     String
+    label     String
+    unit      String
+    value     Float    @default(0)
+    textValue String?
+    sortOrder Int      @default(0)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([group])
+}
+
 // Necessary for auth
 model Account {
     id                String  @id @default(cuid())
@@ -91,14 +141,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    role          UserRole  @default(EDITOR)
-    accounts      Account[]
-    sessions      Session[]
+    id             String    @id @default(cuid())
+    name           String?
+    email          String?   @unique
+    emailVerified  DateTime?
+    image          String?
+    hashedPassword String?
+    role           UserRole  @default(EDITOR)
+    accounts       Account[]
+    sessions       Session[]
 }
 
 model VerificationToken {
@@ -121,4 +172,24 @@ enum ContactType {
     INSTAGRAM
     X
     CONTACT_NUMBER
+}
+
+enum QuoteStatus {
+    NEW
+    REVIEWED
+    CONTACTED
+    CONFIRMED
+    IN_PRODUCTION
+    COMPLETED
+    CLOSED
+}
+
+enum PricingService {
+    TARPAULIN
+    STICKERS
+    DTF_SHIRT
+    DTF_TRANSFER
+    SUBLIMATION
+    SIGNAGE_FRAME
+    SIGNAGE_SINTRA
 }

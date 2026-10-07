@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '~/co
 import { siteConfig } from '~/config/site';
 import { cn } from '~/lib/utils';
 import { useSidebarStore } from '~/stores/sidebar';
+import { api } from '~/trpc/react';
 
 type Props = { className?: string; isVisitor?: true };
 
@@ -19,6 +20,12 @@ export function MobileSidebar({ className, isVisitor }: Props) {
 
   const [isOpen, setIsOpen] = useState(false);
   const { adminSidebarLinks, userSidebarLinks } = useSidebarStore();
+  const isAdminNav = !isVisitor && pathname.startsWith('/admin');
+  const newQuotesQuery = api.quoteRequest.getNewCount.useQuery(undefined, {
+    enabled: isAdminNav,
+    refetchInterval: 30_000,
+  });
+  const newQuotesCount = newQuotesQuery.data ?? 0;
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -53,6 +60,11 @@ export function MobileSidebar({ className, isVisitor }: Props) {
               onClick={() => setIsOpen(false)}
             >
               <Icon className="h-5 w-5" /> {name}
+              {isAdminNav && name === 'Quotes' && newQuotesCount > 0 ? (
+                <span className="ml-auto text-xs tabular-nums text-muted-foreground">
+                  {newQuotesCount}
+                </span>
+              ) : null}
             </Link>
           ))}
         </nav>

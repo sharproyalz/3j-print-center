@@ -1,4 +1,5 @@
 import { ContactsSectionView } from '~/app/_components/contacts-section';
+import { PriceGuideCta } from '~/app/_components/price-guide-cta';
 import { ProductCarousel } from '~/app/_components/product-carousel';
 import { ServicesSectionView } from '~/app/_components/services-section';
 import { api } from '~/trpc/server';
@@ -31,6 +32,8 @@ export default async function HomePage() {
         <div className="relative z-10 bg-white py-16 shadow-[0px_-10px_60px_20px_rgba(255,255,255,0.5)]">
           {/* Services */}
           <ServicesSectionView initialData={service} />
+
+          <PriceGuideCta />
 
           {/* Contact Information */}
           <ContactsSectionView initialData={contact} />
