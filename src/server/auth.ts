@@ -7,6 +7,7 @@ import {
   type DefaultUser,
   type NextAuthOptions,
 } from 'next-auth';
+import type { Adapter, AdapterAccount } from 'next-auth/adapters';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -44,13 +45,35 @@ function isConfiguredSecret(value?: string) {
 const googleConfigured = isConfiguredSecret(env.GOOGLE_CLIENT_ID) && isConfiguredSecret(env.GOOGLE_CLIENT_SECRET);
 const credentialsEnabled = env.NODE_ENV === 'development';
 
+function createAuthAdapter(): Adapter {
+  const adapter = PrismaAdapter(db);
+
+  return {
+    ...adapter,
+    linkAccount: (account: AdapterAccount) =>
+      adapter.linkAccount({
+        userId: account.userId,
+        type: account.type,
+        provider: account.provider,
+        providerAccountId: account.providerAccountId,
+        refresh_token: account.refresh_token,
+        access_token: account.access_token,
+        expires_at: account.expires_at,
+        token_type: account.token_type,
+        scope: account.scope,
+        id_token: account.id_token,
+        session_state: account.session_state,
+      }),
+  };
+}
+
 /**
  * Options for auth used to configure adapters, providers, callbacks, etc.
  *
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(db),
+  adapter: createAuthAdapter(),
   session: {
     // JWT is required for Credentials provider; Google still works with JWT sessions.
     strategy: 'jwt',
@@ -94,18 +117,17 @@ export const authOptions: NextAuthOptions = {
         return true;
       }
 
-      const existingUser = await db.user.findFirst({
-        where: { email: user.email },
-        include: { accounts: true },
-      });
-
-      if (!existingUser) return false;
-
-      if (account?.type === 'oauth' && !existingUser.accounts.length) {
-        await db.account.create({ data: { ...account, userId: existingUser.id } });
+      const email = user.email?.trim().toLowerCase();
+      if (!email) {
+        return false;
       }
 
-      return true;
+      const existingUser = await db.user.findUnique({
+        where: { email },
+        select: { id: true },
+      });
+
+      return Boolean(existingUser);
     },
   },
   providers: [
@@ -114,6 +136,8 @@ export const authOptions: NextAuthOptions = {
           GoogleProvider({
             clientId: env.GOOGLE_CLIENT_ID!,
             clientSecret: env.GOOGLE_CLIENT_SECRET!,
+            // Sign-in already requires this email to exist. This only attaches Google to that user.
+            allowDangerousEmailAccountLinking: true,
           }),
         ]
       : []),

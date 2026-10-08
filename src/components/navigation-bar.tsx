@@ -1,10 +1,12 @@
 import { CircleUserRound, FileText, LayoutDashboard, Printer, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import GoogleSignInButton from '~/components/google-sign-in';
 import { MobileSidebar } from '~/components/mobile-sidebar';
 import { buttonVariants } from '~/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
 import { siteConfig } from '~/config/site';
+import { env } from '~/env';
 import { cn } from '~/lib/utils';
 import { getServerAuthSession } from '~/server/auth';
 import { SignOut } from './sign-out';
@@ -70,13 +72,12 @@ export async function NavigationBar() {
             <SignOut />
           </TooltipProvider>
         </div>
+      ) : env.NODE_ENV === 'production' ? (
+        <GoogleSignInButton />
       ) : (
         <Link
           href="/login"
-          className={cn(
-            buttonVariants({ variant: 'outline' }),
-            'text-black active:scale-95'
-          )}
+          className={cn(buttonVariants({ variant: 'outline' }), 'text-black active:scale-95')}
         >
           Sign in
         </Link>
