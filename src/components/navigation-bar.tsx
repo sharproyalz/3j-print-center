@@ -11,6 +11,15 @@ import { cn } from '~/lib/utils';
 import { getServerAuthSession } from '~/server/auth';
 import { SignOut } from './sign-out';
 
+function googleSignInEnabled() {
+  const id = env.GOOGLE_CLIENT_ID;
+  const secret = env.GOOGLE_CLIENT_SECRET;
+  const configured = (value?: string) =>
+    Boolean(value && value !== '~' && !value.includes('<') && value.length > 8);
+
+  return configured(id) && configured(secret);
+}
+
 export async function NavigationBar() {
   const session = await getServerAuthSession();
 
@@ -72,7 +81,7 @@ export async function NavigationBar() {
             <SignOut />
           </TooltipProvider>
         </div>
-      ) : env.NODE_ENV === 'production' ? (
+      ) : googleSignInEnabled() ? (
         <GoogleSignInButton />
       ) : (
         <Link
