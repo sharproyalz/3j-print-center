@@ -175,6 +175,19 @@ const INITIAL_FORM: FormState = {
   signageSiteDetails: '',
 };
 
+function keepCustomerDetails(current: FormState): FormState {
+  return {
+    ...INITIAL_FORM,
+    customerName: current.customerName,
+    mobileNumber: current.mobileNumber,
+    messengerName: current.messengerName,
+    emailAddress: current.emailAddress,
+    notes: current.notes,
+    targetDate: current.targetDate,
+    consent: current.consent,
+  };
+}
+
 type Panel = 'form' | 'review' | 'confirmation';
 
 type ReviewedQuote = {
@@ -593,6 +606,9 @@ export function ServiceGuideView() {
   ]);
 
   const chooseService = (service: ServiceId) => {
+    if (selectedService && selectedService !== service) {
+      setForm((current) => keepCustomerDetails(current));
+    }
     setSelectedService(service);
     setPanel('form');
     setReviewed(null);
@@ -809,15 +825,21 @@ export function ServiceGuideView() {
             </section>
 
             <section id="quote-area" className="mt-10 lg:mt-0" aria-live="polite">
-              {panel === 'form' ? (
+              {panel === 'form' && !selectedService ? (
+                <div className="quote-panel p-5 sm:p-7">
+                  <p className="mono-label text-xs font-bold text-[#ffd52e]">QUOTATION REQUEST</p>
+                  <h2 className="mt-2 text-2xl font-extrabold">Get a Quote</h2>
+                  <p className="mt-4 max-w-md leading-7 text-[#d9d4ca]">Select a service to begin.</p>
+                </div>
+              ) : null}
+
+              {panel === 'form' && selectedService ? (
                 <div className="quote-panel p-5 sm:p-7">
                   <p className="mono-label text-xs font-bold text-[#ffd52e]">QUOTATION REQUEST</p>
                   <h2 className="mt-2 text-2xl font-extrabold">Get a Quote</h2>
                   <div className="mt-5 border-y border-white/15 py-3">
                     <p className="mono-label text-xs text-[#bdb8ae]">SELECTED SERVICE</p>
-                    <p className="mt-1 text-lg font-bold text-[#ffd52e]">
-                      {selectedService ?? 'Select a service to begin'}
-                    </p>
+                    <p className="mt-1 text-lg font-bold text-[#ffd52e]">{selectedService}</p>
                   </div>
 
                   <form className="mt-6 space-y-5" onSubmit={handleCalculate} noValidate>
