@@ -217,7 +217,14 @@ function scrollToField(key: QuoteFieldKey) {
 
 function scrollToId(id: string) {
   window.setTimeout(() => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    const header = document.querySelector('header');
+    const headerHeight = header?.getBoundingClientRect().height ?? 0;
+    const top = element.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
   }, 50);
 }
 

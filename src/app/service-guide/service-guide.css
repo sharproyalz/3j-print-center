@@ -732,6 +732,6 @@
   .service-guide-page .quote-panel,
   .service-guide-page .success-panel {
     position: sticky;
-    top: 1.5rem;
+    top: calc(4.5rem + 1rem);
   }
 }
