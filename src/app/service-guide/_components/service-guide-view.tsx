@@ -1,10 +1,11 @@
 'use client';
 
-import { ArrowUpRight, ChevronDown, Printer, X } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, Download, Printer } from 'lucide-react';
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import { toast } from 'sonner';
 
 import { CustomSelect } from '~/app/service-guide/_components/custom-select';
+import { QuotationSheet } from '~/app/service-guide/_components/quotation-sheet';
 import {
   validateCustomerFields,
   type CustomerFieldErrors,
@@ -22,6 +23,7 @@ import {
   formatPeso,
   type ServiceId,
 } from '~/app/service-guide/_lib/pricing';
+import { getJobDetailRows, type DetailItem } from '~/app/service-guide/_lib/job-details';
 import {
   SERVICE_FIELD_ORDER,
   isServiceFieldKey,
@@ -200,17 +202,6 @@ function scrollToField(key: QuoteFieldKey) {
   }, 0);
 }
 
-type DetailItem = {
-  label: string;
-  value: string;
-};
-
-function pushDetail(rows: DetailItem[], label: string, value?: string | number | null) {
-  const normalized = String(value ?? '').trim();
-  if (!normalized || normalized === '—') return;
-  rows.push({ label, value: normalized });
-}
-
 function parseEstimateLines(summary: string): DetailItem[] {
   if (!summary.trim()) return [];
 
@@ -250,130 +241,6 @@ function getEstimateNote(
     return 'Layout and set-up are not included in the printing price.';
   }
   return null;
-}
-
-function getJobDetailRows(service: ServiceId | null, form: FormState): DetailItem[] {
-  if (!service) return [];
-
-  const rows: DetailItem[] = [];
-
-  if (service === 'DTF Printing') {
-    pushDetail(rows, 'Service type', form.dtfServiceType);
-    if (form.dtfServiceType === 'DTF Transfer Printing — Per Meter') {
-      pushDetail(rows, 'Meters', form.dtfTransferMeters);
-      pushDetail(rows, 'Artwork ready', form.dtfTransferArtworkReady);
-      return rows;
-    }
-
-    pushDetail(rows, 'Print side', form.dtfPrintSide);
-    if (['Front', 'Both'].includes(form.dtfPrintSide)) {
-      pushDetail(rows, 'Front print size', form.dtfFrontPrintSize);
-    }
-    if (['Back', 'Both'].includes(form.dtfPrintSide)) {
-      pushDetail(rows, 'Back print size', form.dtfBackPrintSize);
-    }
-    if (
-      form.dtfFrontPrintSize === 'Custom Size' ||
-      form.dtfBackPrintSize === 'Custom Size'
-    ) {
-      pushDetail(
-        rows,
-        'Custom size',
-        [form.dtfCustomWidth, form.dtfCustomHeight].filter(Boolean).join(' × '),
-      );
-    }
-    pushDetail(rows, 'Quantity', form.dtfQuantity);
-    pushDetail(rows, 'Shoulder name', form.dtfShoulderName);
-    pushDetail(rows, 'Customer provides shirt', form.dtfCustomerProvidesShirt);
-    pushDetail(rows, 'Artwork ready', form.dtfArtworkReady);
-    return rows;
-  }
-
-  if (service === 'Full Sublimation') {
-    pushDetail(rows, 'Product type', form.sublimationProductType);
-    pushDetail(rows, 'Quantity', form.sublimationQuantity);
-    if (Number(form.sublimationOversized) > 0) {
-      pushDetail(rows, '4XL–6XL quantity', form.sublimationOversized);
-    }
-    pushDetail(rows, 'Fabric weight', form.sublimationFabricWeight);
-    pushDetail(rows, 'Personalization', form.sublimationPersonalization);
-    pushDetail(rows, 'Design needed', form.sublimationDesignNeeded);
-    pushDetail(rows, 'Same design', form.sublimationSameDesign);
-    if (form.sublimationUniqueLayouts) {
-      pushDetail(rows, 'Unique layouts', form.sublimationUniqueLayouts);
-    }
-    pushDetail(rows, 'Rush', form.sublimationRush);
-    return rows;
-  }
-
-  if (service === 'Tarpaulin') {
-    pushDetail(rows, 'Size', `${form.tarpaulinWidth} × ${form.tarpaulinHeight} ft`);
-    pushDetail(rows, 'Media', form.tarpaulinMedia);
-    pushDetail(rows, 'Print method', form.tarpaulinMethod);
-    pushDetail(rows, 'Quantity', form.tarpaulinQuantity);
-    pushDetail(rows, 'Layout needed', form.tarpaulinLayoutNeeded);
-    pushDetail(rows, 'Same design', form.tarpaulinSameDesign);
-    if (form.tarpaulinUniqueLayouts) {
-      pushDetail(rows, 'Unique layouts', form.tarpaulinUniqueLayouts);
-    }
-    pushDetail(rows, 'Eyelets / finishing', form.tarpaulinEyeletsFinishing);
-    pushDetail(rows, 'Eyelet option', form.tarpaulinEyeletOption);
-    pushDetail(rows, 'Edge finishing', form.tarpaulinEdgeFinishing);
-    return rows;
-  }
-
-  if (service === 'Stickers') {
-    pushDetail(rows, 'Sticker type', form.stickerType);
-    pushDetail(rows, 'Cut / output', form.stickerCutOutput);
-    pushDetail(rows, 'Lamination', form.stickerLamination);
-    pushDetail(rows, 'Application', form.stickerApplication);
-    pushDetail(
-      rows,
-      'Size',
-      `${form.stickersWidth} × ${form.stickersHeight} ${form.stickerUnit || ''}`.trim(),
-    );
-    pushDetail(rows, 'Quantity', form.stickersQuantity);
-    return rows;
-  }
-
-  pushDetail(rows, 'Signage type', form.signageType);
-  pushDetail(rows, 'Face / output', form.signageFace);
-  pushDetail(rows, 'Fulfillment', form.signageFulfillment);
-  pushDetail(
-    rows,
-    'Size',
-    `${form.signageWidth} × ${form.signageHeight} ${form.signageUnit || ''}`.trim(),
-  );
-  pushDetail(rows, 'Quantity', form.signageQuantity);
-
-  if (form.signageType === 'Sticker on Sintra Board') {
-    pushDetail(rows, 'Thickness', form.sintraThickness);
-    pushDetail(rows, 'Print side', form.sintraPrintSide);
-    pushDetail(rows, 'Lamination', form.sintraLamination);
-    pushDetail(rows, 'Cut style', form.sintraCutStyle);
-    pushDetail(rows, 'Display option', form.sintraDisplayOption);
-  }
-
-  if (
-    form.signageType === 'Panaflex — Non-Lighted' ||
-    form.signageType === 'Panaflex — Lighted'
-  ) {
-    pushDetail(rows, 'Face material', form.panaflexFaceMaterial);
-    pushDetail(rows, 'Printing method', form.panaflexPrintingMethod);
-  }
-
-  if (form.signageType === 'Blackout Tarp Signage — With Frame') {
-    pushDetail(rows, 'Printing method', form.blackoutPrintingMethod);
-  }
-
-  if (form.signageFulfillment === 'Delivery / Installation Package') {
-    pushDetail(rows, 'Installation location', form.signageInstallationLocation);
-    pushDetail(rows, 'Mounting type', form.signageMountingType);
-    pushDetail(rows, 'Power source', form.signagePowerSource);
-    pushDetail(rows, 'Site details', form.signageSiteDetails);
-  }
-
-  return rows;
 }
 
 function Field({
@@ -464,144 +331,6 @@ function QuoteSummaryDetails({
   );
 }
 
-function QuotationSheet({
-  customerName,
-  mobileNumber,
-  selectedService,
-  targetDate,
-  jobDetails,
-  estimatedPrice,
-  notes,
-  titleId = 'quotation-title',
-  onClose,
-  actions,
-}: {
-  customerName: string;
-  mobileNumber: string;
-  selectedService: string;
-  targetDate: string;
-  jobDetails: DetailItem[];
-  estimatedPrice: string;
-  notes?: string;
-  titleId?: string;
-  onClose?: () => void;
-  actions: ReactNode;
-}) {
-  return (
-    <article className="quotation-sheet">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="mono-label text-xs" style={{ color: '#e52521' }}>
-            3J PRINT CENTER
-          </p>
-          <h2 id={titleId} className="mt-2 text-3xl font-extrabold">
-            QUOTATION
-          </h2>
-          <div className="quotation-business-details mt-3 text-sm leading-6">
-            {BUSINESS.address}
-            <br />
-            Contact: {BUSINESS.phoneDisplay}
-            <br />
-            Facebook: {BUSINESS.facebookLabel}
-            <br />
-            Website: {BUSINESS.website}
-          </div>
-        </div>
-        {onClose ? (
-          <button
-            type="button"
-            data-quotation-close
-            className="text-2xl font-bold"
-            aria-label="Close quotation"
-            onClick={onClose}
-          >
-            <X className="h-5 w-5" />
-          </button>
-        ) : null}
-      </div>
-
-      <div className="quotation-meta mt-6 grid gap-2 text-sm sm:grid-cols-2">
-        <p>
-          <strong>Prepared for:</strong> {customerName}
-        </p>
-        <p>
-          <strong>Mobile:</strong> {mobileNumber}
-        </p>
-        <p>
-          <strong>Service:</strong> {selectedService}
-        </p>
-        <p>
-          <strong>Target date:</strong> {targetDate}
-        </p>
-      </div>
-
-      <div className="quotation-section text-sm leading-7">
-        <h3 className="font-bold">Details</h3>
-        {jobDetails.length ? (
-          <ul className="job-detail-list job-detail-list-print mt-2">
-            {jobDetails.map((item) => (
-              <li key={item.label}>
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-2">—</p>
-        )}
-        {notes ? (
-          <p className="mt-3">
-            <strong>Notes:</strong> {notes}
-          </p>
-        ) : null}
-        <div className="quotation-total mt-4 flex justify-between gap-4">
-          <span>Final Estimated Price</span>
-          <span>{estimatedPrice}</span>
-        </div>
-      </div>
-
-      <div className="quotation-section quotation-terms text-sm leading-6">
-        <h3 className="text-base font-extrabold">TERMS & CONDITIONS</h3>
-        <div className="mt-3 space-y-2">
-          <p>
-            This quotation is based on the specifications and information provided by the customer
-            and is subject to final confirmation before production.
-          </p>
-          <p>
-            Prices may change if there are changes in size, quantity, material, printing method,
-            finishing, artwork, or other job specifications.
-          </p>
-          <p>This quotation is valid for 30 days from the quotation date unless otherwise stated.</p>
-        </div>
-      </div>
-
-      <div className="quotation-section quotation-acceptance">
-        <h3 className="text-base font-extrabold">Customer Conforme</h3>
-        <p className="mt-3 text-sm leading-6">
-          I have reviewed and accepted the specifications, pricing, and terms stated in this
-          quotation.
-        </p>
-        <div className="mt-10 grid gap-10 sm:grid-cols-2">
-          <div>
-            <div className="quotation-signature-line" />
-            <p className="mt-2 text-sm">Prepared by</p>
-            <p className="font-bold">{BUSINESS.proprietor}</p>
-            <p className="text-sm">Proprietor, 3J Print Center</p>
-          </div>
-          <div>
-            <div className="quotation-signature-line" />
-            <p className="mt-2 text-sm">Customer Conforme</p>
-            <div className="quotation-date-line mt-8" />
-            <p className="mt-2 text-sm">Date</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="quotation-actions">{actions}</div>
-    </article>
-  );
-}
-
 export function ServiceGuideView() {
   const [selectedService, setSelectedService] = useState<ServiceId | null>(null);
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
@@ -609,6 +338,7 @@ export function ServiceGuideView() {
   const [fieldErrors, setFieldErrors] = useState<QuoteFieldErrors>({});
   const [panel, setPanel] = useState<Panel>('form');
   const [showQuoteModal, setShowQuoteModal] = useState(false);
+  const [savingPdf, setSavingPdf] = useState(false);
   const [reviewed, setReviewed] = useState<ReviewedQuote | null>(null);
   const [estimateDetailsOpen, setEstimateDetailsOpen] = useState(false);
 
@@ -957,6 +687,20 @@ export function ServiceGuideView() {
       targetCompletionDate: form.targetDate,
       payload: reviewed.record,
     });
+  };
+
+  const saveQuotationPdf = async () => {
+    if (savingPdf) return;
+    setSavingPdf(true);
+    try {
+      const { downloadQuotationPdf } = await import('~/app/service-guide/_lib/download-quotation-pdf');
+      await downloadQuotationPdf(form.customerName);
+    } catch (downloadError) {
+      console.error(downloadError);
+      toast.error('Could not save the quotation PDF. Please try again.');
+    } finally {
+      setSavingPdf(false);
+    }
   };
 
   const startAnother = () => {
@@ -2359,23 +2103,11 @@ export function ServiceGuideView() {
                 <button
                   type="button"
                   className="action-button action-yellow"
-                  onClick={() => window.print()}
+                  onClick={() => void saveQuotationPdf()}
+                  disabled={savingPdf}
                 >
-                  Save as PDF
-                </button>
-                <button
-                  type="button"
-                  className="action-button action-ghost text-black"
-                  onClick={startAnother}
-                >
-                  New Quote
-                </button>
-                <button
-                  type="button"
-                  className="action-button action-ghost text-black"
-                  onClick={() => setShowQuoteModal(false)}
-                >
-                  Close
+                  <Download className="h-4 w-4" />
+                  {savingPdf ? 'Saving PDF…' : 'Save as PDF'}
                 </button>
               </>
             }

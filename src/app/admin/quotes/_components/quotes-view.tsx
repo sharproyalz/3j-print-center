@@ -1,10 +1,11 @@
 'use client';
 
 import { QuoteRequest, QuoteStatus } from '@prisma/client';
-import { Copy, Printer, Search, Trash2 } from 'lucide-react';
+import { Copy, Download, Printer, Search, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal, flushSync } from 'react-dom';
 import { toast } from 'sonner';
 
 import { Badge } from '~/components/ui/badge';
@@ -206,6 +207,106 @@ function printQuote(quote: QuoteRequest) {
   printWindow.print();
 }
 
+function quotePdfFileName(customerName: string) {
+  const safe = customerName
+    .replace(/[<>:"/\\|?*\u0000-\u001F]/g, '')
+    .trim()
+    .replace(/\s+/g, ' ');
+  return safe ? `Quote - ${safe}.pdf` : 'Quote.pdf';
+}
+
+function QuoteRequestFacts({ quote }: { quote: QuoteRequest }) {
+  const estimateLines = parseEstimateLines(quote.estimateSummary);
+
+  return (
+    <>
+      <div className="grid gap-4 text-sm sm:grid-cols-2">
+        <div className="space-y-1">
+          <p className="text-muted-foreground">Mobile</p>
+          <p className="font-medium">{quote.mobileNumber}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-muted-foreground">Email</p>
+          <p className="font-medium">{quote.emailAddress || '—'}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-muted-foreground">Messenger</p>
+          <p className="font-medium">{quote.facebookMessengerName || '—'}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-muted-foreground">Needed by</p>
+          <p className="font-medium">{quote.targetCompletionDate}</p>
+        </div>
+        <div className="space-y-1 sm:col-span-2">
+          <p className="text-muted-foreground">Submitted</p>
+          <p className="font-medium">{new Date(quote.createdAt).toLocaleString('en-PH')}</p>
+        </div>
+      </div>
+
+      <Separator />
+
+      <div className="space-y-2 text-sm">
+        <p className="text-muted-foreground">Customer notes</p>
+        <p className="whitespace-pre-wrap font-medium leading-6">{quote.notes || '—'}</p>
+      </div>
+
+      <Separator />
+
+      <div className="space-y-3 text-sm">
+        <p className="text-muted-foreground">Estimate details</p>
+        {estimateLines.length ? (
+          <div className="rounded-lg border bg-muted/30 p-3">
+            <ul className="space-y-2">
+              {estimateLines.map((item, index) => (
+                <li
+                  key={`${item.label}-${item.value}-${index}`}
+                  className={cn(
+                    'grid gap-1 sm:grid-cols-[minmax(8rem,36%)_1fr] sm:gap-3',
+                    !item.label && 'sm:grid-cols-1',
+                  )}
+                >
+                  {item.label ? <span className="text-muted-foreground">{item.label}</span> : null}
+                  <span className="font-medium">{item.value}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p className="font-medium">{quote.estimateSummary || '—'}</p>
+        )}
+      </div>
+    </>
+  );
+}
+
+function AdminQuoteDetails({
+  quote,
+  adminNotes,
+}: {
+  quote: QuoteRequest;
+  adminNotes: string;
+}) {
+  return (
+    <div className="space-y-4 bg-background text-foreground">
+      <div className="space-y-3">
+        <h2 className="text-2xl font-semibold leading-none tracking-tight">{quote.customerName}</h2>
+        <p className="text-sm text-muted-foreground">
+          {quote.selectedService} · {quote.estimatedPrice}
+        </p>
+      </div>
+
+      <Separator />
+      <QuoteRequestFacts quote={quote} />
+      <Separator />
+
+      <div className="space-y-2 text-sm">
+        <p className="text-muted-foreground">Admin notes</p>
+        <p className="whitespace-pre-wrap font-medium leading-6">{adminNotes.trim() || '—'}</p>
+      </div>
+    </div>
+  );
+}
+
 export function QuotesView({ initialData }: Props) {
   const router = useRouter();
   const utils = api.useUtils();
@@ -216,6 +317,8 @@ export function QuotesView({ initialData }: Props) {
   const [dateFilter, setDateFilter] = useState<DateFilter>('ALL');
   const [sortOption, setSortOption] = useState<SortOption>('NEWEST');
   const [adminNotesDraft, setAdminNotesDraft] = useState('');
+  const [savingPdf, setSavingPdf] = useState(false);
+  const [exportQuote, setExportQuote] = useState<QuoteRequest | null>(null);
 
   const quotesQuery = api.quoteRequest.getAll.useQuery(undefined, { initialData });
   const quotes = quotesQuery.data ?? [];
@@ -296,10 +399,6 @@ export function QuotesView({ initialData }: Props) {
     () => quotes.find((quote) => quote.id === selectedQuoteId) ?? null,
     [quotes, selectedQuoteId]
   );
-  const estimateLines = useMemo(
-    () => (selectedQuote ? parseEstimateLines(selectedQuote.estimateSummary) : []),
-    [selectedQuote]
-  );
 
   useEffect(() => {
     setAdminNotesDraft(selectedQuote?.adminNotes ?? '');
@@ -345,6 +444,29 @@ export function QuotesView({ initialData }: Props) {
     } catch {
       toast.error('Could not copy to clipboard.');
     }
+  };
+
+  const saveQuotePdf = (quote: QuoteRequest) => {
+    if (savingPdf) return;
+    setSavingPdf(true);
+    flushSync(() => setExportQuote(quote));
+
+    void (async () => {
+      try {
+        const { downloadElementAsPdf } = await import(
+          '~/app/service-guide/_lib/download-quotation-pdf'
+        );
+        const sheet = document.querySelector<HTMLElement>('#admin-quote-pdf');
+        if (!sheet) throw new Error('Could not prepare the quotation for download.');
+        await downloadElementAsPdf(sheet, quotePdfFileName(quote.customerName));
+      } catch (downloadError) {
+        console.error(downloadError);
+        toast.error('Could not save the quotation PDF. Please try again.');
+      } finally {
+        setExportQuote(null);
+        setSavingPdf(false);
+      }
+    })();
   };
 
   const resetFilters = () => {
@@ -608,72 +730,20 @@ export function QuotesView({ initialData }: Props) {
                   <Printer className="mr-2 h-4 w-4" />
                   Print
                 </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={savingPdf}
+                  onClick={() => saveQuotePdf(selectedQuote)}
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  {savingPdf ? 'Saving PDF…' : 'Save as PDF'}
+                </Button>
               </div>
 
               <Separator />
-
-              <div className="grid gap-4 text-sm sm:grid-cols-2">
-                <div className="space-y-1">
-                  <p className="text-muted-foreground">Mobile</p>
-                  <p className="font-medium">{selectedQuote.mobileNumber}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-muted-foreground">Email</p>
-                  <p className="font-medium">{selectedQuote.emailAddress || '—'}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-muted-foreground">Messenger</p>
-                  <p className="font-medium">{selectedQuote.facebookMessengerName || '—'}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-muted-foreground">Needed by</p>
-                  <p className="font-medium">{selectedQuote.targetCompletionDate}</p>
-                </div>
-                <div className="space-y-1 sm:col-span-2">
-                  <p className="text-muted-foreground">Submitted</p>
-                  <p className="font-medium">
-                    {new Date(selectedQuote.createdAt).toLocaleString('en-PH')}
-                  </p>
-                </div>
-              </div>
-
-              <Separator />
-
-              <div className="space-y-2 text-sm">
-                <p className="text-muted-foreground">Customer notes</p>
-                <p className="whitespace-pre-wrap font-medium leading-6">
-                  {selectedQuote.notes || '—'}
-                </p>
-              </div>
-
-              <Separator />
-
-              <div className="space-y-3 text-sm">
-                <p className="text-muted-foreground">Estimate details</p>
-                {estimateLines.length ? (
-                  <div className="rounded-lg border bg-muted/30 p-3">
-                    <ul className="space-y-2">
-                      {estimateLines.map((item, index) => (
-                        <li
-                          key={`${item.label}-${item.value}-${index}`}
-                          className={cn(
-                            'grid gap-1 sm:grid-cols-[minmax(8rem,36%)_1fr] sm:gap-3',
-                            !item.label && 'sm:grid-cols-1'
-                          )}
-                        >
-                          {item.label ? (
-                            <span className="text-muted-foreground">{item.label}</span>
-                          ) : null}
-                          <span className="font-medium">{item.value}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <p className="font-medium">{selectedQuote.estimateSummary || '—'}</p>
-                )}
-              </div>
-
+              <QuoteRequestFacts quote={selectedQuote} />
               <Separator />
 
               <div className="space-y-3">
@@ -760,6 +830,25 @@ export function QuotesView({ initialData }: Props) {
           ) : null}
         </DialogContent>
       </Dialog>
+      {exportQuote
+        ? createPortal(
+            <div
+              id="admin-quote-pdf"
+              className="pointer-events-none absolute left-[-2400px] top-0 w-[672px] bg-background p-6 pb-8 text-foreground"
+              aria-hidden
+            >
+              <AdminQuoteDetails
+                quote={exportQuote}
+                adminNotes={
+                  selectedQuote?.id === exportQuote.id
+                    ? adminNotesDraft
+                    : (exportQuote.adminNotes ?? '')
+                }
+              />
+            </div>,
+            document.body,
+          )
+        : null}
     </main>
   );
 }
