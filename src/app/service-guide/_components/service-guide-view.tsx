@@ -202,6 +202,12 @@ function scrollToField(key: QuoteFieldKey) {
   }, 0);
 }
 
+function scrollToId(id: string) {
+  window.setTimeout(() => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
 function parseEstimateLines(summary: string): DetailItem[] {
   if (!summary.trim()) return [];
 
@@ -364,6 +370,7 @@ export function ServiceGuideView() {
       toast.success('Your quote request has been submitted.');
       setPanel('confirmation');
       setShowQuoteModal(true);
+      scrollToId('quote-area');
     },
     onError: (mutationError) => {
       const message =
@@ -593,9 +600,7 @@ export function ServiceGuideView() {
     setEstimateDetailsOpen(false);
     setError('');
     setFieldErrors({});
-    window.setTimeout(() => {
-      document.getElementById('quote-area')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+    scrollToId('quote-area');
   };
 
   const changeService = () => {
@@ -603,9 +608,7 @@ export function ServiceGuideView() {
     setReviewed(null);
     setShowQuoteModal(false);
     setError('');
-    window.setTimeout(() => {
-      document.getElementById('service-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 50);
+    scrollToId('service-list');
   };
 
   const selectedServiceMeta = SERVICES.find((service) => service.id === selectedService);
@@ -669,6 +672,7 @@ export function ServiceGuideView() {
 
     setReviewed({ estimatedPrice: liveEstimate.price, record });
     setPanel('review');
+    scrollToId('quote-area');
   };
 
   const confirmSubmit = () => {
@@ -711,6 +715,7 @@ export function ServiceGuideView() {
     setShowQuoteModal(false);
     setError('');
     setFieldErrors({});
+    scrollToId('service-list');
   };
 
   const isSintra = form.signageType === 'Sticker on Sintra Board';
@@ -2014,7 +2019,10 @@ export function ServiceGuideView() {
                     <button
                       type="button"
                       className="action-button action-ghost"
-                      onClick={() => setPanel('form')}
+                      onClick={() => {
+                        setPanel('form');
+                        scrollToId('quote-area');
+                      }}
                       disabled={createQuote.isLoading}
                     >
                       Edit Quote
