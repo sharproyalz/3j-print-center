@@ -12,6 +12,7 @@ import { BreadcrumbComponent } from '~/app/admin/carousel-images/[id]/_component
 import { CustomDialog } from '~/components/custom-dialog';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 import { schemas } from '~/zod-schemas';
 
 type Inputs = z.infer<typeof schemas.carouselImage.update>;
@@ -23,9 +24,10 @@ export function CarouselImageView({ initialData }: Props) {
   const router = useRouter();
   const params = useParams();
 
+  const carouselQueryOptions = useFreshInitialData(initialData);
   const getCarouselImageView = api.carouselImage.get.useQuery(
     { id: params.id as string },
-    { initialData }
+    carouselQueryOptions
   );
   const carouselImage = getCarouselImageView.data;
 

@@ -3,14 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { useNewQuoteCount } from '~/hooks/use-new-quote-count';
 import { cn } from '~/lib/utils';
-import { api } from '~/trpc/react';
 
 export function SideBar() {
   const pathname = usePathname();
-  const newQuotesQuery = api.quoteRequest.getNewCount.useQuery(undefined, {
-    refetchInterval: 30_000,
-  });
+  const newQuotesQuery = useNewQuoteCount();
   const newQuotesCount = newQuotesQuery.data ?? 0;
 
   return (

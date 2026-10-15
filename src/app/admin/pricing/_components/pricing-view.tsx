@@ -22,6 +22,7 @@ import {
 } from '~/lib/pricing-settings';
 import { cn } from '~/lib/utils';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 
 type Props = {
   initialRates: PriceRate[];
@@ -145,12 +146,10 @@ function RateInput({
 
 export function PricingView({ initialRates, initialSettings }: Props) {
   const utils = api.useUtils();
-  const ratesQuery = api.pricing.getAll.useQuery(undefined, {
-    initialData: initialRates,
-  });
-  const settingsQuery = api.pricing.getSettings.useQuery(undefined, {
-    initialData: initialSettings,
-  });
+  const ratesQueryOptions = useFreshInitialData(initialRates);
+  const settingsQueryOptions = useFreshInitialData(initialSettings);
+  const ratesQuery = api.pricing.getAll.useQuery(undefined, ratesQueryOptions);
+  const settingsQuery = api.pricing.getSettings.useQuery(undefined, settingsQueryOptions);
   const rates = ratesQuery.data ?? initialRates;
   const settings = settingsQuery.data ?? initialSettings;
 

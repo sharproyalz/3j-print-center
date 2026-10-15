@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 import { siteConfig } from '~/config/site';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 import { titleToSlug } from '~/utils/title-to-slug';
 import { OrderBy } from '~/zod-schemas/service';
 
@@ -15,7 +16,8 @@ type Props = {
 };
 
 export function ServicesSectionView({ initialData }: Props) {
-  const getServicesQuery = api.service.getAll.useQuery({ orderBy: OrderBy.ASC }, { initialData });
+  const servicesQueryOptions = useFreshInitialData(initialData);
+  const getServicesQuery = api.service.getAll.useQuery({ orderBy: OrderBy.ASC }, servicesQueryOptions);
   const services = getServicesQuery.data;
 
   return (

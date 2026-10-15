@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '~/co
 import { siteConfig } from '~/config/site';
 import { cn } from '~/lib/utils';
 import { useSidebarStore } from '~/stores/sidebar';
-import { api } from '~/trpc/react';
+import { useNewQuoteCount } from '~/hooks/use-new-quote-count';
 
 type Props = { className?: string; isVisitor?: true };
 
@@ -21,10 +21,7 @@ export function MobileSidebar({ className, isVisitor }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const { adminSidebarLinks, userSidebarLinks } = useSidebarStore();
   const isAdminNav = !isVisitor && pathname.startsWith('/admin');
-  const newQuotesQuery = api.quoteRequest.getNewCount.useQuery(undefined, {
-    enabled: isAdminNav,
-    refetchInterval: 30_000,
-  });
+  const newQuotesQuery = useNewQuoteCount(isAdminNav);
   const newQuotesCount = newQuotesQuery.data ?? 0;
 
   return (

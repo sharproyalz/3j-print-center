@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { siteConfig } from '~/config/site';
 import { cn } from '~/lib/utils';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 import { sortContacts } from '~/utils/sort-contacts';
 
 type Props = {
@@ -15,7 +16,8 @@ type Props = {
 };
 
 export function ContactsSectionView({ initialData }: Props) {
-  const getContactsQuery = api.contact.getAll.useQuery(undefined, { initialData });
+  const contactsQueryOptions = useFreshInitialData(initialData);
+  const getContactsQuery = api.contact.getAll.useQuery(undefined, contactsQueryOptions);
   const contacts = getContactsQuery.data;
   const sortedContacts = sortContacts(contacts);
 

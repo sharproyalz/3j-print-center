@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { BreadcrumbComponent } from '~/app/admin/services/[id]/edit/_components/breadcrumb';
 import { OnSuccessUpload, ResourceType, UploadButton } from '~/components/upload-button';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 import { schemas } from '~/zod-schemas';
 
 type Props = {
@@ -22,7 +23,8 @@ export default function EditServiceView({ initialData }: Props) {
   const params = useParams();
   const id = params.id;
 
-  const getServiceQuery = api.service.get.useQuery({ id: id as string }, { initialData });
+  const serviceQueryOptions = useFreshInitialData(initialData);
+  const getServiceQuery = api.service.get.useQuery({ id: id as string }, serviceQueryOptions);
   const service = getServiceQuery.data;
 
   const router = useRouter();

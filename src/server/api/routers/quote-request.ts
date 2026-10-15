@@ -3,6 +3,7 @@ import { TRPCError } from '@trpc/server';
 
 import { validateServiceFields } from '~/app/service-guide/_lib/service-fields';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '~/server/api/trpc';
+import { quoteListSelect } from '~/lib/quote-list';
 import { getPricingCatalog } from '~/server/pricing/catalog';
 import { schemas } from '~/zod-schemas';
 
@@ -43,6 +44,7 @@ export const quoteRequestRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.db.quoteRequest.findMany({
       orderBy: { createdAt: 'desc' },
+      select: quoteListSelect,
     });
   }),
 

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { CustomDialog } from '~/components/custom-dialog';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 import { sortContacts } from '~/utils/sort-contacts';
 
 type Props = {
@@ -17,7 +18,8 @@ export default function ContactView({ initialData }: Props) {
   const router = useRouter();
   const utils = api.useUtils();
 
-  const getContactsQuery = api.contact.getAll.useQuery(undefined, { initialData });
+  const contactsQueryOptions = useFreshInitialData(initialData);
+  const getContactsQuery = api.contact.getAll.useQuery(undefined, contactsQueryOptions);
   const contacts = getContactsQuery.data;
   const sortedContacts = sortContacts(contacts);
 

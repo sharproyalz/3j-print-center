@@ -1,6 +1,6 @@
 'use client';
 
-import { QuoteRequest, QuoteStatus } from '@prisma/client';
+import { QuoteStatus } from '@prisma/client';
 import { Copy, Download, Printer, Search, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -32,11 +32,13 @@ import {
   TableRow,
 } from '~/components/ui/table';
 import { Textarea } from '~/components/ui/textarea';
+import type { QuoteListItem } from '~/lib/quote-list';
 import { cn } from '~/lib/utils';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 
 type Props = {
-  initialData: QuoteRequest[];
+  initialData: QuoteListItem[];
 };
 
 type DateFilter = 'ALL' | 'THIS_WEEK' | 'OVERDUE';
@@ -124,7 +126,7 @@ function endOfWeek(date: Date) {
   );
 }
 
-function buildQuoteSummary(quote: QuoteRequest) {
+function buildQuoteSummary(quote: QuoteListItem) {
   return [
     `Customer: ${quote.customerName}`,
     `Mobile: ${quote.mobileNumber}`,
@@ -142,7 +144,7 @@ function buildQuoteSummary(quote: QuoteRequest) {
     .join('\n');
 }
 
-function printQuote(quote: QuoteRequest) {
+function printQuote(quote: QuoteListItem) {
   const estimateLines = parseEstimateLines(quote.estimateSummary);
   const estimateHtml = estimateLines.length
     ? `<ul>${estimateLines
@@ -215,7 +217,7 @@ function quotePdfFileName(customerName: string) {
   return safe ? `Quote - ${safe}.pdf` : 'Quote.pdf';
 }
 
-function QuoteRequestFacts({ quote }: { quote: QuoteRequest }) {
+function QuoteRequestFacts({ quote }: { quote: QuoteListItem }) {
   const estimateLines = parseEstimateLines(quote.estimateSummary);
 
   return (
@@ -283,7 +285,7 @@ function AdminQuoteDetails({
   quote,
   adminNotes,
 }: {
-  quote: QuoteRequest;
+  quote: QuoteListItem;
   adminNotes: string;
 }) {
   return (
@@ -318,9 +320,10 @@ export function QuotesView({ initialData }: Props) {
   const [sortOption, setSortOption] = useState<SortOption>('NEWEST');
   const [adminNotesDraft, setAdminNotesDraft] = useState('');
   const [savingPdf, setSavingPdf] = useState(false);
-  const [exportQuote, setExportQuote] = useState<QuoteRequest | null>(null);
+  const [exportQuote, setExportQuote] = useState<QuoteListItem | null>(null);
+  const quotesQueryOptions = useFreshInitialData(initialData);
 
-  const quotesQuery = api.quoteRequest.getAll.useQuery(undefined, { initialData });
+  const quotesQuery = api.quoteRequest.getAll.useQuery(undefined, quotesQueryOptions);
   const quotes = quotesQuery.data ?? [];
 
   const serviceOptions = useMemo(() => {
@@ -446,7 +449,7 @@ export function QuotesView({ initialData }: Props) {
     }
   };
 
-  const saveQuotePdf = (quote: QuoteRequest) => {
+  const saveQuotePdf = (quote: QuoteListItem) => {
     if (savingPdf) return;
     setSavingPdf(true);
     flushSync(() => setExportQuote(quote));

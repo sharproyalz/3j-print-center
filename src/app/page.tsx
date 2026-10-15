@@ -6,9 +6,11 @@ import { api } from '~/trpc/server';
 import { OrderBy } from '~/zod-schemas/service';
 
 export default async function HomePage() {
-  const carouselImage = await api.carouselImage.getAll.query();
-  const service = await api.service.getAll.query({ orderBy: OrderBy.ASC });
-  const contact = await api.contact.getAll.query();
+  const [carouselImage, service, contact] = await Promise.all([
+    api.carouselImage.getAll.query(),
+    api.service.getAll.query({ orderBy: OrderBy.ASC }),
+    api.contact.getAll.query(),
+  ]);
 
   return (
     <>

@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { BreadcrumbComponent } from '~/app/admin/contacts/[id]/edit/_components/breadcrumb';
 import { ContactType } from '~/enums/contact-type';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 import { schemas } from '~/zod-schemas';
 
 type Inputs = z.infer<typeof schemas.contact.update>;
@@ -21,7 +22,8 @@ export function EditContactView({ initialData }: Props) {
   const params = useParams();
 
   const router = useRouter();
-  const getContactView = api.contact.get.useQuery({ id: params.id as string }, { initialData });
+  const contactQueryOptions = useFreshInitialData(initialData);
+  const getContactView = api.contact.get.useQuery({ id: params.id as string }, contactQueryOptions);
   const contact = getContactView.data;
 
   const updateContactForm = useForm<Inputs>({

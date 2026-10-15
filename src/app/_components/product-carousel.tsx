@@ -6,13 +6,15 @@ import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import { Carousel, CarouselContent, CarouselItem } from '~/components/ui/carousel';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 
 type Props = {
   initialData: CarouselImage[];
 };
 
 export function ProductCarousel({ initialData }: Props) {
-  const getCarouselImageQuery = api.carouselImage.getAll.useQuery(undefined, { initialData });
+  const carouselQueryOptions = useFreshInitialData(initialData);
+  const getCarouselImageQuery = api.carouselImage.getAll.useQuery(undefined, carouselQueryOptions);
   const carouselImage = getCarouselImageQuery.data;
 
   return carouselImage?.length ? (

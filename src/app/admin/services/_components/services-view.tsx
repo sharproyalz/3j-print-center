@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { ServiceProduct } from '~/app/admin/services/_components/service';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 import { OrderBy } from '~/zod-schemas/service';
 
 type Props = {
@@ -17,7 +18,8 @@ export function ServicesView({ initialData }: Props) {
   const router = useRouter();
   const params = useParams();
 
-  const getServicesView = api.service.getAll.useQuery({ orderBy: OrderBy.DESC }, { initialData });
+  const servicesQueryOptions = useFreshInitialData(initialData);
+  const getServicesView = api.service.getAll.useQuery({ orderBy: OrderBy.DESC }, servicesQueryOptions);
   const services = getServicesView.data;
 
   return (

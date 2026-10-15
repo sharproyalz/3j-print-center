@@ -9,6 +9,7 @@ import { BreadcrumbComponent } from '~/app/services/[id]/[title]/_components/bre
 import { PreviewImage } from '~/components/preview-image';
 import { siteConfig } from '~/config/site';
 import { api } from '~/trpc/react';
+import { useFreshInitialData } from '~/trpc/use-fresh-initial-data';
 
 type Props = {
   serviceInitialData: Service | null;
@@ -18,15 +19,18 @@ type Props = {
 export function ServiceDesignsView({ serviceInitialData, productInitialData }: Props) {
   const params = useParams();
 
+  const serviceQueryOptions = useFreshInitialData(serviceInitialData);
+  const productQueryOptions = useFreshInitialData(productInitialData);
+
   const getServiceQuery = api.service.get.useQuery(
     { id: params.id as string },
-    { initialData: serviceInitialData }
+    serviceQueryOptions
   );
   const service = getServiceQuery.data;
 
   const getServiceDesignQuery = api.product.getAll.useQuery(
     { serviceId: service?.id as string },
-    { initialData: productInitialData }
+    productQueryOptions
   );
   const serviceDesign = getServiceDesignQuery.data;
 
