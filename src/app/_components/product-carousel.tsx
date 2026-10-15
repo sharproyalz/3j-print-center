@@ -39,7 +39,7 @@ export function ProductCarousel({ initialData }: Props) {
                 height="400"
                 src={image.imageId ?? ''}
                 alt="Banner"
-                className=""
+                className="h-auto w-full"
               />
             </div>
           </CarouselItem>
@@ -49,12 +49,18 @@ export function ProductCarousel({ initialData }: Props) {
       <CarouselNext /> */}
     </Carousel>
   ) : (
-    <div className="object-fit mx-auto flex h-[32rem] w-[32rem] flex-col items-center justify-center gap-16 text-center">
+    <div className="mx-auto flex w-full max-w-lg flex-col items-center justify-center gap-10 px-6 py-16 text-center">
       <div>
         Sorry, there are currently no banners here. We are in the process of setting them up. Please
         come back soon!
       </div>
-      <Image src={`/empty-banner.svg`} alt="Slider" height={320} width={320} />
+      <Image
+        src={`/empty-banner.svg`}
+        alt="Slider"
+        height={320}
+        width={320}
+        className="h-auto w-full max-w-xs"
+      />
     </div>
   );
 }

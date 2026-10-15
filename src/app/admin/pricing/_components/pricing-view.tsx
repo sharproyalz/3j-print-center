@@ -119,6 +119,43 @@ function formatDraft(value: number) {
   return Number.isInteger(value) ? String(value) : String(value);
 }
 
+function SettingControl({
+  setting,
+  display,
+  invalid,
+  changed,
+  kind,
+  onChange,
+}: {
+  setting: PriceSetting;
+  display: string;
+  invalid: boolean;
+  changed: boolean;
+  kind: 'text' | 'number';
+  onChange: (value: string) => void;
+}) {
+  if (kind === 'text') {
+    return (
+      <Input
+        className={cn(
+          'h-10 w-full min-w-0 text-left',
+          invalid && 'border-destructive',
+          changed && 'border-primary'
+        )}
+        value={display}
+        onChange={(event) => onChange(event.target.value)}
+      />
+    );
+  }
+
+  return (
+    <div className="flex min-w-0 items-center gap-2">
+      <RateInput value={display} invalid={invalid} changed={changed} onChange={onChange} />
+      <span className="shrink-0 text-sm text-muted-foreground">{setting.unit}</span>
+    </div>
+  );
+}
+
 function RateInput({
   value,
   invalid,
@@ -133,7 +170,7 @@ function RateInput({
   return (
     <Input
       className={cn(
-        'ml-auto h-10 w-28 text-right tabular-nums',
+        'h-10 w-full min-w-0 max-w-28 text-right tabular-nums',
         invalid && 'border-destructive',
         changed && 'border-primary'
       )}
@@ -474,6 +511,71 @@ export function PricingView({ initialRates, initialSettings }: Props) {
           </Card>
         ) : activeTab === 'VOLUME' ? (
           <Card className="shadow-none">
+            <div className="space-y-6 p-4 md:hidden">
+              {volumeClusterGroups.map(([group, rows]) => (
+                <section key={group} className="space-y-4">
+                  <h3 className="text-sm font-semibold">
+                    {group.replace(/^Volume ·\s*/, '')}
+                  </h3>
+                  {rows.map((row) => {
+                    const fromState = row.from ? getSettingRowState(row.from) : null;
+                    const discountState = row.discount ? getSettingRowState(row.discount) : null;
+                    const benefitState = row.benefit ? getSettingRowState(row.benefit) : null;
+                    const companionState = discountState ?? benefitState;
+                    const companionSetting = row.discount ?? row.benefit;
+
+                    return (
+                      <div
+                        key={`${row.group}-${row.cluster}`}
+                        className="space-y-3 border-t pt-4"
+                      >
+                        <p className="font-medium">{row.cluster}</p>
+                        {row.from && fromState ? (
+                          <div className="space-y-2">
+                            <p className="text-sm text-muted-foreground">From</p>
+                            <SettingControl
+                              setting={row.from}
+                              display={fromState.display}
+                              invalid={fromState.invalid}
+                              changed={fromState.changed}
+                              kind={fromState.kind}
+                              onChange={(value) =>
+                                setSettingDrafts((prev) => ({
+                                  ...prev,
+                                  [row.from!.id]: value,
+                                }))
+                              }
+                            />
+                          </div>
+                        ) : null}
+                        {companionSetting && companionState ? (
+                          <div className="space-y-2">
+                            <p className="text-sm text-muted-foreground">
+                              {companionState.kind === 'text' ? 'Benefit' : 'Discount'}
+                            </p>
+                            <SettingControl
+                              setting={companionSetting}
+                              display={companionState.display}
+                              invalid={companionState.invalid}
+                              changed={companionState.changed}
+                              kind={companionState.kind}
+                              onChange={(value) =>
+                                setSettingDrafts((prev) => ({
+                                  ...prev,
+                                  [companionSetting.id]: value,
+                                }))
+                              }
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </section>
+              ))}
+            </div>
+
+            <div className="hidden md:block">
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
@@ -505,11 +607,13 @@ export function PricingView({ initialRates, initialSettings }: Props) {
                           <TableCell className="pl-8 font-medium">{row.cluster}</TableCell>
                           <TableCell>
                             {row.from && fromState ? (
-                              <div className="flex items-center justify-end gap-2">
-                                <RateInput
-                                  value={fromState.display}
+                              <div className="flex justify-end">
+                                <SettingControl
+                                  setting={row.from}
+                                  display={fromState.display}
                                   invalid={fromState.invalid}
                                   changed={fromState.changed}
+                                  kind={fromState.kind}
                                   onChange={(value) =>
                                     setSettingDrafts((prev) => ({
                                       ...prev,
@@ -517,9 +621,6 @@ export function PricingView({ initialRates, initialSettings }: Props) {
                                     }))
                                   }
                                 />
-                                <span className="w-20 text-sm text-muted-foreground">
-                                  {row.from.unit}
-                                </span>
                               </div>
                             ) : (
                               <span className="text-sm text-muted-foreground">—</span>
@@ -527,39 +628,21 @@ export function PricingView({ initialRates, initialSettings }: Props) {
                           </TableCell>
                           <TableCell>
                             {companionSetting && companionState ? (
-                              companionState.kind === 'text' ? (
-                                <Input
-                                  className={cn(
-                                    'h-10 w-full max-w-lg text-left',
-                                    companionState.invalid && 'border-destructive',
-                                    companionState.changed && 'border-primary'
-                                  )}
-                                  value={companionState.display}
-                                  onChange={(e) =>
+                              <div className={companionState.kind === 'text' ? '' : 'flex justify-end'}>
+                                <SettingControl
+                                  setting={companionSetting}
+                                  display={companionState.display}
+                                  invalid={companionState.invalid}
+                                  changed={companionState.changed}
+                                  kind={companionState.kind}
+                                  onChange={(value) =>
                                     setSettingDrafts((prev) => ({
                                       ...prev,
-                                      [companionSetting.id]: e.target.value,
+                                      [companionSetting.id]: value,
                                     }))
                                   }
                                 />
-                              ) : (
-                                <div className="flex items-center justify-end gap-2">
-                                  <RateInput
-                                    value={companionState.display}
-                                    invalid={companionState.invalid}
-                                    changed={companionState.changed}
-                                    onChange={(value) =>
-                                      setSettingDrafts((prev) => ({
-                                        ...prev,
-                                        [companionSetting.id]: value,
-                                      }))
-                                    }
-                                  />
-                                  <span className="w-8 text-sm text-muted-foreground">
-                                    {companionSetting.unit}
-                                  </span>
-                                </div>
-                              )
+                              </div>
                             ) : (
                               <span className="text-sm text-muted-foreground">—</span>
                             )}
@@ -571,6 +654,7 @@ export function PricingView({ initialRates, initialSettings }: Props) {
                 ))}
               </TableBody>
             </Table>
+            </div>
           </Card>
         ) : (
           <Card className="shadow-none">
